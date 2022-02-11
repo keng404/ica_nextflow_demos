@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pd:pipeline xmlns:pd="http://www.bluebee.com/pipelinedefinition">
+    <pd:dataInputs>
+        <pd:dataInput code="reference_dir" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>base_index_path</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="fastq_dir" format="UNKNOWN" type="DIRECTORY" required="false" multiValue="false">
+            <pd:label>input</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="BAM" format="BAM" type="FILE" required="false" multiValue="true">
+            <pd:label>bam</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="docker_image" format="UNKNOWN" type="STRING" required="false" multiValue="false">
+            <pd:label>process.container</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+    </pd:dataInputs>
+    <pd:steps/>
+</pd:pipeline>

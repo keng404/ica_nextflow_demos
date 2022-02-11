@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pd:pipeline xmlns:pd="xsd://www.illumina.com/ica/cp/pipelinedefinition">
+    <pd:dataInputs>
+        <pd:dataInput code="reads" format="FASTQ" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>reads</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="config_files" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>config_files</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+    </pd:dataInputs>
+    <pd:steps>
+        <pd:step execution="MANDATORY" code="General">
+            <pd:label>General</pd:label>
+            <pd:description>General parameters</pd:description>
+            <pd:tool code="generalparameters">
+                <pd:label>generalparameters</pd:label>
+                <pd:description></pd:description>
+                <pd:parameter code="aligner" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>aligner</pd:label>
+                    <pd:description></pd:description>
+                    <pd:optionsType>
+                        <pd:option>star</pd:option>
+                        <pd:option>hisat2</pd:option>
+                    </pd:optionsType>
+                    <pd:value>star</pd:value>
+                </pd:parameter>
+                <pd:parameter code="pseudo_aligner" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>pseudo_aligner</pd:label>
+                    <pd:description></pd:description>
+                    <pd:optionsType>
+                        <pd:option>salmon</pd:option>
+                    </pd:optionsType>
+                    <pd:value>salmon</pd:value>
+                </pd:parameter>
+                <pd:parameter code="input_filter_string" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>input_filter_string</pd:label>
+                    <pd:description></pd:description>
+                    <pd:stringType/>
+                    <pd:value>*_R{1,2}*.fastq.gz</pd:value>
+                </pd:parameter>
+                <pd:parameter code="SingleEnd" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>singleEnd</pd:label>
+                    <pd:description>single-end or paired-end reads</pd:description>
+                    <pd:booleanType/>
+                    <pd:value>false</pd:value>
+                </pd:parameter>
+                <pd:parameter code="genome" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>genome</pd:label>
+                    <pd:description>iGenomes. See  https://github.com/nf-core/rnaseq/blob/1.4.2/conf/igenomes.config for available genomes</pd:description>
+                    <pd:optionsType>
+                        <pd:option>GRCh37</pd:option>
+                        <pd:option>GRCh38</pd:option>
+                        <pd:option>GRCm38</pd:option>
+                        <pd:option>TAIR10</pd:option>
+                        <pd:option>EB2</pd:option>
+                        <pd:option>UMD3.1</pd:option>
+                        <pd:option>WBcel235</pd:option>
+                        <pd:option>CanFam3.1</pd:option>
+                        <pd:option>GRCz10</pd:option>
+                        <pd:option>BDGP6</pd:option>
+                        <pd:option>EquCab2</pd:option>
+                        <pd:option>EB1</pd:option>
+                        <pd:option>Galgal4</pd:option>
+                        <pd:option>Gm01</pd:option>
+                        <pd:option>Mmul_1</pd:option>
+                        <pd:option>IRGSP-1.0</pd:option>
+                        <pd:option>CHIMP2.1.4</pd:option>
+                        <pd:option>Rnor_6.0</pd:option>
+                        <pd:option>R64-1-1</pd:option>
+                        <pd:option>EF2</pd:option>
+                        <pd:option>Sbi1</pd:option>
+                        <pd:option>Sscrofa10.2</pd:option>
+                        <pd:option>AGPv3</pd:option>
+                        <pd:option>hg38</pd:option>
+                        <pd:option>hg19</pd:option>
+                        <pd:option>mm10</pd:option>
+                        <pd:option>bosTau8</pd:option>
+                        <pd:option>ce10</pd:option>
+                        <pd:option>canFam3</pd:option>
+                        <pd:option>danRer10</pd:option>
+                        <pd:option>dm6</pd:option>
+                        <pd:option>equCab2</pd:option>
+                        <pd:option>galGal4</pd:option>
+                        <pd:option>panTro4</pd:option>
+                        <pd:option>rn6</pd:option>
+                        <pd:option>sacCer3</pd:option>
+                        <pd:option>susScr3</pd:option>
+                    </pd:optionsType>
+                    <pd:value>GRCh37</pd:value>
+                </pd:parameter>
+            </pd:tool>
+        </pd:step>
+    </pd:steps>
+</pd:pipeline>

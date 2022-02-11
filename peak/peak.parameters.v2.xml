@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pipeline xmlns:"xsd://www.illumina.com/ica/cp/pipelinedefinition" code="" version="1.0">
+    <dataInputs>
+    <dataInput code="fasta_files" format="FASTA" type="DIRECTORY" required="true" multiValue="false">
+            <label>fasta_files</label>
+            <description>input FASTA files for peak</description>
+        </dataInput>
+    <dataInput code="gff_file" format="GFF" type="DIRECTORY" required="true" multiValue="false">
+            <label>gff_file</label>
+            <description>input GFF file(s) for peak</description>
+     </dataInput>    
+    <dataInput code="kraken2_db" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <label>kraken2_db</label>
+            <description>kraken2 DB </description>
+    </dataInput> 
+    </dataInputs>
+    <steps>
+        <step execution="MANDATORY" code="General">
+            <label>General</label>
+            <description>General parameters</description>
+            <tool code="generalparameters">
+                <parameter code="iqtree2_options" minValues="1" maxValues="1" classification="USER">
+                    <label>iqtree2_options</label>
+                    <description>iqtree2_options</description>
+                    <stringType/>
+                    <value>-t RANDOM -m GTR+F+I -bb 1000 -alrt 1000</value>
+                </parameter>
+                <parameter code="prokka_options" minValues="1" maxValues="1" classification="USER">
+                    <label>prokka_options</label>
+                    <description>prokka_options</description>
+                    <stringType/>
+                    <value>--mincontiglen 500 --compliant --locustag locus_tag</value>
+                </parameter>
+            </tool>
+        </step>
+    </steps>
+</pipeline>

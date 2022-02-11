@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pipeline xmlns:"xsd://www.illumina.com/ica/cp/pipelinedefinition" code="" version="1.0">
+    <dataInputs>
+        <dataInput code="fastq_files" format="FASTQ" type="DIRECTORY" required="true" multiValue="false">
+            <label>fastq_files</label>
+            <description></description>
+        </dataInput>
+    <dataInput code="fasta_files" format="FASTA" type="DIRECTORY" required="true" multiValue="false">
+            <label>fasta_files</label>
+            <description>input FASTA files for grandeur </description>
+        </dataInput>    
+    <dataInput code="additional_configs" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <label>additional_configs</label>
+            <description></description>
+        </dataInput>
+    <dataInput code="blast_db" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <label>blast_db</label>
+            <description>BLAST db directory</description>
+    </dataInput> 
+    <dataInput code="kraken2_db" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <label>kraken2_db</label>
+            <description>kraken2 DB </description>
+    </dataInput> 
+    </dataInputs>
+    <steps>
+        <step execution="MANDATORY" code="General">
+            <label>General</label>
+            <description>General parameters</description>
+            <tool code="generalparameters">
+                <parameter code="local_db_type" minValues="1" maxValues="1" classification="USER">
+                    <label>local_db_type</label>
+                    <description>local_db_type</description>
+                    <stringType/>
+                    <value>nt</value>
+                </parameter>
+                <parameter code="mash_options" minValues="1" maxValues="1" classification="USER">
+                    <label>mash_options</label>
+                    <description>mash options</description>
+                    <stringType/>
+                    <value>-v 0 -d 0.5</value>
+                </parameter>
+                <parameter code="prokka_options" minValues="1" maxValues="1" classification="USER">
+                    <label>prokka_options</label>
+                    <description>prokka_options</description>
+                    <stringType/>
+                    <value>--mincontiglen 500 --compliant --locustag locus_tag</value>
+                </parameter>
+                <parameter code="cg_pipeline_options" minValues="1" maxValues="1" classification="USER">
+                    <label>cg_pipeline_options</label>
+                    <description>cg_pipeline_options</description>
+                    <stringType/>
+                    <value>--qual_offset 33 --minLength 1</value>
+                </parameter>
+                <parameter code="kleborate_options" minValues="1" maxValues="1" classification="USER">
+                    <label>kleborate_options</label>
+                    <description>kleborate_options</description>
+                    <stringType/>
+                    <value>-all</value>
+                </parameter>
+                <parameter code="seqsero2_options_fasta" minValues="1" maxValues="1" classification="USER">
+                    <label>seqsero2_options_fasta</label>
+                    <description>seqsero2_options_fasta</description>
+                    <stringType/>
+                    <value>-t 4 -m k</value>
+                </parameter>
+                <parameter code="seqsero2_options_fastq" minValues="1" maxValues="1" classification="USER">
+                    <label>seqsero2_options_fastq</label>
+                    <description>seqsero2_options_fastq</description>
+                    <stringType/>
+                    <value>-t 2 -m a -b mem</value>
+                </parameter>
+                <parameter code="seqyclean_options" minValues="1" maxValues="1" classification="USER">
+                    <label>seqyclean_options</label>
+                    <description>seqyclean_options</description>
+                    <stringType/>
+                    <value>-minlen 25 -qual</value>
+                </parameter>
+            </tool>
+        </step>
+    </steps>
+</pipeline>

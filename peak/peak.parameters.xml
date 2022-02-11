@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pd:pipeline xmlns:pd="xsd://www.illumina.com/ica/cp/pipelinedefinition" code="" version="1.0">
+    <pd:dataInputs>
+    <pd:dataInput code="fasta_files" format="FASTA" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>fasta_files</pd:label>
+            <pd:description>input FASTA files for peak</pd:description>
+        </pd:dataInput>
+    <pd:dataInput code="gff_file" format="GFF" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>gff_file</pd:label>
+            <pd:description>input GFF file(s) for peak</pd:description>
+     </pd:dataInput>    
+    <pd:dataInput code="kraken2_db" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>kraken2_db</pd:label>
+            <pd:description>kraken2 DB </pd:description>
+    </pd:dataInput> 
+    </pd:dataInputs>
+    <pd:steps>
+        <pd:step execution="MANDATORY" code="General">
+            <pd:label>General</pd:label>
+            <pd:description>General parameters</pd:description>
+            <pd:tool code="generalparameters">
+                <pd:parameter code="iqtree2_options" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>iqtree2_options</pd:label>
+                    <pd:description>iqtree2_options</pd:description>
+                    <pd:stringType/>
+                    <pd:value>-t RANDOM -m GTR+F+I -bb 1000 -alrt 1000</pd:value>
+                </pd:parameter>
+                <pd:parameter code="prokka_options" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>prokka_options</pd:label>
+                    <pd:description>prokka_options</pd:description>
+                    <pd:stringType/>
+                    <pd:value>--mincontiglen 500 --compliant --locustag locus_tag</pd:value>
+                </pd:parameter>
+            </pd:tool>
+        </pd:step>
+    </pd:steps>
+</pd:pipeline>

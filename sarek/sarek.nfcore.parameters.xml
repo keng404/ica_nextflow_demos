@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pd:pipeline xmlns:pd="http://www.bluebee.com/pipelinedefinition">
+    <pd:dataInputs>
+        <pd:dataInput code="reads" format="FASTQ" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>reads</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+    <pd:dataInput code="input" format="TSV" type="FILE" required="true" multiValue="false">
+            <pd:label>input TSV</pd:label>
+            <pd:description>input TSV to start pipeline. See https://nf-co.re/sarek/usage#input-ltfastqgt-%3Cspan%20class= </pd:description>
+        </pd:dataInput>    
+    <pd:dataInput code="config_files" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>config_files</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+    </pd:dataInputs>
+    <pd:steps>
+        <pd:step execution="MANDATORY" code="General">
+            <pd:label>General</pd:label>
+            <pd:description>General parameters</pd:description>
+            <pd:tool code="generalparameters">
+                <pd:label>generalparameters</pd:label>
+                <pd:description></pd:description>
+                <pd:parameter code="trim_fastqs" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>trim_fastqs</pd:label>
+                    <pd:description>Trim FASTQs</pd:description>
+                    <pd:booleanType/>
+                    <pd:value>true</pd:value>
+                </pd:parameter>
+                 <pd:parameter code="save_trimmed" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>save_trimmed</pd:label>
+                    <pd:description>save trimmed FASTQs</pd:description>
+                    <pd:booleanType/>
+                    <pd:value>true</pd:value>
+                </pd:parameter>
+                 <pd:parameter code="save_bam_mapped" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>save_bam_mapped</pd:label>
+                    <pd:description>save mapped BAMs</pd:description>
+                    <pd:booleanType/>
+                    <pd:value>true</pd:value>
+                </pd:parameter>
+                <pd:parameter code="genome" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>genome</pd:label>
+                    <pd:description>iGenomes. See https://github.com/nf-core/sarek/blob/master/conf/igenomes.config for available genomes</pd:description>
+                    <pd:optionsType>
+                                <pd:option>GRCh37</pd:option>
+                                <pd:option>Ensembl.GRCh37</pd:option>
+                                <pd:option>GRCh38</pd:option>
+                                <pd:option>NCBI.GRCh38</pd:option>
+                                <pd:option>GRCm38</pd:option>
+                                <pd:option>TAIR10</pd:option>
+                                <pd:option>EB2</pd:option>
+                                <pd:option>UMD3.1</pd:option>
+                                <pd:option>bosTau8</pd:option>
+                                <pd:option>WBcel235</pd:option>
+                                <pd:option>ce10</pd:option>
+                                <pd:option>CanFam3.1</pd:option>
+                                <pd:option>canFam3</pd:option>
+                                <pd:option>GRCz10</pd:option>
+                                <pd:option>danRer10</pd:option>
+                                <pd:option>BDGP6</pd:option>
+                                <pd:option>dm6</pd:option>
+                                <pd:option>EquCab2</pd:option>
+                                <pd:option>equCab2</pd:option>
+                                <pd:option>EB1</pd:option>
+                                <pd:option>Galgal4</pd:option>
+                                <pd:option>galGal4</pd:option>
+                                <pd:option>Gm01</pd:option>
+                                <pd:option>hg38</pd:option>
+                                <pd:option>hg19</pd:option>
+                                <pd:option>Mmul_1</pd:option>
+                                <pd:option>mm10</pd:option>
+                                <pd:option>IRGSP-1.0</pd:option>
+                                <pd:option>CHIMP2.1.4</pd:option>
+                                <pd:option>panTro4</pd:option>
+                                <pd:option>Rnor_6.0</pd:option>
+                                <pd:option>rn6</pd:option>
+                                <pd:option>R64-1-1</pd:option>
+                                <pd:option>sacCer3</pd:option>
+                                <pd:option>EF2</pd:option>
+                                <pd:option>Sbi1</pd:option>
+                                <pd:option>Sscrofa10.2</pd:option>
+                                <pd:option>susScr3</pd:option>
+                                <pd:option>AGPv3</pd:option>
+                    </pd:optionsType>
+                    <pd:value>GRCh38</pd:value>
+                </pd:parameter>
+            </pd:tool>
+        </pd:step>
+    </pd:steps>
+</pd:pipeline>

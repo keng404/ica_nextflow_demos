@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pd:pipeline xmlns:pd="http://www.bluebee.com/pipelinedefinition">
+    <pd:dataInputs>
+        <pd:dataInput code="base_index_path" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>base_index_path</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="additional_config_files" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>additional_config_files</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="bam" format="BAM" type="FILE" required="false" multiValue="false">
+            <pd:label>bam</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="input" format="FASTQ" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>input</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+    </pd:dataInputs>
+    <pd:steps>
+        <pd:step execution="MANDATORY" code="General">
+            <pd:label>General</pd:label>
+            <pd:description>General parameters</pd:description>
+            <pd:tool code="generalparameters">
+                <pd:label>generalparameters</pd:label>
+                <pd:description></pd:description>
+                <pd:parameter code="input_filter_string" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>input_filter_string</pd:label>
+                    <pd:description></pd:description>
+                    <pd:stringType/>
+                    <pd:value>*_R{1,2}*.fastq.gz</pd:value>
+                </pd:parameter>
+            </pd:tool>
+        </pd:step>
+    </pd:steps>
+</pd:pipeline>
