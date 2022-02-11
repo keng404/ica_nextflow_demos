@@ -661,7 +661,7 @@ process shigatyper {
   publishDir "${params.outdir}", mode: 'copy'
   tag "${sample}"
   cpus params.medcpus
-  container 'quay.io/biocontainers/shigatyper:1.0.7--pyhdfd78af_0'
+  container 'keng404/shigatyper:original'
 
   when:
   params.shigatyper && flag =~ 'found'
