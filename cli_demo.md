@@ -18,7 +18,7 @@
 icav2 projectpipelines start nextflow --pipeline-id 3902e2e5-2cdd-4d66-b111-7b5a46a96288 --user-reference my_cli_grandeur_pipeline_45 --parameters local_db_type:'nt' --parameters mash_options:'-v 0 -d 0.5' --parameters prokka_options:'--mincontiglen 500 --compliant --locustag locus_tag' --parameters cg_pipeline_options:'--qual_offset 33 --minLength 1' --parameters kleborate_options:'-all' --parameters seqsero2_options_fasta:'-t 4 -m k' --parameters seqsero2_options_fastq:'-t 2 -m a -b mem' --parameters seqyclean_options:'-minlen 25 -qual' --input fastq_files:fol.7fe68a5a614247be379108d9adf7b017 --input fasta_files:fol.4aa93c4bc4194f8e379708d9adf7b017 --input additional_configs:fol.c6ac9d91c7314786379a08d9adf7b017 --input blast_db:fol.6efad1ef932348a6378d08d9adf7b017 --input kraken2_db:fol.bf3c5b7a361b4611379008d9adf7b017 [ OPTIONAL: --storage-size 3fab13dd-46e7-4b54-bb34-b80a01a99379 -c ~/.icav2/isc-balt.config.yaml ] 
 ```
 
-## Main options in addition to specify data input and pipeline parameters are:
+## Main options in addition to specify data input and pipeline parameters are. For launching a CWL-based pipeline just replace ```icav2 projectpipelines start nextflow``` with ```icav2 projectpipelines start cwl```:
 - pipeline-id : alphanumeric identifier of your pipeline, you can obtain this via an ``` icav2 projectpipelines list ``` or you can supply the name of the pipeline in lieu of '--pipeline-id {PIPELINE_ID}'
 - user-reference : name your pipeline run to your choosing
 - dataInputs: files or folders that you feed into your pipeline run. You will need the data_ids for these data items ( a long alphanumeric string fol.* or fil.*)
