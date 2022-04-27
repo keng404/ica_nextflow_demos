@@ -1,7 +1,7 @@
 # How to use the CLI to launch nextflow pipelines
 
 # prequisite commands before you launch your pipeline
-- Download CLI (https://illumina.gitbook.io/ica/command-line-interface/cli-releasehistory)) and ensure it's executable ``` chmod u+x icav2 ```
+- Download [CLI](https://illumina.gitbook.io/ica/command-line-interface/cli-releasehistory) and ensure it's executable ``` chmod u+x icav2 ```
 - login ``` icav2 config ```
 - enter project context ``` icav2 projects enter ``` or ``` icav2 projects list ```
 
