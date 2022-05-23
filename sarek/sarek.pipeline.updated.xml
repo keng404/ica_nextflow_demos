@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pipeline xmlns="xsd://www.illumina.com/ica/cp/pipelinedefinition" code="sarek pipeline" version="1.0">
+  <dataInputs>
+    <dataInput code="input_files" format="UNKNOWN" type="FILE" required="false" multiValue="true">
+      <label>input_files</label>
+      <description>input files for pipeline.
+All files will be staged in workflow.launchDir</description>
+    </dataInput>
+    <dataInput code="project_dir" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="true">
+      <label>project_dir</label>
+      <description>directory with additional files/input to run pipeline --- other files in your github project</description>
+    </dataInput>
+  </dataInputs>
+  <steps>
+    <step execution="MANDATORY" code="input_output_options">
+      <label>input_output_options</label>
+      <description>input_output_options parameters</description>
+      <tool code="input_output_options parameters">
+        <label>input_output_options</label>
+        <description>input_output_options parameters</description>
+        <parameter code="input" minValues="1" maxValues="1" classification="USER">
+          <label>input</label>
+          <description>Path to input file(s).
+Use this to specify the location of your input TSV file on mapping, prepare_recalibration, recalibrate, variant_calling and Control-FREEC steps (multiple files can be specified with quotes).
+It can also be used to specify the path to a directory on mapping step with a single germline sample only.
+Alternatively, it can be used to specify the path to VCF input file on annotate step (multiple files can be specified with quotes).</description>
+          <stringType/>
+          <value>null</value>
+        </parameter>
+        <parameter code="step" minValues="1" maxValues="1" classification="USER">
+          <label>step</label>
+          <description>Starting step.
+Only one step.
+ --NB-- step can be specified with no concern for case, or the presence of - or _</description>
+          <optionsType>
+            <option>mapping</option>
+            <option>prepare_recalibration</option>
+            <option>recalibrate</option>
+            <option>variant_calling</option>
+            <option>annotate</option>
+            <option>Control-FREEC</option>
+            <option>ControlFREEC</option>
+            <option>preparerecalibration</option>
+            <option>variantCalling</option>
+            <option>variantcalling</option>
+            <option>controlfreec</option>
+          </optionsType>
+          <value>mapping</value>
+        </parameter>
+        <parameter code="outdir" minValues="1" maxValues="1" classification="USER">
+          <label>outdir</label>
+          <description>The output directory where the results will be saved.</description>
+          <stringType/>
+          <value>./results</value>
+        </parameter>
+      </tool>
+    </step>
+  </steps>
+</pipeline>
