@@ -1,0 +1,145 @@
+name: nf-core CI
+# This workflow runs the pipeline with the minimal test dataset to check that it completes without any syntax errors
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+  release:
+    types: [published]
+
+env:
+  NXF_ANSI_LOG: false
+  CAPSULE_LOG: none
+
+jobs:
+  test:
+    name: Run workflow tests
+    # Only run on push if this is the nf-core dev branch (merged PRs)
+    if: ${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'nf-core/rnaseq') }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # Nextflow versions
+        include:
+          # Test pipeline minimum Nextflow version
+          - NXF_VER: '21.10.3'
+            NXF_EDGE: ''
+          # Test latest edge release of Nextflow
+          - NXF_VER: ''
+            NXF_EDGE: '1'
+    steps:
+      - name: Check out pipeline code
+        uses: actions/checkout@v2
+
+      - name: Install Nextflow
+        env:
+          NXF_VER: ${{ matrix.NXF_VER }}
+          # Uncomment only if the edge release is more recent than the latest stable release
+          # See https://github.com/nextflow-io/nextflow/issues/2467
+          # NXF_EDGE: ${{ matrix.NXF_EDGE }}
+        run: |
+          wget -qO- get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+
+      - name: Run pipeline with test data
+        run: |
+          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --outdir ./results
+
+  star_salmon:
+    name: Test STAR Salmon with workflow parameters
+    if: ${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'nf-core/rnaseq') }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        parameters:
+          - "--skip_qc"
+          - "--skip_trimming"
+          - "--gtf false"
+          - "--star_index false"
+          - "--transcript_fasta false"
+          - "--min_mapped_reads 90"
+          - "--with_umi"
+          - "--with_umi --skip_trimming"
+          - "--remove_ribo_rna --skip_qualimap"
+          - "--bam_csi_index"
+          - "--save_align_intermeds --save_reference"
+          - "--featurecounts_group_type false"
+    steps:
+      - name: Check out pipeline code
+        uses: actions/checkout@v2
+
+      - name: Install Nextflow
+        run: |
+          wget -qO- get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+
+      - name: Run pipeline with STAR and various parameters
+        run: |
+          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --aligner star_salmon ${{ matrix.parameters }} --outdir ./results
+
+  star_rsem:
+    name: Test STAR RSEM with workflow parameters
+    if: ${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'nf-core/rnaseq') }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        parameters:
+          - "--skip_qc"
+          - "--rsem_index false"
+    steps:
+      - name: Check out pipeline code
+        uses: actions/checkout@v2
+
+      - name: Install Nextflow
+        run: |
+          wget -qO- get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+
+      - name: Run pipeline with RSEM STAR and various parameters
+        run: |
+          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --aligner star_rsem ${{ matrix.parameters }} --outdir ./results
+
+  hisat2:
+    name: Test HISAT2 with workflow parameters
+    if: ${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'nf-core/rnaseq') }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        parameters:
+          - "--skip_qc"
+          - "--hisat2_index false"
+    steps:
+      - name: Check out pipeline code
+        uses: actions/checkout@v2
+
+      - name: Install Nextflow
+        run: |
+          wget -qO- get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+
+      - name: Run pipeline with HISAT2 and various parameters
+        run: |
+          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --aligner hisat2 ${{ matrix.parameters }} --outdir ./results
+
+  salmon:
+    name: Test Salmon with workflow parameters
+    if: ${{ github.event_name != 'push' || (github.event_name == 'push' && github.repository == 'nf-core/rnaseq') }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        parameters:
+          - "--skip_qc --skip_alignment"
+          - "--salmon_index false --transcript_fasta false"
+    steps:
+      - name: Check out pipeline code
+        uses: actions/checkout@v2
+
+      - name: Install Nextflow
+        run: |
+          wget -qO- get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/
+
+      - name: Run pipeline with Salmon and various parameters
+        run: |
+          nextflow run ${GITHUB_WORKSPACE} -profile test,docker --pseudo_aligner salmon ${{ matrix.parameters }} --outdir ./results
