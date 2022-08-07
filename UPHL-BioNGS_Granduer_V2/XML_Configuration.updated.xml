@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pd:pipeline xmlns:pd="xsd://www.illumina.com/ica/cp/pipelinedefinition">
+    <pd:dataInputs>
+        <pd:dataInput code="fastq_files" format="FASTQ" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>fastq_files</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="fasta_files" format="FASTA" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>fasta_files</pd:label>
+            <pd:description>input FASTA files for grandeur </pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="gff_files" format="GFF" type="FILE" required="true" multiValue="true">
+            <pd:label>gff_files</pd:label>
+            <pd:description>input GFF files for grandeur </pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="additional_configs" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>additional_configs</pd:label>
+            <pd:description></pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="blast_db_dir" format="UNKNOWN" type="DIRECTORY" required="false" multiValue="false">
+            <pd:label>blast_db_dir</pd:label>
+            <pd:description>BLAST db directory</pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="blast_db_file" format="UNKNOWN" type="FILE" required="false" multiValue="false">
+            <pd:label>blast_db_file</pd:label>
+            <pd:description>BLAST db archive file</pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="kraken2_db_dir" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="false">
+            <pd:label>kraken2_db_dir</pd:label>
+            <pd:description>kraken2 DB </pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="project_dir" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="true">
+            <pd:label>project_dir</pd:label>
+            <pd:description>directory with additional files/input to run pipeline --- other files in your github project</pd:description>
+        </pd:dataInput>
+    </pd:dataInputs>
+    <pd:steps>
+        <pd:step execution="MANDATORY" code="General">
+            <pd:label>General</pd:label>
+            <pd:description>General parameters</pd:description>
+            <pd:tool code="generalparameters">
+                <pd:label locked="false"></pd:label>
+                <pd:description locked="false"></pd:description>
+                <pd:parameter code="local_db_type" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>local_db_type</pd:label>
+                    <pd:description>local_db_type</pd:description>
+                    <pd:stringType/>
+                    <pd:value>nt</pd:value>
+                </pd:parameter>
+                <pd:parameter code="mash_options" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>mash_options</pd:label>
+                    <pd:description>mash options</pd:description>
+                    <pd:stringType/>
+                    <pd:value>-v 0 -d 0.5</pd:value>
+                </pd:parameter>
+                <pd:parameter code="prokka_options" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>prokka_options</pd:label>
+                    <pd:description>prokka_options</pd:description>
+                    <pd:stringType/>
+                    <pd:value>--mincontiglen 500 --compliant --locustag locus_tag</pd:value>
+                </pd:parameter>
+                <pd:parameter code="cg_pipeline_options" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>cg_pipeline_options</pd:label>
+                    <pd:description>cg_pipeline_options</pd:description>
+                    <pd:stringType/>
+                    <pd:value>--qual_offset 33 --minLength 1</pd:value>
+                </pd:parameter>
+                <pd:parameter code="kleborate_options" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>kleborate_options</pd:label>
+                    <pd:description>kleborate_options</pd:description>
+                    <pd:stringType/>
+                    <pd:value>-all</pd:value>
+                </pd:parameter>
+                <pd:parameter code="seqsero2_options_fasta" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>seqsero2_options_fasta</pd:label>
+                    <pd:description>seqsero2_options_fasta</pd:description>
+                    <pd:stringType/>
+                    <pd:value>-t 4 -m k</pd:value>
+                </pd:parameter>
+                <pd:parameter code="seqsero2_options_fastq" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>seqsero2_options_fastq</pd:label>
+                    <pd:description>seqsero2_options_fastq</pd:description>
+                    <pd:stringType/>
+                    <pd:value>-t 2 -m a -b mem</pd:value>
+                </pd:parameter>
+                <pd:parameter code="seqyclean_options" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>seqyclean_options</pd:label>
+                    <pd:description>seqyclean_options</pd:description>
+                    <pd:stringType/>
+                    <pd:value>-minlen 25 -qual</pd:value>
+                </pd:parameter>
+            </pd:tool>
+        </pd:step>
+    </pd:steps>
+</pd:pipeline>
