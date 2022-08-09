@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pd:pipeline xmlns:pd="xsd://www.illumina.com/ica/cp/pipelinedefinition" code="" version="1.0">
+    <pd:dataInputs>
+        <pd:dataInput code="file" format="TXT" type="FILE" required="true" multiValue="false">
+            <pd:label>file</pd:label>
+            <pd:description>input a text file with SRA ids</pd:description>
+        </pd:dataInput>
+    </pd:dataInputs>
+    <pd:steps/>
+</pd:pipeline>
