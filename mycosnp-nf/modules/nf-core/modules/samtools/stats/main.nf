@@ -1,13 +1,18 @@
 process SAMTOOLS_STATS {
+	publishDir  path: { "${params.outdir}/statssamtools"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::samtools=1.15" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/samtools:1.15--h1170115_1' :
         'quay.io/biocontainers/samtools:1.15--h1170115_1' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: "${params.save_alignment}",mode: "${params.publish_dir_mode}",path: { "${params.outdir}/stats/samtools_stats" },pattern: "*.stats"
+    maxForks 10
     input:
     tuple val(meta), path(input), path(input_index)
     path fasta

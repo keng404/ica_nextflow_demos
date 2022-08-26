@@ -1,15 +1,18 @@
 process GATK4_LOCALCOMBINEGVCFS {
+	publishDir  path: { "${params.outdir}/gatk"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "combined"
     conda (params.enable_conda ? "bioconda::gatk4=4.2.5.0" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/gatk4:4.2.5.0--hdfd78af_0' :
         'quay.io/biocontainers/gatk4:4.2.5.0--hdfd78af_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     val meta
     path vcf
@@ -37,6 +40,7 @@ process GATK4_LOCALCOMBINEGVCFS {
     if(skip_samples_file){
         skip_samples = file(skip_samples_file).readLines().collect { line -> line.trim() }.join(",")
     }
+}
     def sample_list       = []
     if(skip_samples != '')
     {

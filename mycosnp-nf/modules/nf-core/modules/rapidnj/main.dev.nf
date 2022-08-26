@@ -1,15 +1,17 @@
-def VERSION = '2.3.2' // Version information not provided by tool on CLI
 process RAPIDNJ {
+	publishDir  path: { "${params.outdir}/rapidnj"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     conda (params.enable_conda ? "bioconda::rapidnj=2.3.2 conda-forge::biopython=1.78" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mulled-v2-805c6e0f138f952f9c61cdd57c632a1a263ea990:3c52e4c8da6b3e4d69b9ca83fa4d366168898179-0' :
         'quay.io/biocontainers/mulled-v2-805c6e0f138f952f9c61cdd57c632a1a263ea990:3c52e4c8da6b3e4d69b9ca83fa4d366168898179-0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     path alignment
     output:

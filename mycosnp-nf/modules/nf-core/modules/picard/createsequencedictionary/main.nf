@@ -1,13 +1,18 @@
 process PICARD_CREATESEQUENCEDICTIONARY {
+	publishDir  path: { "${params.outdir}/picard"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::picard=2.26.9" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/picard:2.26.9--hdfd78af_0' :
         'quay.io/biocontainers/picard:2.26.9--hdfd78af_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: "${params.save_reference}",mode: "${params.publish_dir_mode}",path: { "${params.outdir}/reference/dict" },pattern: "*.{dict}"
+    maxForks 10
     input:
     tuple val(meta), path(fasta)
     output:
@@ -18,7 +23,12 @@ process PICARD_CREATESEQUENCEDICTIONARY {
     script:
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def avail_mem = 16
+    def avail_mem = 3
+    if (!task.memory) {
+        log.info '[Picard CreateSequenceDictionary] Available memory not known - defaulting to 3GB. Specify process memory requirements to change this.'
+    } else {
+        avail_mem = task.memory.giga
+    }
     """
     picard \\
         -Xmx${avail_mem}g \\

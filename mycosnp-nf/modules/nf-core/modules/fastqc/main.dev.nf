@@ -1,15 +1,18 @@
 process FASTQC {
+	publishDir  path: { "${params.outdir}/fastqc"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::fastqc=0.11.9" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/fastqc:0.11.9--0' :
         'quay.io/biocontainers/fastqc:0.11.9--0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     tuple val(meta), path(reads)
     output:

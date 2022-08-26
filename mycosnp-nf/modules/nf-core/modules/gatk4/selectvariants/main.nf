@@ -1,25 +1,35 @@
 process GATK4_SELECTVARIANTS {
+	publishDir  path: { "${params.outdir}/gatk"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::gatk4=4.2.5.0" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/gatk4:4.2.5.0--hdfd78af_0':
         'quay.io/biocontainers/gatk4:4.2.5.0--hdfd78af_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: true,mode: "${params.publish_dir_mode}",path: { "${params.outdir}/combined/selectedsnps" },pattern: "*{vcf.gz,vcf.gz.tbi}"
+    maxForks 10
     input:
     tuple val(meta), path(vcf), path(vcf_idx)
     output:
     tuple val(meta), path("*.selectvariants.vcf.gz")       , emit: vcf
     tuple val(meta), path("*.selectvariants.vcf.gz.tbi")   , emit: tbi
-    path "versions.yml" , emit: versions
+    path "versions.yml", emit: versions
     when:
     task.ext.when == null || task.ext.when
     script:
-    def args = '--select-type-to-include "SNP"'
-    def prefix = "combined_genotype_filtered_snps"
-    def avail_mem = 16
+    def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    def avail_mem = 3
+    if (!task.memory) {
+        log.info '[GATK VariantFiltration] Available memory not known - defaulting to 3GB. Specify process memory requirements to change this.'
+    } else {
+        avail_mem = task.memory.toGiga()
+    }
     """
     gatk --java-options "-Xmx${avail_mem}G" SelectVariants \\
         -V $vcf \\

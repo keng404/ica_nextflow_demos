@@ -1,3 +1,8 @@
+process = [:]
+process.ext = [:]
+params.max_amb_samples = "10000000"
+params.max_perc_amb_samples = "10"
+params.min_depth = "50"
 /*
 ========================================================================================
     GATK Variants Sub-Workflow
@@ -27,23 +32,32 @@ workflow GATK_VARIANTS {
     main:
     ch_versions = Channel.empty()
     combined_gvcf = thismeta.combine(vcffile).combine(vcfidx)
+    process.ext.prefix = "combined_genotype"
     GATK4_GENOTYPEGVCFS(
         combined_gvcf.map{meta, vcf, idx -> [ meta, vcf, idx, [] ]},
         fasta, 
         fai, 
         dict, [], []
         )
+    process.ext.args =  "--filter-expression '${params.gvcfs_filter}' --filter-name filter"
+    process.ext.prefix = "combined_genotype_filtered"
     GATK4_VARIANTFILTRATION(
                             GATK4_GENOTYPEGVCFS.out.vcf.combine(GATK4_GENOTYPEGVCFS.out.tbi).map{ meta1, vcf, meta2, tbi->[meta1, vcf, tbi]},
                             fasta, 
                             fai, 
                             dict
                             )
+    process.ext.args =  '--select-type-to-include "SNP"'
+    process.ext.prefix = "combined_genotype_filtered_snps"
     GATK4_SELECTVARIANTS(
                          GATK4_VARIANTFILTRATION.out.vcf.combine(GATK4_VARIANTFILTRATION.out.tbi).map{ meta1, vcf, meta2, tbi->[meta1, vcf, tbi]}
                         )
+    process.ext.args = params.gatkgenotypes_filter
+    process.ext.prefix = "combined_genotype_filtered_snps_filtered"
     FILTER_GATK_GENOTYPES(GATK4_SELECTVARIANTS.out.vcf)
     fin_comb_vcf = FILTER_GATK_GENOTYPES.out.vcf.first()
+    process.ext.args = "-Oz"
+    process.ext.prefix = "finalfiltered"
     BCFTOOLS_VIEW_CONVERT(fin_comb_vcf.map{meta, vcf->[ meta, vcf, [] ] }, [], [], []  )   // Convert to bgzip
     BCFTOOLS_INDEX(BCFTOOLS_VIEW_CONVERT.out.vcf)
     SPLIT_VCF(
@@ -51,7 +65,7 @@ workflow GATK_VARIANTS {
              )
     final_vcf_txt = Channel.empty()
     fin_comb_vcf.combine(SPLIT_VCF.out.txt).map{meta1, vcf, meta2, txt -> 
-                    [ meta1, vcf, txt, params.max_amb_samples, params.max_perc_amb_samples]}.set{final_vcf_txt}
+                    [ meta1, vcf, txt, params.max_amb_samples, params.max_perc_amb_samples, params.min_depth ]}.set{final_vcf_txt}
     VCF_CONSENSUS(
         BCFTOOLS_VIEW_CONVERT.out.vcf.combine(BCFTOOLS_INDEX.out.csi).map{meta1, vcf, meta2, csi-> [meta1, vcf, csi] },
         fasta

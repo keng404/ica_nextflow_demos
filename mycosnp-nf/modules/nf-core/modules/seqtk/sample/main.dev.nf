@@ -1,15 +1,18 @@
 process SEQTK_SAMPLE {
+	publishDir  path: { "${params.outdir}/sampleseqtk"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::seqtk=1.3" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/seqtk:1.3--h5bf99c6_3' :
         'quay.io/biocontainers/seqtk:1.3--h5bf99c6_3' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     tuple val(meta), path(reads)
     val sample_size
@@ -38,6 +41,7 @@ process SEQTK_SAMPLE {
         if (!(args ==~ /.*-s[0-9]+.*/)) {
             args += " -s100"
         }
+}
         """
         seqtk \\
             sample \\
@@ -57,4 +61,3 @@ process SEQTK_SAMPLE {
         END_VERSIONS
         """
     }
-}

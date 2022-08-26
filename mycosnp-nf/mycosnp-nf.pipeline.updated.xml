@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <pipeline xmlns="xsd://www.illumina.com/ica/cp/pipelinedefinition" code="mycosnp-nf pipeline" version="1.0">
   <dataInputs>
-    <dataInput code="input_files" format="UNKNOWN" type="FILE" required="false" multiValue="true">
-      <label>input_files</label>
-      <description>input files for pipeline.
-All files will be staged in workflow.launchDir</description>
-    </dataInput>
-    <dataInput code="project_dir" format="UNKNOWN" type="DIRECTORY" required="false" multiValue="true">
-      <label>project_dir</label>
-      <description>project directories --- found in GitHub repo.
-All files will be staged in workflow.launchDir</description>
-    </dataInput>
     <dataInput code="project_dir" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="true">
       <label>project_dir</label>
       <description>directory with additional files/input to run pipeline --- other files in your github project</description>
+    </dataInput>
+    <dataInput code="input_files" format="UNKNOWN" type="FILE" required="true" multiValue="true">
+      <label>input_files</label>
+      <description>additional files/input to run pipeline --- other files in your github project</description>
     </dataInput>
   </dataInputs>
   <steps>
@@ -27,12 +21,6 @@ All files will be staged in workflow.launchDir</description>
           <label>input</label>
           <description>Path to comma-separated file containing information about the samples in the experiment.
 You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://github.com/CDCgov/mycosnp-nf/blob/master/docs/usage.md#samplesheet-input).</description>
-          <stringType/>
-          <value>null</value>
-        </parameter>
-        <parameter code="genome" minValues="1" maxValues="1" classification="USER">
-          <label>genome</label>
-          <description>iGenome reference.</description>
           <stringType/>
           <value>null</value>
         </parameter>

@@ -1,15 +1,18 @@
 process BCFTOOLS_INDEX {
+	publishDir  path: { "${params.outdir}/indexbcftools"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? 'bioconda::bcftools=1.14' : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/bcftools:1.14--h88f3f91_0' :
         'quay.io/biocontainers/bcftools:1.14--h88f3f91_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     tuple val(meta), path(vcf)
     output:

@@ -1,13 +1,18 @@
 process NUCMER {
+	publishDir  path: { "${params.outdir}/nucmer"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::mummer=3.23" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mummer:3.23--pl5262h1b792b2_12' :
         'quay.io/biocontainers/mummer:3.23--pl5262h1b792b2_12' }"
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-large'
+    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: true,mode: "${params.publish_dir_mode}",path: { "${params.outdir}/reference/masked" },pattern: "*.{coords}"
+    maxForks 10
     input:
     tuple val(meta), path(ref), path(query)
     output:
@@ -17,7 +22,7 @@ process NUCMER {
     when:
     task.ext.when == null || task.ext.when
     script:
-    def args = "--maxmatch --nosimplify"
+    def args = task.ext.args ?:  "--maxmatch --nosimplify"
     def prefix = task.ext.prefix ?: "${meta.id}"
     def is_compressed_ref   = ref.getName().endsWith(".gz")   ? true : false
     def is_compressed_query = query.getName().endsWith(".gz") ? true : false
@@ -36,7 +41,6 @@ process NUCMER {
         $args \\
         $fasta_name_ref \\
         $fasta_name_query
-
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         nucmer: \$( nucmer --version 2>&1  | grep "version" | sed -e "s/NUCmer (NUCleotide MUMmer) version //g; s/nucmer//g;" )

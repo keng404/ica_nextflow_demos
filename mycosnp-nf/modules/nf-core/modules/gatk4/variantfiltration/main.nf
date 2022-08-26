@@ -1,13 +1,18 @@
 process GATK4_VARIANTFILTRATION {
+	publishDir  path: { "${params.outdir}/gatk"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::gatk4=4.2.4.1" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/gatk4:4.2.4.1--hdfd78af_0' :
         'quay.io/biocontainers/gatk4:4.2.4.1--hdfd78af_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: true,mode: "${params.publish_dir_mode}",path: { "${params.outdir}/combined/filteredgvcfs" },pattern: "*{vcf.gz,vcf.gz.tbi}"
+    maxForks 10
     input:
     tuple val(meta), path(vcf), path(vcf_tbi)
     path  fasta
@@ -20,9 +25,14 @@ process GATK4_VARIANTFILTRATION {
     when:
     task.ext.when == null || task.ext.when
     script:
-    def args = "--filter-expression '${params.gvcfs_filter}' --filter-name filter"
-    def prefix = "combined_genotype_filtered"
-    def avail_mem = 16
+    def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}.filtered"
+    def avail_mem = 3
+    if (!task.memory) {
+        log.info '[GATK VariantFiltration] Available memory not known - defaulting to 3GB. Specify process memory requirements to change this.'
+    } else {
+        avail_mem = task.memory.toGiga()
+    }
     """
     gatk --java-options "-Xmx${avail_mem}G" VariantFiltration \\
         -R $fasta \\
@@ -30,6 +40,8 @@ process GATK4_VARIANTFILTRATION {
         -O ${prefix}.vcf.gz \\
         $args
     cat <<-END_VERSIONS > versions.yml
-
+    "${task.process}":
+        gatk4: \$(echo \$(gatk --version 2>&1) | sed 's/^.*(GATK) v//; s/ .*\$//')
+    END_VERSIONS
     """
 }

@@ -1,12 +1,17 @@
 process FASTTREE {
+	publishDir  path: { "${params.outdir}/fasttree"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     conda (params.enable_conda ? "bioconda::fasttree=2.1.10" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/fasttree:2.1.10--h516909a_4' :
         'quay.io/biocontainers/fasttree:2.1.10--h516909a_4' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: true,mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.endsWith(".tre") ? "fasttree_phylogeny.nh" : filename  },path: { "${params.outdir}/combined/phylogeny/fasttree" },pattern: "*"
+    maxForks 10
     input:
     path alignment
     output:
@@ -15,7 +20,7 @@ process FASTTREE {
     when:
     task.ext.when == null || task.ext.when
     script:
-    def args = "-gtr -gamma -fastest"
+    def args = task.ext.args ?: ''
     """
     fasttree \\
         $args \\

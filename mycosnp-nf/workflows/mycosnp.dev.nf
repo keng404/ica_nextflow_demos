@@ -1,13 +1,3 @@
-/*
-========================================================================================
-    VALIDATE INPUTS
-========================================================================================
-*/
-def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
-// Validate input parameters
-WorkflowMycosnp.initialise(params, log)
-// Check input path parameters to see if they exist
-def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
 if (params.skip_samples_file) { // check for skip_samples_file
     checkPathParamList.add(params.skip_samples_file)
 }
@@ -98,6 +88,7 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/
 include { GATK4_HAPLOTYPECALLER       } from '../modules/nf-core/modules/gatk4/haplotypecaller/main'
 include { GATK4_COMBINEGVCFS          } from '../modules/nf-core/modules/gatk4/combinegvcfs/main'
 include { SEQKIT_REPLACE              } from '../modules/nf-core/modules/seqkit/replace/main'
+include { SNPDISTS                    } from '../modules/nf-core/modules/snpdists/main'
 include { GATK4_LOCALCOMBINEGVCFS     } from '../modules/local/gatk4_localcombinegvcfs.nf'
 /*
 ========================================================================================
@@ -288,6 +279,7 @@ workflow MYCOSNP {
 ========================================================================================
 */
         SEQKIT_REPLACE(GATK_VARIANTS.out.snps_fasta) // Swap * for -
+        SNPDISTS(SEQKIT_REPLACE.out.fastx)
         if(! params.skip_phylogeny) {
             CREATE_PHYLOGENY(SEQKIT_REPLACE.out.fastx.map{meta, fas->[fas]}, '')
         }

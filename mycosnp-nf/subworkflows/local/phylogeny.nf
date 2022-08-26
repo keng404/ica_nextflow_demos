@@ -1,6 +1,8 @@
 //
 // Phylogenies subworkflow
 //
+process = [:]
+process.ext = [:]
 include { RAPIDNJ  } from '../../modules/nf-core/modules/rapidnj/main'
 include { FASTTREE } from '../../modules/nf-core/modules/fasttree/main'
 include { IQTREE   } from '../../modules/nf-core/modules/iqtree/main'
@@ -13,24 +15,28 @@ workflow CREATE_PHYLOGENY {
     ch_versions = Channel.empty()
     rapidnj_tree = Channel.empty()
     if (params.rapidnj) {
+        process.ext.args ="-t d -b 1000 -n"
         RAPIDNJ(fasta)
         rapidnj_tree = RAPIDNJ.out.phylogeny
         ch_versions = ch_versions.mix(RAPIDNJ.out.versions)
     }
     fasttree_tree = Channel.empty()
     if (params.fasttree) {
+        process.ext.args = "-gtr -gamma -fastest"
         FASTTREE(fasta)
         fasttree_tree = FASTTREE.out.phylogeny
         ch_versions = ch_versions.mix(FASTTREE.out.versions)
     }
     iqtree_tree = Channel.empty()
     if (params.iqtree) {
+        process.ext.args = "-alrt 1000 -B 1000 -m MFP -czb"
         IQTREE(fasta, constant_sites_string)
         iqtree_tree = IQTREE.out.phylogeny
         ch_versions = ch_versions.mix(IQTREE.out.versions)
     }
     raxmlng_tree = Channel.empty()
     if (params.raxmlng) {
+        process.ext.args = "--all --model GTR+G --bs-trees 1000"
         RAXMLNG(fasta)
         raxmlng_tree = RAXMLNG.out.phylogeny
         ch_versions = ch_versions.mix(RAXMLNG.out.versions)

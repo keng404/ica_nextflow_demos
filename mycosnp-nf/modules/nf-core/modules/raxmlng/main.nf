@@ -1,12 +1,17 @@
 process RAXMLNG {
+	publishDir  path: { "${params.outdir}/raxmlng"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     conda (params.enable_conda ? 'bioconda::raxml-ng=1.0.3' : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/raxml-ng:1.0.3--h32fcf60_0' :
         'quay.io/biocontainers/raxml-ng:1.0.3--h32fcf60_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: true,mode: "${params.publish_dir_mode}",saveAs: { filename -> if( filename.endsWith(".bestTree")) { return "raxmlng_bestTree.nh" } else if ( filename.endsWith(".support") ) { return "raxmlng_support.nh" } else { return filename }  },path: { "${params.outdir}/combined/phylogeny/raxmlng" },pattern: "*"
+    maxForks 10
     input:
     path alignment
     output:
@@ -16,12 +21,12 @@ process RAXMLNG {
     when:
     task.ext.when == null || task.ext.when
     script:
-    def args = "--all --model GTR+G --bs-trees 1000"
+    def args = task.ext.args ?: ''
     """
     raxml-ng \\
         $args \\
         --msa $alignment \\
-        --threads 8 \\
+        --threads $task.cpus \\
         --prefix output
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

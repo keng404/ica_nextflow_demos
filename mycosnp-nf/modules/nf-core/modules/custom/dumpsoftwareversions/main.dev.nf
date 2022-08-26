@@ -1,15 +1,18 @@
 process CUSTOM_DUMPSOFTWAREVERSIONS {
+	publishDir  path: { "${params.outdir}/dumpsoftwareversionscustom"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     // Requires `pyyaml` which does not have a dedicated container but is in the MultiQC container
     conda (params.enable_conda ? "bioconda::multiqc=1.11" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/multiqc:1.11--pyhdfd78af_0' :
         'quay.io/biocontainers/multiqc:1.11--pyhdfd78af_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     path versions
     output:

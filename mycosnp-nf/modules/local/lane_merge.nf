@@ -1,9 +1,15 @@
 process LANE_MERGE {
+	publishDir  path: { "${params.outdir}/mergelane"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
-    container 'ubuntu:20.04'
+    container 'keng404/utils:0.0.2'
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
+    maxForks 10
     input:
     tuple val(meta), path(reads)
     output:

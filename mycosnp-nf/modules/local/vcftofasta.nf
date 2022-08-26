@@ -1,15 +1,20 @@
 process VCF_TO_FASTA {
+	publishDir  path: { "${params.outdir}/fastatovcf"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "${meta.id}"
     conda (params.enable_conda ? "bioconda::scipy=1.1.0" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/scipy%3A1.1.0' :
         'quay.io/biocontainers/scipy:1.1.0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: false,mode: "${params.publish_dir_mode}",path: { "${params.outdir}/combined/vcf-to-fasta" },pattern: "*{fasta}"
+    maxForks 10
     input:
-    tuple val(meta), path(vcf), path(samplelist), val(max_amb_samples), val(max_perc_amb_samples)
+    tuple val(meta), path(vcf), path(samplelist), val(max_amb_samples), val(max_perc_amb_samples), val(min_depth)
     path(fasta)
     output:
     tuple val(meta), path("*.fasta"), emit: fasta
@@ -29,9 +34,10 @@ process VCF_TO_FASTA {
     if [ "$is_compressed_vcf" == "true" ]; then
         gzip -c -d $vcf > $vcf_name
     fi
-    python $projectDir/bin/broad-vcf-filter/vcfSnpsToFasta.py --max_amb_samples \$MAX_AMB_SAMPLES $vcf_name > ${prefix}_vcf-to-fasta.fasta
+    python $projectDir/bin/broad-vcf-filter/vcfSnpsToFasta.py --max_amb_samples \$MAX_AMB_SAMPLES --min_depth $min_depth $vcf_name > ${prefix}_vcf-to-fasta.fasta
     echo "NUM_SAMPLES=\$NUM_SAMPLES" >> log.txt
     echo "MAX_PERC_AMB_SAMPLES=$max_perc_amb_samples" >> log.txt
     echo "MAX_AMB_SAMPLES=\$MAX_AMB_SAMPLES" >> log.txt
+    echo "MIN_DEPTH=$min_depth" >> log.txt
     """
 }

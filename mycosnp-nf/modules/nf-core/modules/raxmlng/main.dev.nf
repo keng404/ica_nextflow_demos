@@ -1,14 +1,17 @@
 process RAXMLNG {
+	publishDir  path: { "${params.outdir}/raxmlng"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     conda (params.enable_conda ? 'bioconda::raxml-ng=1.0.3' : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/raxml-ng:1.0.3--h32fcf60_0' :
         'quay.io/biocontainers/raxml-ng:1.0.3--h32fcf60_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     path alignment
     output:

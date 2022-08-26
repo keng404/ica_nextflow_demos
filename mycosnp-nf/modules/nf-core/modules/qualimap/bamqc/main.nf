@@ -1,13 +1,18 @@
 process QUALIMAP_BAMQC {
+	publishDir  path: { "${params.outdir}/bamqcqualimap"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::qualimap=2.2.2d" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/qualimap:2.2.2d--1' :
         'quay.io/biocontainers/qualimap:2.2.2d--1' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: "${params.save_alignment}",mode: "${params.publish_dir_mode}",path: { "${params.outdir}/stats/qualimap" },pattern: "*"
+    maxForks 10
     input:
     tuple val(meta), path(bam)
     path gff
@@ -21,7 +26,7 @@ process QUALIMAP_BAMQC {
     def args = task.ext.args   ?: ''
     prefix   = task.ext.prefix ?: "${meta.id}"
     def collect_pairs = meta.single_end ? '' : '--collect-overlap-pairs'
-    def memory     = 16 + "G"
+    def memory     = task.memory.toGiga() + "G"
     def regions = use_gff ? "--gff $gff" : ''
     def strandedness = 'non-strand-specific'
     if (meta.strandedness == 'forward') {

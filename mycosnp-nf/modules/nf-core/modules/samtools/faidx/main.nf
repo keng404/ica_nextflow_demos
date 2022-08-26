@@ -1,13 +1,18 @@
 process SAMTOOLS_FAIDX {
+	publishDir  path: { "${params.outdir}/faidxsamtools"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$fasta"
     conda (params.enable_conda ? "bioconda::samtools=1.14" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/samtools:1.14--hb421002_0' :
         'quay.io/biocontainers/samtools:1.14--hb421002_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: "${params.save_reference}",mode: "${params.publish_dir_mode}", path: { "${params.outdir}/reference/fai" },pattern: "*fai"
+    maxForks 10
     input:
     tuple val(meta), path(fasta)
     output:

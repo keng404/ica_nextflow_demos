@@ -9,11 +9,19 @@ include { BEDTOOLS_MASKFASTA              } from '../../modules/nf-core/modules/
 include { BWA_INDEX                       } from '../../modules/nf-core/modules/bwa/index/main'
 include { PICARD_CREATESEQUENCEDICTIONARY } from '../../modules/nf-core/modules/picard/createsequencedictionary/main'
 include { SAMTOOLS_FAIDX                  } from '../../modules/nf-core/modules/samtools/faidx/main'
+
+process = [:]
+process.ext = [:]
 process INPUT_PROC {
-    container 'ubuntu:20.04'
+    container 'library/ubuntu:20.04'
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
+    maxForks 10
     input:
     path(fasta)
     output:
@@ -27,6 +35,7 @@ process INPUT_PROC {
     {
         is_compressed = true
     }
+
     """
     echo ${meta.id}
     if [[ ${is_compressed} == "true" ]]; then
@@ -50,6 +59,7 @@ workflow BWA_REFERENCE {
     ch_reference_combined = Channel.empty()
     ch_versions           = Channel.empty()
     INPUT_PROC( fasta )
+    process.ext.args = "--maxmatch --nosimplify"
     NUCMER( INPUT_PROC.out )
     COORDSTOBED( NUCMER.out.delta )
     BEDTOOLS_MASKFASTA( COORDSTOBED.out.bed, INPUT_PROC.out.map{ meta, fa, fa2->[ fa]} )

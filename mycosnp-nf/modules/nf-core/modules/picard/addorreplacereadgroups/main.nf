@@ -1,13 +1,18 @@
 process PICARD_ADDORREPLACEREADGROUPS {
+	publishDir  path: { "${params.outdir}/picard"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::picard=2.26.9" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/picard:2.26.9--hdfd78af_0' :
         'quay.io/biocontainers/picard:2.26.9--hdfd78af_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: "${params.save_alignment}",mode: "${params.publish_dir_mode}",path: { "${params.outdir}/samples/${meta.id}/finalbam" },pattern: "*.bam"
+    maxForks 10
     input:
     tuple val(meta), path(bam)
     output:
@@ -17,14 +22,19 @@ process PICARD_ADDORREPLACEREADGROUPS {
     task.ext.when == null || task.ext.when
     script:
     def args = task.ext.args        ?: ''
-    def prefix = task.ext.prefix    ?: "${meta.id}"
+    def prefix = task.ext.prefix    ?: "${meta.id}.reheader"
     def ID = task.ext.id            ?: "id"
     def LIBRARY= task.ext.library   ?: "library"
     def PLATFORM= task.ext.platform ?: "illumina"
     def BARCODE= task.ext.barcode   ?: "barcode"
     def SAMPLE= task.ext.sample     ?: "sample"
     def INDEX= task.ext.index       ?: "index"
-    def avail_mem = 16
+    def avail_mem = 3
+    if (!task.memory) {
+        log.info '[Picard AddOrReplaceReadGroups] Available memory not known - defaulting to 3GB. Specify process memory requirements to change this.'
+    } else {
+        avail_mem = task.memory.giga
+    }
     """
     picard \\
         AddOrReplaceReadGroups \\

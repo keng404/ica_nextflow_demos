@@ -1,12 +1,15 @@
 process VCF_QC {
+	publishDir  path: { "${params.outdir}/qcvcf"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "vcf-qc"
-    container null
+    container 'library/ubuntu:20.04'
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'standard-small'
+    
+cpus 1
+    
+memory '6 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     path(vcffasta)
     output:

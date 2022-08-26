@@ -1,15 +1,18 @@
 process SRATOOLS_PREFETCH {
+	publishDir  path: { "${params.outdir}/prefetchsratools"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$id"
     conda (params.enable_conda ? 'bioconda::sra-tools=2.11.0' : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/sra-tools:2.11.0--pl5262h314213e_0' :
         'quay.io/biocontainers/sra-tools:2.11.0--pl5262h314213e_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     tuple val(meta), val(id)
     output:

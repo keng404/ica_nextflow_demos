@@ -13,7 +13,6 @@ nextflow.enable.dsl = 2
     GENOME PARAMETER VALUES
 ========================================================================================
 */
-params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
 params.input = null
 params.add_sra_file = null
 params.add_vcf_file = null
@@ -41,17 +40,18 @@ params.config_profile_contact = null
 params.config_profile_url = null
 params.config_profile_name = null
 params.max_memory = '6.GB'
-params.max_cpus = "4"
+params.max_cpus = 4
 params.max_time = '240.h'
 params.save_reference = true
 params.save_alignment = true
-params.sample_ploidy = "1"
-params.coverage = "70"
-params.rate = ''
-params.gvcfs_filter = QD"
-params.vcftools_filter = --min_GQ"
-params.max_amb_samples = "10000000"
-params.max_perc_amb_samples = "10"
+params.sample_ploidy = 1
+params.coverage = 70
+params.rate = 1
+params.gvcfs_filter = "QD"
+params.gatkgenotypes_filter = "--min_GQ"
+params.max_amb_samples = 10000000
+params.max_perc_amb_samples = 10
+params.min_depth = 50
 params.publish_dir_mode = 'copy'
 params.rapidnj = true
 params.fasttree = true
@@ -60,7 +60,7 @@ params.raxmlng = false
 params.save_debug = false
 params.mask = true
 params.tmpdir = "$projectDir/tmp"
-params.skip_samples = ""
+params.skip_samples = false
 params.skip_samples_file = null
 params.skip_combined_analysis = false
 params.skip_phylogeny = false
@@ -70,8 +70,6 @@ params.ref_fai = null
 params.ref_bwa = null
 params.ref_dict = null
 params.TMPDIR = "$params.tmpdir"
-params.params.enable_conda = true
-params.params.genomes = "[:]"
 params.genomes = [:]
 params.genomes['GRCh37'] = [:]
 params.genomes['GRCh37'].fasta = "${params.igenomes_base}/Homo_sapiens/Ensembl/GRCh37/Sequence/WholeGenomeFasta/genome.fa"
@@ -452,14 +450,13 @@ params.genomes['susScr3'].gtf = "${params.igenomes_base}/Sus_scrofa/UCSC/susScr3
 params.genomes['susScr3'].bed12 = "${params.igenomes_base}/Sus_scrofa/UCSC/susScr3/Annotation/Genes/genes.bed"
 params.genomes['susScr3'].readme = "${params.igenomes_base}/Sus_scrofa/UCSC/susScr3/Annotation/README.txt"
 params.genomes['susScr3'].mito_name = "chrM"
-params.ext.skip_samples = "params.skip_samples"
-params.ext.skip_samples_file = "params.skip_samples_file"
-params.ext.args = "{"
+
 /*
 ========================================================================================
     VALIDATE & PRINT PARAMETER SUMMARY
 ========================================================================================
 */
+params.fasta = WorkflowMain.getGenomeAttribute(params, 'fasta')
 WorkflowMain.initialise(workflow, params, log)
 /*
 ========================================================================================
@@ -489,14 +486,6 @@ workflow {
     THE END
 ========================================================================================
 */
-workflow.onComplete {
-// copy intermediate files + directories
-println("Getting intermediate files from ICA")
-['cp','-r',"${workflow.workDir}","${workflow.launchDir}/out"].execute()
-// return trace files
-println("Returning workflow run-metric reports from ICA")
-['find','/ces','-type','f','-name','\"*.ica\"','2>','/dev/null', '|', 'grep','"report"' ,'|','xargs','-i','cp','-r','{}',"${workflow.launchDir}/out"].execute()
-}
 workflow.onError {
 // copy intermediate files + directories
 println("Getting intermediate files from ICA")

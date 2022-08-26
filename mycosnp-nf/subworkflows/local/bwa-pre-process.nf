@@ -1,12 +1,14 @@
+process = [:]
+process.ext = [:]
+params.coverage = 70
 /*
 ========================================================================================
     BWA Pre-Process Sub-Workflow
 ========================================================================================
 */
 include { SEQKIT_PAIR                          } from '../../modules/nf-core/modules/seqkit/pair/main'
-include { SEQTK_SAMPLE                         } from '../../modules/nf-core/modules/seqtk/sample/main'
+include { SEQTK_SAMPLE                         } from '../../modules/local/seqtk_sample.nf'
 include { FAQCS                                } from '../../modules/nf-core/modules/faqcs/main'
-include { QC_REPORT                            } from '../../modules/local/qc_report.nf'
 include { BWA_INDEX                            } from '../../modules/nf-core/modules/bwa/index/main'
 include { BWA_MEM                              } from '../../modules/nf-core/modules/bwa/mem/main'
 include { SAMTOOLS_SORT                        } from '../../modules/nf-core/modules/samtools/sort/main'
@@ -22,6 +24,7 @@ include { DOWNSAMPLE_RATE                      } from '../../modules/local/downs
 include { SAMTOOLS_STATS                       } from '../../modules/nf-core/modules/samtools/stats/main'
 include { SAMTOOLS_IDXSTATS                    } from '../../modules/nf-core/modules/samtools/idxstats/main'
 include { SAMTOOLS_FLAGSTAT                    } from '../../modules/nf-core/modules/samtools/flagstat/main'
+include { QC_REPORT                            } from '../../modules/local/qc_report.nf'
 workflow BWA_PREPROCESS {
     take:
     reference //channel: [ tuple reference_fasta, samtools_faidx, bwa_index ]
@@ -31,25 +34,44 @@ workflow BWA_PREPROCESS {
     ch_alignment          = Channel.empty()
     ch_alignment_index    = Channel.empty()
     ch_alignment_combined = Channel.empty()
+    ch_seq_samplerate     = Channel.empty()
     
     SEQKIT_PAIR(reads)
-DOWNSAMPLE_RATE(SEQKIT_PAIR.out.reads, reference[0], params.coverage)
-    SEQTK_SAMPLE(SEQKIT_PAIR.out.reads, DOWNSAMPLE_RATE.out.number_to_sample)
+    DOWNSAMPLE_RATE(SEQKIT_PAIR.out.reads, reference[0], params.coverage, params.rate)
+    ch_seq_samplerate = SEQKIT_PAIR.out.reads.join(DOWNSAMPLE_RATE.out.downsampled_rate.map{ meta, sr, snr -> [ meta, snr]})
+    
+    process.ext.args = "-s12237"
+    SEQTK_SAMPLE(ch_seq_samplerate)
+    process.ext.args = "--debug"
     FAQCS(SEQTK_SAMPLE.out.reads)
-    QC_REPORT(FAQCS.out.txt, reference[0])
     BWA_MEM(FAQCS.out.reads, reference[2], true)
+    process.ext.args = "REMOVE_DUPLICATES=true ASSUME_SORT_ORDER=coordinate VALIDATION_STRINGENCY=LENIENT"
+    // process.ext.prefix = "${meta.id}_markdups"
     PICARD_MARKDUPLICATES(BWA_MEM.out.bam)
+    process.ext.args = "--VALIDATION_STRINGENCY LENIENT"
+    // process.ext.prefix = "${meta.id}_clean"
     PICARD_CLEANSAM(PICARD_MARKDUPLICATES.out.bam)
+    // process.ext.prefix = "${meta.id}_fixmate"
+    process.ext.stringency = "LENIENT"
     PICARD_FIXMATEINFORMATION(PICARD_CLEANSAM.out.bam)
+    //process.ext.prefix = "${meta.id}"
+    //process.ext.sample = "${meta.id}"
     PICARD_ADDORREPLACEREADGROUPS(PICARD_FIXMATEINFORMATION.out.bam)
     SAMTOOLS_INDEX(PICARD_ADDORREPLACEREADGROUPS.out.bam)
     FASTQC_POST(FAQCS.out.reads)
+    //process.ext.args = "${meta.id}"
     QUALIMAP_BAMQC(PICARD_ADDORREPLACEREADGROUPS.out.bam, [], false)
     ch_alignment_combined = PICARD_ADDORREPLACEREADGROUPS.out.bam.join(SAMTOOLS_INDEX.out.bai)
-    
+    //process.ext.prefix = "${meta.id}"
     SAMTOOLS_STATS    ( ch_alignment_combined, reference[0] )
+    //process.ext.prefix = "${meta.id}"
     SAMTOOLS_FLAGSTAT ( ch_alignment_combined )
+    //process.ext.prefix = "${meta.id}"
     SAMTOOLS_IDXSTATS ( ch_alignment_combined )
+    
+    ch_qcreport_input = FAQCS.out.txt.join(QUALIMAP_BAMQC.out.results)
+    ch_qcreport_input.view()
+    QC_REPORT(ch_qcreport_input, reference[0])
     ch_versions            = ch_versions.mix(  SEQKIT_PAIR.out.versions, 
                                                SEQTK_SAMPLE.out.versions, 
                                                FAQCS.out.versions,

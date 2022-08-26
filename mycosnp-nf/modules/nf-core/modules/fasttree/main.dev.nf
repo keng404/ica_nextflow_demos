@@ -1,14 +1,17 @@
 process FASTTREE {
+	publishDir  path: { "${params.outdir}/fasttree"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     conda (params.enable_conda ? "bioconda::fasttree=2.1.10" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/fasttree:2.1.10--h516909a_4' :
         'quay.io/biocontainers/fasttree:2.1.10--h516909a_4' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     path alignment
     output:

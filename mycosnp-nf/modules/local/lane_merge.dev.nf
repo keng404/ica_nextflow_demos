@@ -1,12 +1,15 @@
 process LANE_MERGE {
+	publishDir  path: { "${params.outdir}/mergelane"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
-    container null
+    container 'library/ubuntu:20.04'
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     tuple val(meta), path(reads)
     output:
@@ -18,6 +21,7 @@ process LANE_MERGE {
     {
         fileEnding = "fastq.gz"
     }
+}
     
     """
     echo ${meta.id} $reads

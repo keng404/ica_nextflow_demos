@@ -3,15 +3,19 @@
     VALIDATE INPUTS
 ========================================================================================
 */
+
 def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
+
 // Validate input parameters
 WorkflowMycosnp.initialise(params, log)
+
 // Check input path parameters to see if they exist
 def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
 if (params.skip_samples_file) { // check for skip_samples_file
     checkPathParamList.add(params.skip_samples_file)
 }
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
+
 // Check mandatory parameters
 sra_list = []
 sra_ids = [:]
@@ -45,10 +49,10 @@ if(params.add_sra_file)
 }
 vcf_file_list = []
 vcfidx_file_list = []
-if(params.add_vcf_file)
+if(params.add_vcf_file != null && params.add_vcf_file != "null")
 {
-    vcf_file = file(params.add_vcf_file, checkIfExists: true)
-    allLines  = vcf_file.readLines()
+        vcf_file = file(params.add_vcf_file, checkIfExists: true)
+   allLines  = vcf_file.readLines()
     for( line : allLines ) 
     {
         if(line != "")
@@ -98,6 +102,7 @@ include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/modules/custom/
 include { GATK4_HAPLOTYPECALLER       } from '../modules/nf-core/modules/gatk4/haplotypecaller/main'
 include { GATK4_COMBINEGVCFS          } from '../modules/nf-core/modules/gatk4/combinegvcfs/main'
 include { SEQKIT_REPLACE              } from '../modules/nf-core/modules/seqkit/replace/main'
+include { SNPDISTS                    } from '../modules/nf-core/modules/snpdists/main'
 include { GATK4_LOCALCOMBINEGVCFS     } from '../modules/local/gatk4_localcombinegvcfs.nf'
 /*
 ========================================================================================
@@ -114,7 +119,7 @@ workflow MYCOSNP {
     ch_all_reads = Channel.empty()
     ch_sra_reads = Channel.empty()
     ch_sra_list  = Channel.empty()
-    if(params.add_sra_file)
+    if(params.add_sra_file != null)
     {   
         ch_sra_list = Channel.fromList(sra_list)
                              .map{valid -> [ ['id':sra_ids[valid],single_end:false], valid ]}
@@ -237,6 +242,8 @@ workflow MYCOSNP {
         snps_fasta   channel: [ val(meta), fasta ]
 ========================================================================================
 */
+    //process.ext.args = "-ERC GVCF --sample-ploidy \"${params.sample_ploidy}\" "
+    //process.ext.prefix = "${meta.id}.g"
     GATK4_HAPLOTYPECALLER(  BWA_PREPROCESS.out.alignment_combined.map{meta, bam, bai            -> [ meta, bam, bai, [] ] },
                             fas_file,
                             fai_file,
@@ -287,7 +294,11 @@ workflow MYCOSNP {
         versions          = ch_versions 
 ========================================================================================
 */
+    //process.ext.args =  "-s -p '\\*' -r '-'"
+    //process.ext.suffix = "fasta"
+    //process.ext.prefix = "vcf-to-fasta"
         SEQKIT_REPLACE(GATK_VARIANTS.out.snps_fasta) // Swap * for -
+        SNPDISTS(SEQKIT_REPLACE.out.fastx)
         if(! params.skip_phylogeny) {
             CREATE_PHYLOGENY(SEQKIT_REPLACE.out.fastx.map{meta, fas->[fas]}, '')
         }
@@ -331,13 +342,31 @@ workflow MYCOSNP {
 ========================================================================================
 */
 workflow.onComplete {
-    if (params.email || params.email_on_fail) {
-        NfcoreTemplate.email(workflow, params, summary_params, projectDir, log, multiqc_report)
-    }
-    NfcoreTemplate.summary(workflow, params, log)
+    //if (params.email || params.email_on_fail) {
+    //    NfcoreTemplate.email(workflow, params, summary_params, projectDir, log, multiqc_report)
+    //}
+    //NfcoreTemplate.summary(workflow, params, log)
+    // copy intermediate files + directories
+    println("Getting intermediate files from ICA")
+    ['cp','-r',"${workflow.workDir}","${workflow.launchDir}/out"].execute()
+    // return trace files
+    println("Returning workflow run-metric reports from ICA")
+    ['find','/ces','-type','f','-name','\"*.ica\"','2>','/dev/null', '|', 'grep','"report"' ,'|','xargs','-i','cp','-r','{}',"${workflow.launchDir}/out"].execute()
 }
 /*
 ========================================================================================
     THE END
 ========================================================================================
 */
+workflow.onError {
+    //if (params.email || params.email_on_fail) {
+    //    NfcoreTemplate.email(workflow, params, summary_params, projectDir, log, multiqc_report)
+    //}
+    //NfcoreTemplate.summary(workflow, params, log)
+    // copy intermediate files + directories
+    println("Getting intermediate files from ICA")
+    ['cp','-r',"${workflow.workDir}","${workflow.launchDir}/out"].execute()
+    // return trace files
+    println("Returning workflow run-metric reports from ICA")
+    ['find','/ces','-type','f','-name','\"*.ica\"','2>','/dev/null', '|', 'grep','"report"' ,'|','xargs','-i','cp','-r','{}',"${workflow.launchDir}/out"].execute()
+}

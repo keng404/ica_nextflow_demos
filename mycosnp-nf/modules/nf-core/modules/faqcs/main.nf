@@ -1,13 +1,18 @@
 process FAQCS {
+	publishDir  path: { "${params.outdir}/faqcs"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::faqcs=2.10" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/faqcs%3A2.10--r41h9a82719_2' :
         'quay.io/biocontainers/faqcs:2.10--r41h9a82719_2' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: "${params.save_alignment}",mode: "${params.publish_dir_mode}",path: { "${params.outdir}/samples/${meta.id}/faqcs" },pattern: "*.{fastq.gz,txt}"
+    maxForks 10
     input:
     tuple val(meta), path(reads)
     output:
@@ -22,7 +27,7 @@ process FAQCS {
     when:
     task.ext.when == null || task.ext.when
     script:
-    def args = "--debug"
+    def args = task.ext.args ?: '--debug'
     // Added soft-links to original fastqs for consistent naming in MultiQC
     def prefix = task.ext.prefix ?: "${meta.id}"
     if (meta.single_end) {

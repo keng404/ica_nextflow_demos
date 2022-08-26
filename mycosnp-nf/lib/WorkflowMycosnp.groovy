@@ -33,10 +33,10 @@ class WorkflowMycosnp {
             }
         }
 
-        String yaml_file_text  = "id: 'cdcgov-mycosnp-nf-summary'\n"
+        String yaml_file_text  = "id: 'mycosnp-nf-summary'\n"
         yaml_file_text        += "description: ' - this information is collected when the pipeline is started.'\n"
-        yaml_file_text        += "section_name: 'cdcgov-mycosnp-nf Workflow Summary'\n"
-        yaml_file_text        += "section_href: 'https://github.com/cdcgov/mycosnp-nf'\n"
+        yaml_file_text        += "section_name: 'mycosnp-nf- Workflow Summary'\n"
+        yaml_file_text        += "section_href: 'https://github.com/CDCgov/mycosnp-nf'\n"
         yaml_file_text        += "plot_type: 'html'\n"
         yaml_file_text        += "data: |\n"
         yaml_file_text        += "${summary_section}"
@@ -47,13 +47,15 @@ class WorkflowMycosnp {
     // Exit pipeline if incorrect --genome key provided
     //
     private static void genomeExistsError(params, log) {
-        if (params.genomes && params.genome && !params.genomes.containsKey(params.genome)) {
-            log.error "=============================================================================\n" +
-                "  Genome '${params.genome}' not found in any config files provided to the pipeline.\n" +
-                "  Currently, the available genome keys are:\n" +
-                "  ${params.genomes.keySet().join(", ")}\n" +
-                "==================================================================================="
-            System.exit(1)
+        if(!params.igenomes_ignore || params.fasta == null){
+            if (params.genomes && params.genome && !params.genomes.containsKey(params.genome)) {
+                log.error "=============================================================================\n" +
+                    "  Genome '${params.genome}' not found in any config files provided to the pipeline.\n" +
+                    "  Currently, the available genome keys are:\n" +
+                    "  ${params.genomes.keySet().join(", ")}\n" +
+                    "==================================================================================="
+                System.exit(1)
+            }
         }
     }
 }

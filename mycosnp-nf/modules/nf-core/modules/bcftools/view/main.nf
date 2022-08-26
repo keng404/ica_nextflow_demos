@@ -1,13 +1,18 @@
 process BCFTOOLS_VIEW {
+	publishDir  path: { "${params.outdir}/viewbcftools"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? 'bioconda::bcftools=1.14' : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/bcftools:1.14--h88f3f91_0' :
         'quay.io/biocontainers/bcftools:1.14--h88f3f91_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: true,mode: "${params.publish_dir_mode}",path: { "${params.outdir}/combined/finalfiltered" },pattern: "*{vcf.gz,vcf.gz.tbi}"
+    maxForks 10
     input:
     tuple val(meta), path(vcf), path(index)
     path(regions)
@@ -19,8 +24,8 @@ process BCFTOOLS_VIEW {
     when:
     task.ext.when == null || task.ext.when
     script:
-    def args = "-Oz"
-    def prefix = "finalfiltered"
+    def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}.converted"
     def regions_file  = regions ? "--regions-file ${regions}" : ""
     def targets_file = targets ? "--targets-file ${targets}" : ""
     def samples_file =  samples ? "--samples-file ${samples}" : ""
@@ -31,7 +36,7 @@ process BCFTOOLS_VIEW {
         ${targets_file} \\
         ${samples_file} \\
         $args \\
-        --threads 12 \\
+        --threads $task.cpus \\
         ${vcf}
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

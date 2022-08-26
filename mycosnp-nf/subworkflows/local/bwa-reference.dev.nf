@@ -10,13 +10,15 @@ include { BWA_INDEX                       } from '../../modules/nf-core/modules/
 include { PICARD_CREATESEQUENCEDICTIONARY } from '../../modules/nf-core/modules/picard/createsequencedictionary/main'
 include { SAMTOOLS_FAIDX                  } from '../../modules/nf-core/modules/samtools/faidx/main'
 process INPUT_PROC {
-    container null
+    container 'library/ubuntu:20.04'
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    maxForks 10
     input:
     path(fasta)
     output:
@@ -30,6 +32,7 @@ process INPUT_PROC {
     {
         is_compressed = true
     }
+}
     """
     echo ${meta.id}
     if [[ ${is_compressed} == "true" ]]; then

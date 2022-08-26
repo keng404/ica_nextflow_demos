@@ -1,13 +1,18 @@
 process BWA_INDEX {
+	publishDir  path: { "${params.outdir}/indexbwa"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$fasta"
     conda (params.enable_conda ? "bioconda::bwa=0.7.17" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/bwa:0.7.17--hed695b0_7' :
         'quay.io/biocontainers/bwa:0.7.17--hed695b0_7' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: "${params.save_reference}",mode: "${params.publish_dir_mode}",path: { "${params.outdir}/reference/bwa" },pattern: "bwa"
+    maxForks 10
     input:
     path fasta
     output:

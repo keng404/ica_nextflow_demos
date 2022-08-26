@@ -1,13 +1,18 @@
 process GATK4_GENOTYPEGVCFS {
+	publishDir  path: { "${params.outdir}/gatk"}, mode: "copy", saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::gatk4=4.2.4.1" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/gatk4:4.2.4.1--hdfd78af_0' :
         'quay.io/biocontainers/gatk4:4.2.4.1--hdfd78af_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
+    
+cpus 6
+    
+memory '48 GB'
     errorStrategy 'ignore'
     time '1day'
-    publishDir  enabled: true,mode: "${params.publish_dir_mode}",path: { "${params.outdir}/combined/genotypegvcfs" },pattern: "*{vcf.gz,vcf.gz.tbi}"
+    maxForks 10
     input:
     tuple val(meta), path(gvcf), path(gvcf_index), path(intervals)
     path  fasta
@@ -23,11 +28,16 @@ process GATK4_GENOTYPEGVCFS {
     task.ext.when == null || task.ext.when
     script:
     def args = task.ext.args ?: ''
-    def prefix = "combined_genotype"
+    def prefix = task.ext.prefix ?: "${meta.id}"
     def dbsnp_options    = dbsnp ? "-D ${dbsnp}" : ""
     def interval_options = intervals ? "-L ${intervals}" : ""
     def gvcf_options     = gvcf.name.endsWith(".vcf") || gvcf.name.endsWith(".vcf.gz") ? "$gvcf" : "gendb://$gvcf"
-    def avail_mem = 16
+    def avail_mem = 3
+    if (!task.memory) {
+        log.info '[GATK GenotypeGVCFs] Available memory not known - defaulting to 3GB. Specify process memory requirements to change this.'
+    } else {
+        avail_mem = task.memory.giga
+    }
     """
     gatk --java-options "-Xmx${avail_mem}g" \\
         GenotypeGVCFs \\
