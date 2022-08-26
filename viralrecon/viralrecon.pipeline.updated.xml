@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pd:pipeline xmlns:pd="xsd://www.illumina.com/ica/cp/pipelinedefinition" code="viralrecon pipeline" version="1.0">
+    <pd:dataInputs>
+        <pd:dataInput code="project_dir" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="true">
+            <pd:label>project_dir</pd:label>
+            <pd:description>directory with additional files/input to run pipeline --- other files in your github project</pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="input_files" format="UNKNOWN" type="FILE" required="true" multiValue="true">
+            <pd:label>input_files</pd:label>
+            <pd:description> additional files/input to run pipeline --- other files in your github project</pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="kraken2_db_file" format="TAR" type="FILE" required="true" multiValue="false">
+            <pd:label>kraken2_db_file</pd:label>
+            <pd:description>TAR file that contains Kraken2 DB files</pd:description>
+        </pd:dataInput>
+    </pd:dataInputs>
+    <pd:steps>
+        <pd:step execution="MANDATORY" code="input_output_options">
+            <pd:label>input_output_options</pd:label>
+            <pd:description>input_output_options parameters</pd:description>
+            <pd:tool code="input_output_options parameters">
+                <pd:label>input_output_options</pd:label>
+                <pd:description>input_output_options parameters</pd:description>
+                <pd:parameter code="input" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>input</pd:label>
+                    <pd:description>Path to comma-separated file containing information about the samples you would like to analyse.
+You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/viralrecon/docs/usage#introduction).</pd:description>
+                    <pd:stringType/>
+                    <pd:value>null</pd:value>
+                </pd:parameter>
+                <pd:parameter code="platform" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>platform</pd:label>
+                    <pd:description>NGS platform used to sequence the samples.</pd:description>
+                    <pd:optionsType>
+                        <pd:option>illumina</pd:option>
+                        <pd:option>nanopore</pd:option>
+                    </pd:optionsType>
+                    <pd:value>illumina</pd:value>
+                </pd:parameter>
+                <pd:parameter code="protocol" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>protocol</pd:label>
+                    <pd:description>Specifies the type of protocol used for sequencing.</pd:description>
+                    <pd:optionsType>
+                        <pd:option>metagenomic</pd:option>
+                        <pd:option>amplicon</pd:option>
+                    </pd:optionsType>
+                    <pd:value>amplicon</pd:value>
+                </pd:parameter>
+                <pd:parameter code="genome" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>genome</pd:label>
+                    <pd:description>Specifies the type of protocol used for sequencing.</pd:description>
+                    <pd:optionsType>
+                        <pd:option>NC_045512.2</pd:option>
+                        <pd:option>MN908947.3</pd:option>
+                    </pd:optionsType>
+                    <pd:value>MN908947.3</pd:value>
+                </pd:parameter>
+                <pd:parameter code="outdir" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>outdir</pd:label>
+                    <pd:description>The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.</pd:description>
+                    <pd:stringType/>
+                    <pd:value>./out</pd:value>
+                </pd:parameter>
+                <pd:parameter code="email" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>email</pd:label>
+                    <pd:description>Email address for completion summary.
+Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (~/.nextflow/config) then you don't need to specify this on the command line for every run.</pd:description>
+                    <pd:stringType/>
+                    <pd:value>null</pd:value>
+                </pd:parameter>
+            </pd:tool>
+        </pd:step>
+    </pd:steps>
+</pd:pipeline>

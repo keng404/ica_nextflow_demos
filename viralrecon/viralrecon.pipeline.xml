@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pipeline code="viralrecon pipeline" version="1.0" xmlns="xsd://www.illumina.com/ica/cp/pipelinedefinition">
+  <dataInputs/>
+  <steps>
+    <step execution="MANDATORY" code="input_output_options">
+      <label>input_output_options</label>
+      <description>input_output_options parameters</description>
+      <tool code="input_output_options parameters">
+        <label>input_output_options</label>
+        <description>input_output_options parameters</description>
+        <parameter code="input" minValues="1" maxValues="1" classification="USER">
+          <label>input</label>
+          <description>Path to comma-separated file containing information about the samples you would like to analyse.
+You will need to create a samplesheet with information about the samples you would like to analyse before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/viralrecon/docs/usage#introduction).</description>
+          <stringType/>
+          <value>null</value>
+        </parameter>
+        <parameter code="platform" minValues="1" maxValues="1" classification="USER">
+          <label>platform</label>
+          <description>NGS platform used to sequence the samples.</description>
+          <optionsType>
+            <option>illumina</option>
+            <option>nanopore</option>
+          </optionsType>
+          <value>null</value>
+        </parameter>
+        <parameter code="protocol" minValues="1" maxValues="1" classification="USER">
+          <label>protocol</label>
+          <description>Specifies the type of protocol used for sequencing.</description>
+          <optionsType>
+            <option>metagenomic</option>
+            <option>amplicon</option>
+          </optionsType>
+          <value>null</value>
+        </parameter>
+        <parameter code="outdir" minValues="1" maxValues="1" classification="USER">
+          <label>outdir</label>
+          <description>The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.</description>
+          <stringType/>
+          <value>null</value>
+        </parameter>
+        <parameter code="email" minValues="1" maxValues="1" classification="USER">
+          <label>email</label>
+          <description>Email address for completion summary.
+Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (~/.nextflow/config) then you don't need to specify this on the command line for every run.</description>
+          <stringType/>
+          <value>null</value>
+        </parameter>
+      </tool>
+    </step>
+  </steps>
+</pipeline>
