@@ -44,6 +44,12 @@ You will need to create a text file with a list of vcf files generated from prev
           <stringType/>
           <value>./results</value>
         </parameter>
+        <parameter code="igenomes_ignore" minValues="1" maxValues="1" classification="USER">
+          <label>igenomes_ignore</label>
+          <description>Setting to ignore igenomes.</description>
+          <booleanType/>
+          <value>true</value>
+        </parameter>
         <parameter code="email" minValues="1" maxValues="1" classification="USER">
           <label>email</label>
           <description>Email address for completion summary.
