@@ -1,82 +1,86 @@
-<?xml version="1.0" encoding="utf-8"?>
-<pipeline xmlns="xsd://www.illumina.com/ica/cp/pipelinedefinition" code="mycosnp-nf pipeline" version="1.0">
-  <dataInputs>
-    <dataInput code="project_dir" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="true">
-      <label>project_dir</label>
-      <description>directory with additional files/input to run pipeline --- other files in your github project</description>
-    </dataInput>
-    <dataInput code="input_files" format="UNKNOWN" type="FILE" required="true" multiValue="true">
-      <label>input_files</label>
-      <description>additional files/input to run pipeline --- other files in your github project</description>
-    </dataInput>
-  </dataInputs>
-  <steps>
-    <step execution="MANDATORY" code="input_output_options">
-      <label>input_output_options</label>
-      <description>input_output_options parameters</description>
-      <tool code="input_output_options parameters">
-        <label>input_output_options</label>
-        <description>input_output_options parameters</description>
-        <parameter code="input" minValues="1" maxValues="1" classification="USER">
-          <label>input</label>
-          <description>Path to comma-separated file containing information about the samples in the experiment.
-You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://github.com/CDCgov/mycosnp-nf/blob/master/docs/usage.md#samplesheet-input).</description>
-          <stringType/>
-          <value>null</value>
-        </parameter>
-        <parameter code="add_sra_file" minValues="1" maxValues="1" classification="USER">
-          <label>add_sra_file</label>
-          <description>Path to comma-separated file containing SRA ids to download from NCBI. Format: Name,SRAID
-You will need to create a csv file with information about the sra samples you want to add. Use this parameter to specify its location. It has to be a comma-separated file with 1 or 2 columns. See [usage docs](https://github.com/CDCgov/mycosnp-nf/blob/master/docs/usage.md).</description>
-          <stringType/>
-          <value>null</value>
-        </parameter>
-        <parameter code="add_vcf_file" minValues="1" maxValues="1" classification="USER">
-          <label>add_vcf_file</label>
-          <description>Path to text file containing a list of file paths to vcf files generated from previous runs of this workflow to include in this analysis. They must use the same exact reference. -.tbi file must be in same location. Text file with list in Format: /path/to/vcf/file.gz
-You will need to create a text file with a list of vcf files generated from previous runs of this workflow. One vcf file per line and the tbi file must be in the same location. See [usage docs](https://github.com/CDCgov/mycosnp-nf/blob/master/docs/usage.md).</description>
-          <stringType/>
-          <value>null</value>
-        </parameter>
-        <parameter code="outdir" minValues="1" maxValues="1" classification="USER">
-          <label>outdir</label>
-          <description>Path to the output directory where the results will be saved.</description>
-          <stringType/>
-          <value>./results</value>
-        </parameter>
-        <parameter code="igenomes_ignore" minValues="1" maxValues="1" classification="USER">
-          <label>igenomes_ignore</label>
-          <description>Setting to ignore igenomes.</description>
-          <booleanType/>
-          <value>true</value>
-        </parameter>
-        <parameter code="email" minValues="1" maxValues="1" classification="USER">
-          <label>email</label>
-          <description>Email address for completion summary.
-Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (~/.nextflow/config) then you don't need to specify this on the command line for every run.</description>
-          <stringType/>
-          <value>null</value>
-        </parameter>
-        <parameter code="multiqc_title" minValues="1" maxValues="1" classification="USER">
-          <label>multiqc_title</label>
-          <description>MultiQC report title. Printed as page header, used for filename if not otherwise specified.</description>
-          <stringType/>
-          <value>null</value>
-        </parameter>
-        <parameter code="publish_dir_mode" minValues="1" maxValues="1" classification="USER">
-          <label>publish_dir_mode</label>
-          <description>Method used to save pipeline results to output directory.</description>
-          <optionsType>
-            <option>symlink</option>
-            <option>rellink</option>
-            <option>link</option>
-            <option>copy</option>
-            <option>copyNoFollow</option>
-            <option>move</option>
-          </optionsType>
-          <value>copy</value>
-        </parameter>
-      </tool>
-    </step>
-  </steps>
-</pipeline>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pd:pipeline xmlns:pd="xsd://www.illumina.com/ica/cp/pipelinedefinition" code="mycosnp-nf pipeline" version="1.0">
+    <pd:dataInputs>
+        <pd:dataInput code="project_dir" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="true">
+            <pd:label>project_dir</pd:label>
+            <pd:description>directory with additional files/input to run pipeline --- other files in your github project</pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="input_files" format="UNKNOWN" type="FILE" required="true" multiValue="true">
+            <pd:label>input_files</pd:label>
+            <pd:description>additional files/input to run pipeline --- other files in your github project</pd:description>
+        </pd:dataInput>
+        <pd:dataInput code="fasta" format="FASTA" type="FILE" required="true" multiValue="false">
+            <pd:label>fasta</pd:label>
+            <pd:description>input fasta file--- other files in your github project</pd:description>
+        </pd:dataInput>
+    </pd:dataInputs>
+    <pd:steps>
+        <pd:step execution="MANDATORY" code="input_output_options">
+            <pd:label>input_output_options</pd:label>
+            <pd:description>input_output_options parameters</pd:description>
+            <pd:tool code="input_output_options parameters">
+                <pd:label>input_output_options</pd:label>
+                <pd:description>input_output_options parameters</pd:description>
+                <pd:parameter code="input" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>input</pd:label>
+                    <pd:description>Path to comma-separated file containing information about the samples in the experiment.
+You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://github.com/CDCgov/mycosnp-nf/blob/master/docs/usage.md#samplesheet-input).</pd:description>
+                    <pd:stringType/>
+                    <pd:value>null</pd:value>
+                </pd:parameter>
+                <pd:parameter code="add_sra_file" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>add_sra_file</pd:label>
+                    <pd:description>Path to comma-separated file containing SRA ids to download from NCBI. Format: Name,SRAID
+You will need to create a csv file with information about the sra samples you want to add. Use this parameter to specify its location. It has to be a comma-separated file with 1 or 2 columns. See [usage docs](https://github.com/CDCgov/mycosnp-nf/blob/master/docs/usage.md).</pd:description>
+                    <pd:stringType/>
+                    <pd:value>null</pd:value>
+                </pd:parameter>
+                <pd:parameter code="add_vcf_file" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>add_vcf_file</pd:label>
+                    <pd:description>Path to text file containing a list of file paths to vcf files generated from previous runs of this workflow to include in this analysis. They must use the same exact reference. -.tbi file must be in same location. Text file with list in Format: /path/to/vcf/file.gz
+You will need to create a text file with a list of vcf files generated from previous runs of this workflow. One vcf file per line and the tbi file must be in the same location. See [usage docs](https://github.com/CDCgov/mycosnp-nf/blob/master/docs/usage.md).</pd:description>
+                    <pd:stringType/>
+                    <pd:value>null</pd:value>
+                </pd:parameter>
+                <pd:parameter code="outdir" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>outdir</pd:label>
+                    <pd:description>Path to the output directory where the results will be saved.</pd:description>
+                    <pd:stringType/>
+                    <pd:value>./results</pd:value>
+                </pd:parameter>
+                <pd:parameter code="email" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>email</pd:label>
+                    <pd:description>Email address for completion summary.
+Set this parameter to your e-mail address to get a summary e-mail with details of the run sent to you when the workflow exits. If set in your user config file (~/.nextflow/config) then you don't need to specify this on the command line for every run.</pd:description>
+                    <pd:stringType/>
+                    <pd:value>null</pd:value>
+                </pd:parameter>
+                <pd:parameter code="multiqc_title" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>multiqc_title</pd:label>
+                    <pd:description>MultiQC report title. Printed as page header, used for filename if not otherwise specified.</pd:description>
+                    <pd:stringType/>
+                    <pd:value>null</pd:value>
+                </pd:parameter>
+                <pd:parameter code="igenomes_ignore" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>igenomes_ignore</pd:label>
+                    <pd:description>Setting to ignore igenomes.</pd:description>
+                    <pd:booleanType/>
+                    <pd:value>true</pd:value>
+                </pd:parameter>
+                <pd:parameter code="publish_dir_mode" minValues="1" maxValues="1" classification="USER">
+                    <pd:label>publish_dir_mode</pd:label>
+                    <pd:description>Method used to save pipeline results to output directory.</pd:description>
+                    <pd:optionsType>
+                        <pd:option>symlink</pd:option>
+                        <pd:option>rellink</pd:option>
+                        <pd:option>link</pd:option>
+                        <pd:option>copy</pd:option>
+                        <pd:option>copyNoFollow</pd:option>
+                        <pd:option>move</pd:option>
+                    </pd:optionsType>
+                    <pd:value>copy</pd:value>
+                </pd:parameter>
+            </pd:tool>
+        </pd:step>
+    </pd:steps>
+</pd:pipeline>
