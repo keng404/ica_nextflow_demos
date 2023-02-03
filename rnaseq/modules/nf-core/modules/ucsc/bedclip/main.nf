@@ -8,19 +8,8 @@ process UCSC_BEDCLIP {
         'quay.io/biocontainers/ucsc-bedclip:377--h0b8a92a_2' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    cpus 16
+    memory '30 GB'
     input:
     tuple val(meta), path(bedgraph)
     path  sizes

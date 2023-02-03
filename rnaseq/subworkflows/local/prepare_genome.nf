@@ -1,7 +1,4 @@
 //
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 // Uncompress and prepare reference genome files
 //
 include { GUNZIP as GUNZIP_FASTA            } from '../../modules/nf-core/modules/gunzip/main'
@@ -73,13 +70,6 @@ workflow PREPARE_GENOME {
         } else {
             ch_add_fasta = file(params.additional_fasta)
         }
-params.outdir_custom = "${params.outdir}/fasta/additional/cat"
-params.outdir_custom = "${params.outdir}/fasta/additional/cat"
-publishDir =  path: { "${params.outdir}/genome" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }, enabled: params.save_reference
-params.outdir_custom = "${params.outdir}/fasta/additional/cat"
-publishDir =  path: { "${params.outdir}/genome" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }, enabled: params.save_reference
-params.outdir_custom = "${params.outdir}/fasta/additional/cat"
-publishDir =  path: { "${params.outdir}/genome" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }, enabled: params.save_reference
         CAT_ADDITIONAL_FASTA ( ch_fasta, ch_gtf, ch_add_fasta, biotype )
         ch_fasta    = CAT_ADDITIONAL_FASTA.out.fasta
         ch_gtf      = CAT_ADDITIONAL_FASTA.out.gtf
@@ -118,13 +108,6 @@ publishDir =  path: { "${params.outdir}/genome" }, mode: params.publish_dir_mode
     //
     // Create chromosome sizes file
     //
-params.outdir_custom = "${params.outdir}/getchromsizes/custom"
-params.outdir_custom = "${params.outdir}/getchromsizes/custom"
-publishDir =  path: { "${params.outdir}/genome" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }, enabled: params.save_reference
-params.outdir_custom = "${params.outdir}/getchromsizes/custom"
-publishDir =  path: { "${params.outdir}/genome" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }, enabled: params.save_reference
-params.outdir_custom = "${params.outdir}/getchromsizes/custom"
-publishDir =  path: { "${params.outdir}/genome" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }, enabled: params.save_reference
     CUSTOM_GETCHROMSIZES ( ch_fasta )
     ch_fai         = CUSTOM_GETCHROMSIZES.out.fai
     ch_chrom_sizes = CUSTOM_GETCHROMSIZES.out.sizes

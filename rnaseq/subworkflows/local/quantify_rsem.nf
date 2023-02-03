@@ -1,9 +1,4 @@
 //
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 // Gene/transcript quantification with RSEM
 //
 include { RSEM_CALCULATEEXPRESSION } from '../../modules/nf-core/modules/rsem/calculateexpression/main'
@@ -18,28 +13,16 @@ workflow QUANTIFY_RSEM {
     //
     // Quantify reads with RSEM
     //
-params.outdir_custom = "${params.outdir}/calculateexpression/rsem"
-params.outdir_custom = "${params.outdir}/calculateexpression/rsem"
-params.outdir_custom = "${params.outdir}/calculateexpression/rsem"
-params.outdir_custom = "${params.outdir}/calculateexpression/rsem"
     RSEM_CALCULATEEXPRESSION ( reads, index )
     ch_versions = ch_versions.mix(RSEM_CALCULATEEXPRESSION.out.versions.first())
     //
     // Sort, index BAM file and run samtools stats, flagstat and idxstats
     //
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
     BAM_SORT_SAMTOOLS ( RSEM_CALCULATEEXPRESSION.out.bam_star )
     ch_versions = ch_versions.mix(BAM_SORT_SAMTOOLS.out.versions)
     //
     // Merge counts across samples
     //
-params.outdir_custom = "${params.outdir}/counts/merge/rsem"
-params.outdir_custom = "${params.outdir}/counts/merge/rsem"
-params.outdir_custom = "${params.outdir}/counts/merge/rsem"
-params.outdir_custom = "${params.outdir}/counts/merge/rsem"
     RSEM_MERGE_COUNTS (
         RSEM_CALCULATEEXPRESSION.out.counts_gene.collect{it[1]},       // [meta, counts]: Collect the second element (counts files) in the channel across all samples
         RSEM_CALCULATEEXPRESSION.out.counts_transcript.collect{it[1]}

@@ -1,21 +1,4 @@
 //
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 // Sort, index BAM file and run samtools stats, flagstat and idxstats
 //
 include { SAMTOOLS_SORT      } from '../../modules/nf-core/modules/samtools/sort/main'
@@ -26,16 +9,8 @@ workflow BAM_SORT_SAMTOOLS {
     ch_bam // channel: [ val(meta), [ bam ] ]
     main:
     ch_versions = Channel.empty()
-params.outdir_custom = "${params.outdir}/sort/samtools"
-params.outdir_custom = "${params.outdir}/sort/samtools"
-params.outdir_custom = "${params.outdir}/sort/samtools"
-params.outdir_custom = "${params.outdir}/sort/samtools"
     SAMTOOLS_SORT ( ch_bam )
     ch_versions = ch_versions.mix(SAMTOOLS_SORT.out.versions.first())
-params.outdir_custom = "${params.outdir}/index/samtools"
-params.outdir_custom = "${params.outdir}/index/samtools"
-params.outdir_custom = "${params.outdir}/index/samtools"
-params.outdir_custom = "${params.outdir}/index/samtools"
     SAMTOOLS_INDEX ( SAMTOOLS_SORT.out.bam )
     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
     SAMTOOLS_SORT.out.bam
@@ -50,10 +25,6 @@ params.outdir_custom = "${params.outdir}/index/samtools"
                 }
         }
         .set { ch_bam_bai }
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
     BAM_STATS_SAMTOOLS ( ch_bam_bai )
     ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
     emit:

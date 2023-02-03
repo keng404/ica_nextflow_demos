@@ -8,19 +8,8 @@ process DESEQ2_QC {
         'quay.io/biocontainers/mulled-v2-8849acf39a43cdd6c839a369a74c0adc823e2f91:ab110436faf952a33575c64dd74615a84011450b-0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    cpus 16
+    memory '30 GB'
     input:
     path counts
     path pca_header_multiqc
@@ -43,7 +32,7 @@ process DESEQ2_QC {
     def label_lower = args2.toLowerCase()
     def label_upper = args2.toUpperCase()
     """
-    deseq2_qc.r \\
+    Rscript ${workflow.launchDir}/bin/deseq2_qc.r \\
         --count_file $counts \\
         --outdir ./ \\
         --cores $task.cpus \\

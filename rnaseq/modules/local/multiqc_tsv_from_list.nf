@@ -1,22 +1,10 @@
 process MULTIQC_TSV_FROM_LIST {
     publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    executor 'local'
-    container library/ubuntu:20.04
+    exectutor 'local'
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    cpus 16
+    memory '30 GB'
     input:
     val tsv_data   // [ ['foo', 1], ['bar', 1] ]
     val header     // [ 'name', 'number' ]

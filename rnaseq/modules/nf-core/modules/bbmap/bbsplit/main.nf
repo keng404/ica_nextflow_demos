@@ -6,19 +6,8 @@ process BBMAP_BBSPLIT {
         'quay.io/biocontainers/bbmap:38.93--he522d1c_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    cpus 16
+    memory '30 GB'
     input:
     tuple val(meta), path(reads)
     path  index
@@ -46,11 +35,6 @@ process BBMAP_BBSPLIT {
     other_ref_names.eachWithIndex { name, index ->
         other_refs << "ref_${name}=${other_ref_paths[index]}"
     }
-}
-}
-}
-}
-}
     if (only_build_index) {
         if (primary_ref && other_ref_names && other_ref_paths) {
             """

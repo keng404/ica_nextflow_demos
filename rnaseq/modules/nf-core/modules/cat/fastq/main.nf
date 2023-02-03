@@ -7,19 +7,8 @@ process CAT_FASTQ {
         'biocontainers/biocontainers:v1.2.0_cv1' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    cpus 16
+    memory '30 GB'
     input:
     tuple val(meta), path(reads, stageAs: "input*/*")
     output:
@@ -41,11 +30,6 @@ process CAT_FASTQ {
             END_VERSIONS
             """
         }
-}
-}
-}
-}
-}
     } else {
         if (readList.size > 2) {
             def read1 = []

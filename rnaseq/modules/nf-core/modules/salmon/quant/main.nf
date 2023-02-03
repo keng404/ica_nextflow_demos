@@ -7,19 +7,8 @@ process SALMON_QUANT {
         'quay.io/biocontainers/salmon:1.5.2--h84f40af_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    cpus 16
+    memory '30 GB'
     input:
     tuple val(meta), path(reads)
     path  index
@@ -62,11 +51,6 @@ process SALMON_QUANT {
             strandedness = meta.single_end ? 'SR' : 'ISR'
         }
     }
-}
-}
-}
-}
-}
     """
     salmon quant \\
         --geneMap $gtf \\

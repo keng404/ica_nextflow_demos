@@ -1,9 +1,4 @@
 //
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 // Read QC, UMI extraction and trimming
 //
 include { FASTQC           } from '../../modules/nf-core/modules/fastqc/main'
@@ -21,10 +16,6 @@ workflow FASTQC_UMITOOLS_TRIMGALORE {
     fastqc_html = Channel.empty()
     fastqc_zip  = Channel.empty()
     if (!skip_fastqc) {
-params.outdir_custom = "${params.outdir}/fastqc"
-params.outdir_custom = "${params.outdir}/fastqc"
-params.outdir_custom = "${params.outdir}/fastqc"
-params.outdir_custom = "${params.outdir}/fastqc"
         FASTQC ( reads ).html.set { fastqc_html }
         fastqc_zip  = FASTQC.out.zip
         ch_versions = ch_versions.mix(FASTQC.out.versions.first())
@@ -55,10 +46,6 @@ params.outdir_custom = "${params.outdir}/fastqc"
     trim_zip   = Channel.empty()
     trim_log   = Channel.empty()
     if (!skip_trimming) {
-params.outdir_custom = "${params.outdir}/trimgalore"
-params.outdir_custom = "${params.outdir}/trimgalore"
-params.outdir_custom = "${params.outdir}/trimgalore"
-params.outdir_custom = "${params.outdir}/trimgalore"
         TRIMGALORE ( umi_reads ).reads.set { trim_reads }
         trim_html   = TRIMGALORE.out.html
         trim_zip    = TRIMGALORE.out.zip

@@ -7,20 +7,8 @@ process CAT_ADDITIONAL_FASTA {
         'quay.io/biocontainers/python:3.9--1' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    input:
+    cpus 16
+    memory '30 GB'
     path fasta
     path gtf
     path add_fasta
@@ -37,7 +25,7 @@ process CAT_ADDITIONAL_FASTA {
     def add_name     = add_fasta.getBaseName()
     name             = "${genome_name}_${add_name}"
     """
-    fasta2gtf.py \\
+    python ${workflow.launchDir}/bin/fasta2gtf.py \\
         -o ${add_fasta.baseName}.gtf \\
         $biotype_name \\
         $add_fasta

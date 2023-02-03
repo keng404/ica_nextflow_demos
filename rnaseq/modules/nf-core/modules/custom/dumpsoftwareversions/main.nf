@@ -7,19 +7,8 @@ process CUSTOM_DUMPSOFTWAREVERSIONS {
         'quay.io/biocontainers/multiqc:1.11--pyhdfd78af_0' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    cpus 16
+    memory '30 GB'
     input:
     path versions
     output:
@@ -30,5 +19,7 @@ process CUSTOM_DUMPSOFTWAREVERSIONS {
     task.ext.when == null || task.ext.when
     script:
     def args = task.ext.args ?: ''
-    template 'dumpsoftwareversions.py'
+    """
+    python ${workflow.launchDir}/modules/nf-core/modules/custom/dumpsoftwareversions.py
+    """
 }

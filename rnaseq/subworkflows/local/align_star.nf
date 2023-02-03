@@ -1,10 +1,4 @@
-//
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-// Alignment with STAR
+//// Alignment with STAR
 //
 include { STAR_ALIGN        } from '../../modules/local/star_align'
 include { BAM_SORT_SAMTOOLS } from '../nf-core/bam_sort_samtools'
@@ -18,19 +12,11 @@ workflow ALIGN_STAR {
     //
     // Map reads with STAR
     //
-params.outdir_custom = "${params.outdir}/align/star"
-params.outdir_custom = "${params.outdir}/align/star"
-params.outdir_custom = "${params.outdir}/align/star"
-params.outdir_custom = "${params.outdir}/align/star"
     STAR_ALIGN ( reads, index, gtf )
     ch_versions = ch_versions.mix(STAR_ALIGN.out.versions.first())
     //
     // Sort, index BAM file and run samtools stats, flagstat and idxstats
     //
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
     BAM_SORT_SAMTOOLS ( STAR_ALIGN.out.bam )
     ch_versions = ch_versions.mix(BAM_SORT_SAMTOOLS.out.versions)
     emit:

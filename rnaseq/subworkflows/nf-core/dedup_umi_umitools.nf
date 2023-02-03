@@ -1,14 +1,4 @@
 //
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 // UMI-tools dedup, index BAM file and run samtools stats, flagstat and idxstats
 //
 include { UMITOOLS_DEDUP     } from '../../modules/nf-core/modules/umitools/dedup/main'
@@ -22,19 +12,11 @@ workflow DEDUP_UMI_UMITOOLS {
     //
     // UMI-tools dedup
     //
-params.outdir_custom = "${params.outdir}/dedup/umitools"
-params.outdir_custom = "${params.outdir}/dedup/umitools"
-params.outdir_custom = "${params.outdir}/dedup/umitools"
-params.outdir_custom = "${params.outdir}/dedup/umitools"
     UMITOOLS_DEDUP ( bam_bai )
     ch_versions = ch_versions.mix(UMITOOLS_DEDUP.out.versions.first())
     //
     // Index BAM file and run samtools stats, flagstat and idxstats
     //
-params.outdir_custom = "${params.outdir}/index/samtools"
-params.outdir_custom = "${params.outdir}/index/samtools"
-params.outdir_custom = "${params.outdir}/index/samtools"
-params.outdir_custom = "${params.outdir}/index/samtools"
     SAMTOOLS_INDEX ( UMITOOLS_DEDUP.out.bam )
     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
     UMITOOLS_DEDUP.out.bam
@@ -49,10 +31,6 @@ params.outdir_custom = "${params.outdir}/index/samtools"
                 }
         }
         .set { ch_bam_bai }
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
     BAM_STATS_SAMTOOLS ( ch_bam_bai )
     ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
     emit:

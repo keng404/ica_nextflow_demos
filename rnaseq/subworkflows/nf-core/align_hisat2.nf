@@ -1,9 +1,4 @@
 //
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 // Alignment with HISAT2
 //
 include { HISAT2_ALIGN      } from '../../modules/nf-core/modules/hisat2/align/main'
@@ -18,19 +13,11 @@ workflow ALIGN_HISAT2 {
     //
     // Map reads with HISAT2
     //
-params.outdir_custom = "${params.outdir}/align/hisat2"
-params.outdir_custom = "${params.outdir}/align/hisat2"
-params.outdir_custom = "${params.outdir}/align/hisat2"
-params.outdir_custom = "${params.outdir}/align/hisat2"
     HISAT2_ALIGN ( reads, index, splicesites )
     ch_versions = ch_versions.mix(HISAT2_ALIGN.out.versions.first())
     //
     // Sort, index BAM file and run samtools stats, flagstat and idxstats
     //
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
     BAM_SORT_SAMTOOLS ( HISAT2_ALIGN.out.bam )
     ch_versions = ch_versions.mix(BAM_SORT_SAMTOOLS.out.versions)
     emit:

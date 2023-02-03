@@ -1,7 +1,4 @@
 //
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 // Check input samplesheet and get read channels
 //
 include { SAMPLESHEET_CHECK } from '../../modules/local/samplesheet_check'
@@ -9,13 +6,6 @@ workflow INPUT_CHECK {
     take:
     samplesheet // file: /path/to/samplesheet.csv
     main:
-params.outdir_custom = "${params.outdir}/check/samplesheet"
-params.outdir_custom = "${params.outdir}/check/samplesheet"
-publishDir =  path: { "${params.outdir}/pipeline_info" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-params.outdir_custom = "${params.outdir}/check/samplesheet"
-publishDir =  path: { "${params.outdir}/pipeline_info" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-params.outdir_custom = "${params.outdir}/check/samplesheet"
-publishDir =  path: { "${params.outdir}/pipeline_info" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     SAMPLESHEET_CHECK ( samplesheet )
         .csv
         .splitCsv ( header:true, sep:',' )

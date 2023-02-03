@@ -7,19 +7,8 @@ process DUPRADAR {
         'quay.io/biocontainers/bioconductor-dupradar:1.18.0--r40_1' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    cpus 16
+    memory '30 GB'
     input:
     tuple val(meta), path(bam)
     path  gtf
@@ -40,7 +29,7 @@ process DUPRADAR {
     }
     def paired_end = meta.single_end ? 'single' :  'paired'
     """
-    dupradar.r \\
+    Rscript ${workflow.launchDir}/bin/dupradar.r \\
         $bam \\
         $prefix \\
         $gtf \\

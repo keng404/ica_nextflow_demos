@@ -1,9 +1,4 @@
 //
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 // Picard MarkDuplicates, index BAM file and run samtools stats, flagstat and idxstats
 //
 include { PICARD_MARKDUPLICATES } from '../../modules/nf-core/modules/picard/markduplicates/main'
@@ -17,19 +12,11 @@ workflow MARK_DUPLICATES_PICARD {
     //
     // Picard MarkDuplicates
     //
-params.outdir_custom = "${params.outdir}/markduplicates/picard"
-params.outdir_custom = "${params.outdir}/markduplicates/picard"
-params.outdir_custom = "${params.outdir}/markduplicates/picard"
-params.outdir_custom = "${params.outdir}/markduplicates/picard"
     PICARD_MARKDUPLICATES ( bam )
     ch_versions = ch_versions.mix(PICARD_MARKDUPLICATES.out.versions.first())
     //
     // Index BAM file and run samtools stats, flagstat and idxstats
     //
-params.outdir_custom = "${params.outdir}/index/samtools"
-params.outdir_custom = "${params.outdir}/index/samtools"
-params.outdir_custom = "${params.outdir}/index/samtools"
-params.outdir_custom = "${params.outdir}/index/samtools"
     SAMTOOLS_INDEX ( PICARD_MARKDUPLICATES.out.bam )
     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions.first())
     PICARD_MARKDUPLICATES.out.bam
@@ -44,10 +31,6 @@ params.outdir_custom = "${params.outdir}/index/samtools"
                 }
         }
         .set { ch_bam_bai }
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
-params.outdir_custom = "${params.outdir}/samtools/stats/bam"
     BAM_STATS_SAMTOOLS ( ch_bam_bai )
     ch_versions = ch_versions.mix(BAM_STATS_SAMTOOLS.out.versions)
     emit:

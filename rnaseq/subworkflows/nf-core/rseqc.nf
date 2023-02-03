@@ -1,9 +1,4 @@
 //
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 // Run RSeQC modules
 //
 include { RSEQC_BAMSTAT            } from '../../modules/nf-core/modules/rseqc/bamstat/main'
@@ -27,10 +22,6 @@ workflow RSEQC {
     //
     bamstat_txt = Channel.empty()
     if ('bam_stat' in rseqc_modules) {
-params.outdir_custom = "${params.outdir}/bamstat/rseqc"
-params.outdir_custom = "${params.outdir}/bamstat/rseqc"
-params.outdir_custom = "${params.outdir}/bamstat/rseqc"
-params.outdir_custom = "${params.outdir}/bamstat/rseqc"
         RSEQC_BAMSTAT ( bam )
         bamstat_txt = RSEQC_BAMSTAT.out.txt
         ch_versions = ch_versions.mix(RSEQC_BAMSTAT.out.versions.first())
@@ -44,10 +35,6 @@ params.outdir_custom = "${params.outdir}/bamstat/rseqc"
     innerdistance_pdf      = Channel.empty()
     innerdistance_rscript  = Channel.empty()
     if ('inner_distance' in rseqc_modules) {
-params.outdir_custom = "${params.outdir}/innerdistance/rseqc"
-params.outdir_custom = "${params.outdir}/innerdistance/rseqc"
-params.outdir_custom = "${params.outdir}/innerdistance/rseqc"
-params.outdir_custom = "${params.outdir}/innerdistance/rseqc"
         RSEQC_INNERDISTANCE ( bam, bed )
         innerdistance_distance = RSEQC_INNERDISTANCE.out.distance
         innerdistance_freq     = RSEQC_INNERDISTANCE.out.freq
@@ -61,10 +48,6 @@ params.outdir_custom = "${params.outdir}/innerdistance/rseqc"
     //
     inferexperiment_txt = Channel.empty()
     if ('infer_experiment' in rseqc_modules) {
-params.outdir_custom = "${params.outdir}/inferexperiment/rseqc"
-params.outdir_custom = "${params.outdir}/inferexperiment/rseqc"
-params.outdir_custom = "${params.outdir}/inferexperiment/rseqc"
-params.outdir_custom = "${params.outdir}/inferexperiment/rseqc"
         RSEQC_INFEREXPERIMENT ( bam, bed )
         inferexperiment_txt = RSEQC_INFEREXPERIMENT.out.txt
         ch_versions = ch_versions.mix(RSEQC_INFEREXPERIMENT.out.versions.first())
@@ -80,10 +63,6 @@ params.outdir_custom = "${params.outdir}/inferexperiment/rseqc"
     junctionannotation_rscript      = Channel.empty()
     junctionannotation_log          = Channel.empty()
     if ('junction_annotation' in rseqc_modules) {
-params.outdir_custom = "${params.outdir}/junctionannotation/rseqc"
-params.outdir_custom = "${params.outdir}/junctionannotation/rseqc"
-params.outdir_custom = "${params.outdir}/junctionannotation/rseqc"
-params.outdir_custom = "${params.outdir}/junctionannotation/rseqc"
         RSEQC_JUNCTIONANNOTATION ( bam, bed )
         junctionannotation_bed          = RSEQC_JUNCTIONANNOTATION.out.bed
         junctionannotation_interact_bed = RSEQC_JUNCTIONANNOTATION.out.interact_bed
@@ -100,10 +79,6 @@ params.outdir_custom = "${params.outdir}/junctionannotation/rseqc"
     junctionsaturation_pdf     = Channel.empty()
     junctionsaturation_rscript = Channel.empty()
     if ('junction_saturation' in rseqc_modules) {
-params.outdir_custom = "${params.outdir}/junctionsaturation/rseqc"
-params.outdir_custom = "${params.outdir}/junctionsaturation/rseqc"
-params.outdir_custom = "${params.outdir}/junctionsaturation/rseqc"
-params.outdir_custom = "${params.outdir}/junctionsaturation/rseqc"
         RSEQC_JUNCTIONSATURATION ( bam, bed )
         junctionsaturation_pdf     = RSEQC_JUNCTIONSATURATION.out.pdf
         junctionsaturation_rscript = RSEQC_JUNCTIONSATURATION.out.rscript
@@ -114,10 +89,6 @@ params.outdir_custom = "${params.outdir}/junctionsaturation/rseqc"
     //
     readdistribution_txt = Channel.empty()
     if ('read_distribution' in rseqc_modules) {
-params.outdir_custom = "${params.outdir}/readdistribution/rseqc"
-params.outdir_custom = "${params.outdir}/readdistribution/rseqc"
-params.outdir_custom = "${params.outdir}/readdistribution/rseqc"
-params.outdir_custom = "${params.outdir}/readdistribution/rseqc"
         RSEQC_READDISTRIBUTION ( bam, bed )
         readdistribution_txt = RSEQC_READDISTRIBUTION.out.txt
         ch_versions = ch_versions.mix(RSEQC_READDISTRIBUTION.out.versions.first())
@@ -130,10 +101,6 @@ params.outdir_custom = "${params.outdir}/readdistribution/rseqc"
     readduplication_pdf     = Channel.empty()
     readduplication_rscript = Channel.empty()
     if ('read_duplication' in rseqc_modules) {
-params.outdir_custom = "${params.outdir}/readduplication/rseqc"
-params.outdir_custom = "${params.outdir}/readduplication/rseqc"
-params.outdir_custom = "${params.outdir}/readduplication/rseqc"
-params.outdir_custom = "${params.outdir}/readduplication/rseqc"
         RSEQC_READDUPLICATION ( bam )
         readduplication_seq_xls = RSEQC_READDUPLICATION.out.seq_xls
         readduplication_pos_xls = RSEQC_READDUPLICATION.out.pos_xls
@@ -146,10 +113,6 @@ params.outdir_custom = "${params.outdir}/readduplication/rseqc"
     //
     tin_txt = Channel.empty()
     if ('tin' in rseqc_modules) {
-params.outdir_custom = "${params.outdir}/tin/rseqc"
-params.outdir_custom = "${params.outdir}/tin/rseqc"
-params.outdir_custom = "${params.outdir}/tin/rseqc"
-params.outdir_custom = "${params.outdir}/tin/rseqc"
         RSEQC_TIN ( bam.join(bai, by: [0]), bed )
         tin_txt     = RSEQC_TIN.out.txt
         ch_versions = ch_versions.mix(RSEQC_TIN.out.versions.first())

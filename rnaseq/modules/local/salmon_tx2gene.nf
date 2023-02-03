@@ -7,19 +7,8 @@ process SALMON_TX2GENE {
         'quay.io/biocontainers/python:3.9--1' }"
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
-    pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
-    errorStrategy 'ignore'
-    time '1day'
+    cpus 16
+    memory '30 GB'
     input:
     path ("salmon/*")
     path gtf
@@ -30,7 +19,7 @@ process SALMON_TX2GENE {
     task.ext.when == null || task.ext.when
     script: // This script is bundled with the pipeline, in nf-core/rnaseq/bin/
     """
-    salmon_tx2gene.py \\
+    python ${workflow.launchDir}/bin/salmon_tx2gene.py \\
         --gtf $gtf \\
         --salmon salmon \\
         --id $params.gtf_group_features \\
