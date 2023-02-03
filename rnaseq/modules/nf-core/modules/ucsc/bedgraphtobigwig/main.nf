@@ -1,6 +1,6 @@
 def VERSION = '377' // Version information not provided by tool on CLI
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 process UCSC_BEDGRAPHTOBIGWIG {
+    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$meta.id"
     conda (params.enable_conda ? "bioconda::ucsc-bedgraphtobigwig=377" : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
@@ -10,6 +10,7 @@ process UCSC_BEDGRAPHTOBIGWIG {
     errorStrategy 'ignore'
     cpus 16
     memory '30 GB'
+    input:
     tuple val(meta), path(bedgraph)
     path  sizes
     output:

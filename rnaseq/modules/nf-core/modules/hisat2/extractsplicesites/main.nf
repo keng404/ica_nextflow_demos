@@ -1,6 +1,6 @@
 def VERSION = '2.2.0' // Version information not provided by tool on CLI
-    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
 process HISAT2_EXTRACTSPLICESITES {
+    publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
     tag "$gtf"
     conda (params.enable_conda ? 'bioconda::hisat2=2.2.1' : null)
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?

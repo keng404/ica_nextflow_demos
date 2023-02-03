@@ -5,6 +5,10 @@
     VALIDATE INPUTS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+process = [:]
+process.ext = [:]
+process.ext.args = ""
+process.ext.args2 = ""
 def valid_params = [
     aligners       : ['star_salmon', 'star_rsem', 'hisat2'],
     pseudoaligners : ['salmon'],
@@ -150,11 +154,7 @@ workflow RNASEQ {
     //
     // SUBWORKFLOW: Read in samplesheet, validate and stage input files
     //
-params.outdir_custom = "${params.outdir}/check/input"
-params.outdir_custom = "${params.outdir}/check/input"
-params.outdir_custom = "${params.outdir}/check/input"
-params.outdir_custom = "${params.outdir}/check/input"
-params.outdir_custom = "${params.outdir}/check/input"
+
     INPUT_CHECK (
         ch_input
     )
@@ -176,15 +176,6 @@ params.outdir_custom = "${params.outdir}/check/input"
     //
     // MODULE: Concatenate FastQ files from same sample if required
     //
-params.outdir_custom = "${params.outdir}/fastq/cat"
-params.outdir_custom = "${params.outdir}/fastq/cat"
-publishDir =  path: { "${params.outdir}/fastq" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }, enabled: params.save_merged_fastq
-params.outdir_custom = "${params.outdir}/fastq/cat"
-publishDir =  path: { "${params.outdir}/fastq" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }, enabled: params.save_merged_fastq
-params.outdir_custom = "${params.outdir}/fastq/cat"
-publishDir =  path: { "${params.outdir}/fastq" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }, enabled: params.save_merged_fastq
-params.outdir_custom = "${params.outdir}/fastq/cat"
-publishDir =  path: { "${params.outdir}/fastq" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }, enabled: params.save_merged_fastq
     CAT_FASTQ (
         ch_fastq.multiple
     )
@@ -195,11 +186,7 @@ publishDir =  path: { "${params.outdir}/fastq" }, mode: params.publish_dir_mode,
     //
     // SUBWORKFLOW: Read QC, extract UMI and trim adapters
     //
-params.outdir_custom = "${params.outdir}/trimgalore/umitools/fastqc"
-params.outdir_custom = "${params.outdir}/trimgalore/umitools/fastqc"
-params.outdir_custom = "${params.outdir}/trimgalore/umitools/fastqc"
-params.outdir_custom = "${params.outdir}/trimgalore/umitools/fastqc"
-params.outdir_custom = "${params.outdir}/trimgalore/umitools/fastqc"
+
     FASTQC_UMITOOLS_TRIMGALORE (
         ch_cat_fastq,
         params.skip_fastqc || params.skip_qc,
@@ -213,71 +200,32 @@ params.outdir_custom = "${params.outdir}/trimgalore/umitools/fastqc"
     //
     ch_filtered_reads = FASTQC_UMITOOLS_TRIMGALORE.out.reads
     if (!params.skip_bbsplit) {
-params.outdir_custom = "${params.outdir}/bbsplit/bbmap"
-if (!params.skip_bbsplit) {
-    process.ext.args = 'build=1ambiguous2=allmaxindel=150000'
-}
-params.outdir_custom = "${params.outdir}/bbsplit/bbmap"
-if (!params.skip_bbsplit) {
-    process.ext.args = 'build=1ambiguous2=allmaxindel=150000'
-    publishDir =   path: { "${params.outdir}/bbsplit" }, mode: params.publish_dir_mode, pattern: '*.txt' ],  path: { "${params.outdir}/bbsplit" }, mode: params.publish_dir_mode, pattern: '*.fastq.gz', enabled: params.save_bbsplit_reads
-}
-params.outdir_custom = "${params.outdir}/bbsplit/bbmap"
-if (!params.skip_bbsplit) {
-    process.ext.args = 'build=1ambiguous2=allmaxindel=150000'
-    publishDir =   path: { "${params.outdir}/bbsplit" }, mode: params.publish_dir_mode, pattern: '*.txt' ],  path: { "${params.outdir}/bbsplit" }, mode: params.publish_dir_mode, pattern: '*.fastq.gz', enabled: params.save_bbsplit_reads
-}
-params.outdir_custom = "${params.outdir}/bbsplit/bbmap"
-if (!params.skip_bbsplit) {
-    process.ext.args = 'build=1ambiguous2=allmaxindel=150000'
-    publishDir =   path: { "${params.outdir}/bbsplit" }, mode: params.publish_dir_mode, pattern: '*.txt' ],  path: { "${params.outdir}/bbsplit" }, mode: params.publish_dir_mode, pattern: '*.fastq.gz', enabled: params.save_bbsplit_reads
-}
-params.outdir_custom = "${params.outdir}/bbsplit/bbmap"
-if (!params.skip_bbsplit) {
-    process.ext.args = 'build=1ambiguous2=allmaxindel=150000'
-    publishDir =   path: { "${params.outdir}/bbsplit" }, mode: params.publish_dir_mode, pattern: '*.txt' ],  path: { "${params.outdir}/bbsplit" }, mode: params.publish_dir_mode, pattern: '*.fastq.gz', enabled: params.save_bbsplit_reads
-}
-        BBMAP_BBSPLIT (
-            ch_filtered_reads,
-            PREPARE_GENOME.out.bbsplit_index,
-            [],
-            [ [], [] ],
-            false
-        )
-        .primary_fastq
-        .set { ch_filtered_reads }
-        ch_versions = ch_versions.mix(BBMAP_BBSPLIT.out.versions.first())
-    }
+        if (!params.skip_bbsplit) {
+            process.ext.args = 'build=1 ambiguous2=all maxindel=150000'
+        }
+        if (!params.skip_bbsplit) {
+    
+            BBMAP_BBSPLIT (
+                ch_filtered_reads,
+                PREPARE_GENOME.out.bbsplit_index,
+                [],
+                [ [], [] ],
+                false
+            )
+            .primary_fastq
+            .set { ch_filtered_reads }
+            ch_versions = ch_versions.mix(BBMAP_BBSPLIT.out.versions.first())
+        }
+    }Í
     //
     // MODULE: Remove ribosomal RNA reads
     //
     ch_sortmerna_multiqc = Channel.empty()
     if (params.remove_ribo_rna) {
         ch_sortmerna_fastas = Channel.from(ch_ribo_db.readLines()).map { row -> file(row, checkIfExists: true) }.collect()
-params.outdir_custom = "${params.outdir}/sortmerna"
-if (params.remove_ribo_rna) {
-    process.ext.args = '--num_alignments1--fastx-v'
-}
-params.outdir_custom = "${params.outdir}/sortmerna"
-if (params.remove_ribo_rna) {
-    process.ext.args = '--num_alignments1--fastx-v'
-    publishDir =   path: { "${params.outdir}/sortmerna" }, mode: params.publish_dir_mode, pattern: "*.log" ],  path: { "${params.outdir}/sortmerna" }, mode: params.publish_dir_mode, pattern: "*.fastq.gz", enabled: params.save_non_ribo_reads
-}
-params.outdir_custom = "${params.outdir}/sortmerna"
-if (params.remove_ribo_rna) {
-    process.ext.args = '--num_alignments1--fastx-v'
-    publishDir =   path: { "${params.outdir}/sortmerna" }, mode: params.publish_dir_mode, pattern: "*.log" ],  path: { "${params.outdir}/sortmerna" }, mode: params.publish_dir_mode, pattern: "*.fastq.gz", enabled: params.save_non_ribo_reads
-}
-params.outdir_custom = "${params.outdir}/sortmerna"
-if (params.remove_ribo_rna) {
-    process.ext.args = '--num_alignments1--fastx-v'
-    publishDir =   path: { "${params.outdir}/sortmerna" }, mode: params.publish_dir_mode, pattern: "*.log" ],  path: { "${params.outdir}/sortmerna" }, mode: params.publish_dir_mode, pattern: "*.fastq.gz", enabled: params.save_non_ribo_reads
-}
-params.outdir_custom = "${params.outdir}/sortmerna"
-if (params.remove_ribo_rna) {
-    process.ext.args = '--num_alignments1--fastx-v'
-    publishDir =   path: { "${params.outdir}/sortmerna" }, mode: params.publish_dir_mode, pattern: "*.log" ],  path: { "${params.outdir}/sortmerna" }, mode: params.publish_dir_mode, pattern: "*.fastq.gz", enabled: params.save_non_ribo_reads
-}
+        if (params.remove_ribo_rna) {
+            process.ext.args = '--num_alignments 1 --fastx -v'
+        }
         SORTMERNA (
             ch_filtered_reads,
             ch_sortmerna_fastas
@@ -299,11 +247,6 @@ if (params.remove_ribo_rna) {
     ch_aligner_pca_multiqc        = Channel.empty()
     ch_aligner_clustering_multiqc = Channel.empty()
     if (!params.skip_alignment && params.aligner == 'star_salmon') {
-params.outdir_custom = "${params.outdir}/star/align"
-params.outdir_custom = "${params.outdir}/star/align"
-params.outdir_custom = "${params.outdir}/star/align"
-params.outdir_custom = "${params.outdir}/star/align"
-params.outdir_custom = "${params.outdir}/star/align"
         ALIGN_STAR (
             ch_filtered_reads,
             PREPARE_GENOME.out.star_index,
@@ -338,31 +281,16 @@ params.outdir_custom = "${params.outdir}/star/align"
             }
             ch_versions = ch_versions.mix(DEDUP_UMI_UMITOOLS_GENOME.out.versions)
             // Co-ordinate sort, index and run stats on transcriptome BAM
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
-params.outdir_custom = "${params.outdir}/samtools/sort/bam"
             BAM_SORT_SAMTOOLS (
                 ch_transcriptome_bam
             )
             ch_transcriptome_sorted_bam = BAM_SORT_SAMTOOLS.out.bam
             ch_transcriptome_sorted_bai = BAM_SORT_SAMTOOLS.out.bai
             // Deduplicate transcriptome BAM file before read counting with Salmon
-params.outdir_custom = "${params.outdir}/transcriptome/umitools/umi/dedup"
-params.outdir_custom = "${params.outdir}/transcriptome/umitools/umi/dedup"
-params.outdir_custom = "${params.outdir}/transcriptome/umitools/umi/dedup"
-params.outdir_custom = "${params.outdir}/transcriptome/umitools/umi/dedup"
-params.outdir_custom = "${params.outdir}/transcriptome/umitools/umi/dedup"
             DEDUP_UMI_UMITOOLS_TRANSCRIPTOME (
                 ch_transcriptome_sorted_bam.join(ch_transcriptome_sorted_bai, by: [0])
             )
             // Name sort BAM before passing to Salmon
-params.outdir_custom = "${params.outdir}/sort/samtools"
-params.outdir_custom = "${params.outdir}/sort/samtools"
-params.outdir_custom = "${params.outdir}/sort/samtools"
-params.outdir_custom = "${params.outdir}/sort/samtools"
-params.outdir_custom = "${params.outdir}/sort/samtools"
             SAMTOOLS_SORT (
                 DEDUP_UMI_UMITOOLS_TRANSCRIPTOME.out.bam
             )
@@ -371,11 +299,6 @@ params.outdir_custom = "${params.outdir}/sort/samtools"
         //
         // SUBWORKFLOW: Count reads from BAM alignments using Salmon
         //
-params.outdir_custom = "${params.outdir}/salmon/star/quantify"
-params.outdir_custom = "${params.outdir}/salmon/star/quantify"
-params.outdir_custom = "${params.outdir}/salmon/star/quantify"
-params.outdir_custom = "${params.outdir}/salmon/star/quantify"
-params.outdir_custom = "${params.outdir}/salmon/star/quantify"
         QUANTIFY_STAR_SALMON (
             ch_transcriptome_bam,
             ch_dummy_file,
@@ -386,35 +309,10 @@ params.outdir_custom = "${params.outdir}/salmon/star/quantify"
         )
         ch_versions = ch_versions.mix(QUANTIFY_STAR_SALMON.out.versions)
         if (!params.skip_qc & !params.skip_deseq2_qc) {
-params.outdir_custom = "${params.outdir}/salmon/star/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'star_salmon'
-}
-params.outdir_custom = "${params.outdir}/salmon/star/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'star_salmon'
-    publishDir =  path: { "${params.outdir}/${params.aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
-params.outdir_custom = "${params.outdir}/salmon/star/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'star_salmon'
-    publishDir =  path: { "${params.outdir}/${params.aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
-params.outdir_custom = "${params.outdir}/salmon/star/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'star_salmon'
-    publishDir =  path: { "${params.outdir}/${params.aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
-params.outdir_custom = "${params.outdir}/salmon/star/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'star_salmon'
-    publishDir =  path: { "${params.outdir}/${params.aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
+            if (!params.skip_qc & !params.skip_deseq2_qc) {
+                process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
+                process.ext.args2 = 'star_salmon'
+            }
             DESEQ2_QC_STAR_SALMON (
                 QUANTIFY_STAR_SALMON.out.counts_gene_length_scaled,
                 ch_pca_header_multiqc,
@@ -430,11 +328,6 @@ if (!params.skip_qc & !params.skip_deseq2_qc) {
     //
     ch_rsem_multiqc = Channel.empty()
     if (!params.skip_alignment && params.aligner == 'star_rsem') {
-params.outdir_custom = "${params.outdir}/rsem/quantify"
-params.outdir_custom = "${params.outdir}/rsem/quantify"
-params.outdir_custom = "${params.outdir}/rsem/quantify"
-params.outdir_custom = "${params.outdir}/rsem/quantify"
-params.outdir_custom = "${params.outdir}/rsem/quantify"
         QUANTIFY_RSEM (
             ch_filtered_reads,
             PREPARE_GENOME.out.rsem_index
@@ -451,35 +344,10 @@ params.outdir_custom = "${params.outdir}/rsem/quantify"
         }
         ch_versions = ch_versions.mix(QUANTIFY_RSEM.out.versions)
         if (!params.skip_qc & !params.skip_deseq2_qc) {
-params.outdir_custom = "${params.outdir}/rsem/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'star_rsem'
-}
-params.outdir_custom = "${params.outdir}/rsem/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'star_rsem'
-    publishDir =  path: { "${params.outdir}/${params.aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
-params.outdir_custom = "${params.outdir}/rsem/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'star_rsem'
-    publishDir =  path: { "${params.outdir}/${params.aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
-params.outdir_custom = "${params.outdir}/rsem/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'star_rsem'
-    publishDir =  path: { "${params.outdir}/${params.aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
-params.outdir_custom = "${params.outdir}/rsem/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'star_rsem'
-    publishDir =  path: { "${params.outdir}/${params.aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
+                if (!params.skip_qc & !params.skip_deseq2_qc) {
+                    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
+                    process.ext.args2 = 'star_rsem'
+                }
             DESEQ2_QC_RSEM (
                 QUANTIFY_RSEM.out.merged_counts_gene,
                 ch_pca_header_multiqc,
@@ -495,11 +363,6 @@ if (!params.skip_qc & !params.skip_deseq2_qc) {
     //
     ch_hisat2_multiqc = Channel.empty()
     if (!params.skip_alignment && params.aligner == 'hisat2') {
-params.outdir_custom = "${params.outdir}/hisat2/align"
-params.outdir_custom = "${params.outdir}/hisat2/align"
-params.outdir_custom = "${params.outdir}/hisat2/align"
-params.outdir_custom = "${params.outdir}/hisat2/align"
-params.outdir_custom = "${params.outdir}/hisat2/align"
         ALIGN_HISAT2 (
             ch_filtered_reads,
             PREPARE_GENOME.out.hisat2_index,
@@ -563,30 +426,9 @@ params.outdir_custom = "${params.outdir}/hisat2/align"
             "Sample",
             "STAR uniquely mapped reads (%)"
         ]
-params.outdir_custom = "${params.outdir}/mapped/fail/tsv/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-}
-params.outdir_custom = "${params.outdir}/mapped/fail/tsv/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/mapped/fail/tsv/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/mapped/fail/tsv/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/mapped/fail/tsv/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
+    if (!params.skip_multiqc) {
+        process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
+    }
         MULTIQC_TSV_FAIL_MAPPED (
             ch_pass_fail_mapped.fail.collect(),
             header,
@@ -599,30 +441,10 @@ if (!params.skip_multiqc) {
     //
     ch_preseq_multiqc = Channel.empty()
     if (!params.skip_alignment && !params.skip_qc && !params.skip_preseq) {
-params.outdir_custom = "${params.outdir}/lcextrap/preseq"
-if (!params.skip_preseq) {
-    process.ext.args = '-verbose-bam-seed1-seg_len100000000'
-}
-params.outdir_custom = "${params.outdir}/lcextrap/preseq"
-if (!params.skip_preseq) {
-    process.ext.args = '-verbose-bam-seed1-seg_len100000000'
-    publishDir =   path: { "${params.outdir}/${params.aligner}/preseq" }, mode: params.publish_dir_mode, pattern: "*.txt" ],  path: { "${params.outdir}/${params.aligner}/preseq/log" }, mode: params.publish_dir_mode, pattern: "*.log"
-}
-params.outdir_custom = "${params.outdir}/lcextrap/preseq"
-if (!params.skip_preseq) {
-    process.ext.args = '-verbose-bam-seed1-seg_len100000000'
-    publishDir =   path: { "${params.outdir}/${params.aligner}/preseq" }, mode: params.publish_dir_mode, pattern: "*.txt" ],  path: { "${params.outdir}/${params.aligner}/preseq/log" }, mode: params.publish_dir_mode, pattern: "*.log"
-}
-params.outdir_custom = "${params.outdir}/lcextrap/preseq"
-if (!params.skip_preseq) {
-    process.ext.args = '-verbose-bam-seed1-seg_len100000000'
-    publishDir =   path: { "${params.outdir}/${params.aligner}/preseq" }, mode: params.publish_dir_mode, pattern: "*.txt" ],  path: { "${params.outdir}/${params.aligner}/preseq/log" }, mode: params.publish_dir_mode, pattern: "*.log"
-}
-params.outdir_custom = "${params.outdir}/lcextrap/preseq"
-if (!params.skip_preseq) {
-    process.ext.args = '-verbose-bam-seed1-seg_len100000000'
-    publishDir =   path: { "${params.outdir}/${params.aligner}/preseq" }, mode: params.publish_dir_mode, pattern: "*.txt" ],  path: { "${params.outdir}/${params.aligner}/preseq/log" }, mode: params.publish_dir_mode, pattern: "*.log"
-}
+        if (!params.skip_preseq) {
+            process.ext.args = '-verbose -bam -seed 1 -seg_len 100000000'
+        }
+
         PRESEQ_LCEXTRAP (
             ch_genome_bam
         )
@@ -634,11 +456,7 @@ if (!params.skip_preseq) {
     //
     ch_markduplicates_multiqc = Channel.empty()
     if (!params.skip_alignment && !params.skip_markduplicates) {
-params.outdir_custom = "${params.outdir}/picard/duplicates/mark"
-params.outdir_custom = "${params.outdir}/picard/duplicates/mark"
-params.outdir_custom = "${params.outdir}/picard/duplicates/mark"
-params.outdir_custom = "${params.outdir}/picard/duplicates/mark"
-params.outdir_custom = "${params.outdir}/picard/duplicates/mark"
+
         MARK_DUPLICATES_PICARD (
             ch_genome_bam
         )
@@ -657,30 +475,9 @@ params.outdir_custom = "${params.outdir}/picard/duplicates/mark"
     // MODULE: STRINGTIE
     //
     if (!params.skip_alignment && !params.skip_stringtie) {
-params.outdir_custom = "${params.outdir}/stringtie"
-if (!params.skip_stringtie) {
-    process.ext.args = [ '-v', params.stringtie_ignore_gtf ? '' : '-e' ].join(' ').trim()
-}
-params.outdir_custom = "${params.outdir}/stringtie"
-if (!params.skip_stringtie) {
-    process.ext.args = [ '-v', params.stringtie_ignore_gtf ? '' : '-e' ].join(' ').trim()
-    publishDir =  path: { "${params.outdir}/${params.aligner}/stringtie" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/stringtie"
-if (!params.skip_stringtie) {
-    process.ext.args = [ '-v', params.stringtie_ignore_gtf ? '' : '-e' ].join(' ').trim()
-    publishDir =  path: { "${params.outdir}/${params.aligner}/stringtie" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/stringtie"
-if (!params.skip_stringtie) {
-    process.ext.args = [ '-v', params.stringtie_ignore_gtf ? '' : '-e' ].join(' ').trim()
-    publishDir =  path: { "${params.outdir}/${params.aligner}/stringtie" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/stringtie"
-if (!params.skip_stringtie) {
-    process.ext.args = [ '-v', params.stringtie_ignore_gtf ? '' : '-e' ].join(' ').trim()
-    publishDir =  path: { "${params.outdir}/${params.aligner}/stringtie" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
+        if (!params.skip_stringtie) {
+            process.ext.args = [ '-v', params.stringtie_ignore_gtf ? '' : '-e' ].join(' ').trim()
+        }
         STRINGTIE (
             ch_genome_bam,
             PREPARE_GENOME.out.gtf
@@ -704,58 +501,18 @@ if (!params.skip_stringtie) {
             .filter { it[-1] }
             .map { it[0..<it.size()-1] }
             .set { ch_featurecounts }
-params.outdir_custom = "${params.outdir}/featurecounts/subread"
-if (!params.skip_biotype_qc && params.featurecounts_group_type) {
-    process.ext.args = [ '-B -C', params.gencode ? "-g gene_type" : "-g $params.featurecounts_group_type", "-t $params.featurecounts_feature_type" ].join(' ').trim()
-}
-params.outdir_custom = "${params.outdir}/featurecounts/subread"
-if (!params.skip_biotype_qc && params.featurecounts_group_type) {
-    process.ext.args = [ '-B -C', params.gencode ? "-g gene_type" : "-g $params.featurecounts_group_type", "-t $params.featurecounts_feature_type" ].join(' ').trim()
-    publishDir =  path: { "${params.outdir}/${params.aligner}/featurecounts" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/featurecounts/subread"
-if (!params.skip_biotype_qc && params.featurecounts_group_type) {
-    process.ext.args = [ '-B -C', params.gencode ? "-g gene_type" : "-g $params.featurecounts_group_type", "-t $params.featurecounts_feature_type" ].join(' ').trim()
-    publishDir =  path: { "${params.outdir}/${params.aligner}/featurecounts" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/featurecounts/subread"
-if (!params.skip_biotype_qc && params.featurecounts_group_type) {
-    process.ext.args = [ '-B -C', params.gencode ? "-g gene_type" : "-g $params.featurecounts_group_type", "-t $params.featurecounts_feature_type" ].join(' ').trim()
-    publishDir =  path: { "${params.outdir}/${params.aligner}/featurecounts" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/featurecounts/subread"
-if (!params.skip_biotype_qc && params.featurecounts_group_type) {
-    process.ext.args = [ '-B -C', params.gencode ? "-g gene_type" : "-g $params.featurecounts_group_type", "-t $params.featurecounts_feature_type" ].join(' ').trim()
-    publishDir =  path: { "${params.outdir}/${params.aligner}/featurecounts" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
+        if (!params.skip_biotype_qc && params.featurecounts_group_type) {
+            process.ext.args = [ '-B -C', params.gencode ? "-g gene_type" : "-g $params.featurecounts_group_type", "-t $params.featurecounts_feature_type" ].join(' ').trim()
+        }
+
         SUBREAD_FEATURECOUNTS (
             ch_featurecounts
         )
         ch_versions = ch_versions.mix(SUBREAD_FEATURECOUNTS.out.versions.first())
-params.outdir_custom = "${params.outdir}/biotype/custom/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-}
-params.outdir_custom = "${params.outdir}/biotype/custom/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/biotype/custom/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/biotype/custom/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/biotype/custom/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
+        if (!params.skip_multiqc) {
+            process.ext.args = params.multiqc_title ? "--title \"$params.multiqc_title\"" : ''
+        }
+
         MULTIQC_CUSTOM_BIOTYPE (
             SUBREAD_FEATURECOUNTS.out.counts,
             ch_biotypes_header_multiqc
@@ -767,30 +524,9 @@ if (!params.skip_multiqc) {
     // MODULE: Genome-wide coverage with BEDTools
     //
     if (!params.skip_alignment && !params.skip_bigwig) {
-params.outdir_custom = "${params.outdir}/genomecov/bedtools"
-if (!params.skip_bigwig) {
-    process.ext.args = '-split-du'
-}
-params.outdir_custom = "${params.outdir}/genomecov/bedtools"
-if (!params.skip_bigwig) {
-    process.ext.args = '-split-du'
-    publishDir =  path: { "${params.outdir}/bedtools/${meta.id}" }, enabled: false
-}
-params.outdir_custom = "${params.outdir}/genomecov/bedtools"
-if (!params.skip_bigwig) {
-    process.ext.args = '-split-du'
-    publishDir =  path: { "${params.outdir}/bedtools/${meta.id}" }, enabled: false
-}
-params.outdir_custom = "${params.outdir}/genomecov/bedtools"
-if (!params.skip_bigwig) {
-    process.ext.args = '-split-du'
-    publishDir =  path: { "${params.outdir}/bedtools/${meta.id}" }, enabled: false
-}
-params.outdir_custom = "${params.outdir}/genomecov/bedtools"
-if (!params.skip_bigwig) {
-    process.ext.args = '-split-du'
-    publishDir =  path: { "${params.outdir}/bedtools/${meta.id}" }, enabled: false
-}
+        if (!params.skip_bigwig) {
+            process.ext.args = '-split -du'
+        }
         BEDTOOLS_GENOMECOV (
             ch_genome_bam
         )
@@ -798,21 +534,11 @@ if (!params.skip_bigwig) {
         //
         // SUBWORKFLOW: Convert bedGraph to bigWig
         //
-params.outdir_custom = "${params.outdir}/forward/bigwig/to/bedgraph"
-params.outdir_custom = "${params.outdir}/forward/bigwig/to/bedgraph"
-params.outdir_custom = "${params.outdir}/forward/bigwig/to/bedgraph"
-params.outdir_custom = "${params.outdir}/forward/bigwig/to/bedgraph"
-params.outdir_custom = "${params.outdir}/forward/bigwig/to/bedgraph"
         BEDGRAPH_TO_BIGWIG_FORWARD (
             BEDTOOLS_GENOMECOV.out.bedgraph_forward,
             PREPARE_GENOME.out.chrom_sizes
         )
         ch_versions = ch_versions.mix(BEDGRAPH_TO_BIGWIG_FORWARD.out.versions)
-params.outdir_custom = "${params.outdir}/reverse/bigwig/to/bedgraph"
-params.outdir_custom = "${params.outdir}/reverse/bigwig/to/bedgraph"
-params.outdir_custom = "${params.outdir}/reverse/bigwig/to/bedgraph"
-params.outdir_custom = "${params.outdir}/reverse/bigwig/to/bedgraph"
-params.outdir_custom = "${params.outdir}/reverse/bigwig/to/bedgraph"
         BEDGRAPH_TO_BIGWIG_REVERSE (
             BEDTOOLS_GENOMECOV.out.bedgraph_reverse,
             PREPARE_GENOME.out.chrom_sizes
@@ -834,23 +560,6 @@ params.outdir_custom = "${params.outdir}/reverse/bigwig/to/bedgraph"
     ch_tin_multiqc                = Channel.empty()
     if (!params.skip_alignment && !params.skip_qc) {
         if (!params.skip_qualimap) {
-params.outdir_custom = "${params.outdir}/rnaseq/qualimap"
-params.outdir_custom = "${params.outdir}/rnaseq/qualimap"
-if (!params.skip_qualimap) {
-    publishDir =  path: { "${params.outdir}/${params.aligner}/qualimap" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/rnaseq/qualimap"
-if (!params.skip_qualimap) {
-    publishDir =  path: { "${params.outdir}/${params.aligner}/qualimap" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/rnaseq/qualimap"
-if (!params.skip_qualimap) {
-    publishDir =  path: { "${params.outdir}/${params.aligner}/qualimap" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/rnaseq/qualimap"
-if (!params.skip_qualimap) {
-    publishDir =  path: { "${params.outdir}/${params.aligner}/qualimap" }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
             QUALIMAP_RNASEQ (
                 ch_genome_bam,
                 PREPARE_GENOME.out.gtf
@@ -859,23 +568,6 @@ if (!params.skip_qualimap) {
             ch_versions = ch_versions.mix(QUALIMAP_RNASEQ.out.versions.first())
         }
         if (!params.skip_dupradar) {
-params.outdir_custom = "${params.outdir}/dupradar"
-params.outdir_custom = "${params.outdir}/dupradar"
-if (!params.skip_dupradar) {
-    publishDir =   path: { "${params.outdir}/${params.aligner}/dupradar/scatter_plot" }, mode: params.publish_dir_mode, pattern: "*Dens.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/box_plot" }, mode: params.publish_dir_mode, pattern: "*Boxplot.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/histogram" }, mode: params.publish_dir_mode, pattern: "*Hist.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/gene_data" }, mode: params.publish_dir_mode, pattern: "*Matrix.txt" ],  path: { "${params.outdir}/${params.aligner}/dupradar/intercepts_slope" }, mode: params.publish_dir_mode, pattern: "*slope.txt"
-}
-params.outdir_custom = "${params.outdir}/dupradar"
-if (!params.skip_dupradar) {
-    publishDir =   path: { "${params.outdir}/${params.aligner}/dupradar/scatter_plot" }, mode: params.publish_dir_mode, pattern: "*Dens.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/box_plot" }, mode: params.publish_dir_mode, pattern: "*Boxplot.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/histogram" }, mode: params.publish_dir_mode, pattern: "*Hist.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/gene_data" }, mode: params.publish_dir_mode, pattern: "*Matrix.txt" ],  path: { "${params.outdir}/${params.aligner}/dupradar/intercepts_slope" }, mode: params.publish_dir_mode, pattern: "*slope.txt"
-}
-params.outdir_custom = "${params.outdir}/dupradar"
-if (!params.skip_dupradar) {
-    publishDir =   path: { "${params.outdir}/${params.aligner}/dupradar/scatter_plot" }, mode: params.publish_dir_mode, pattern: "*Dens.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/box_plot" }, mode: params.publish_dir_mode, pattern: "*Boxplot.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/histogram" }, mode: params.publish_dir_mode, pattern: "*Hist.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/gene_data" }, mode: params.publish_dir_mode, pattern: "*Matrix.txt" ],  path: { "${params.outdir}/${params.aligner}/dupradar/intercepts_slope" }, mode: params.publish_dir_mode, pattern: "*slope.txt"
-}
-params.outdir_custom = "${params.outdir}/dupradar"
-if (!params.skip_dupradar) {
-    publishDir =   path: { "${params.outdir}/${params.aligner}/dupradar/scatter_plot" }, mode: params.publish_dir_mode, pattern: "*Dens.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/box_plot" }, mode: params.publish_dir_mode, pattern: "*Boxplot.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/histogram" }, mode: params.publish_dir_mode, pattern: "*Hist.pdf" ],  path: { "${params.outdir}/${params.aligner}/dupradar/gene_data" }, mode: params.publish_dir_mode, pattern: "*Matrix.txt" ],  path: { "${params.outdir}/${params.aligner}/dupradar/intercepts_slope" }, mode: params.publish_dir_mode, pattern: "*slope.txt"
-}
             DUPRADAR (
                 ch_genome_bam,
                 PREPARE_GENOME.out.gtf
@@ -884,11 +576,6 @@ if (!params.skip_dupradar) {
             ch_versions = ch_versions.mix(DUPRADAR.out.versions.first())
         }
         if (!params.skip_rseqc && rseqc_modules.size() > 0) {
-params.outdir_custom = "${params.outdir}/rseqc"
-params.outdir_custom = "${params.outdir}/rseqc"
-params.outdir_custom = "${params.outdir}/rseqc"
-params.outdir_custom = "${params.outdir}/rseqc"
-params.outdir_custom = "${params.outdir}/rseqc"
             RSEQC (
                 ch_genome_bam,
                 ch_genome_bam_index,
@@ -919,30 +606,9 @@ params.outdir_custom = "${params.outdir}/rseqc"
                 "Antisense (%)",
                 "Undetermined (%)"
             ]
-params.outdir_custom = "${params.outdir}/check/strand/tsv/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-}
-params.outdir_custom = "${params.outdir}/check/strand/tsv/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/check/strand/tsv/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/check/strand/tsv/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/check/strand/tsv/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
+            if (!params.skip_multiqc) {
+                process.ext.args = params.multiqc_title ? "--title \"$params.multiqc_title\"" : ''
+            }
             MULTIQC_TSV_STRAND_CHECK (
                 ch_fail_strand.collect(),
                 header,
@@ -958,11 +624,7 @@ if (!params.skip_multiqc) {
     ch_pseudoaligner_pca_multiqc        = Channel.empty()
     ch_pseudoaligner_clustering_multiqc = Channel.empty()
     if (params.pseudo_aligner == 'salmon') {
-params.outdir_custom = "${params.outdir}/salmon/quantify"
-params.outdir_custom = "${params.outdir}/salmon/quantify"
-params.outdir_custom = "${params.outdir}/salmon/quantify"
-params.outdir_custom = "${params.outdir}/salmon/quantify"
-params.outdir_custom = "${params.outdir}/salmon/quantify"
+
         QUANTIFY_SALMON (
             ch_filtered_reads,
             PREPARE_GENOME.out.salmon_index,
@@ -974,35 +636,10 @@ params.outdir_custom = "${params.outdir}/salmon/quantify"
         ch_salmon_multiqc = QUANTIFY_SALMON.out.results
         ch_versions = ch_versions.mix(QUANTIFY_SALMON.out.versions)
         if (!params.skip_qc & !params.skip_deseq2_qc) {
-params.outdir_custom = "${params.outdir}/salmon/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'salmon'
-}
-params.outdir_custom = "${params.outdir}/salmon/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'salmon'
-    publishDir =  path: { "${params.outdir}/${params.pseudo_aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
-params.outdir_custom = "${params.outdir}/salmon/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'salmon'
-    publishDir =  path: { "${params.outdir}/${params.pseudo_aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
-params.outdir_custom = "${params.outdir}/salmon/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'salmon'
-    publishDir =  path: { "${params.outdir}/${params.pseudo_aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
-params.outdir_custom = "${params.outdir}/salmon/qc/deseq2"
-if (!params.skip_qc & !params.skip_deseq2_qc) {
-    process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
-    process.ext.args2 = 'salmon'
-    publishDir =  path: { "${params.outdir}/${params.pseudo_aligner}/deseq2_qc" }, mode: params.publish_dir_mode, pattern: "*{RData,pca.vals.txt,plots.pdf,sample.dists.txt,size_factors,log}"
-}
+            if (!params.skip_qc & !params.skip_deseq2_qc) {
+                process.ext.args = [ "--id_col 1", "--sample_suffix ''", "--outprefix deseq2", "--count_col 3", params.deseq2_vst ? '--vst TRUE' : '' ].join(' ').trim()
+                process.ext.args2 = 'salmon'
+            }
             DESEQ2_QC_SALMON (
                 QUANTIFY_SALMON.out.counts_gene_length_scaled,
                 ch_pca_header_multiqc,
@@ -1016,15 +653,6 @@ if (!params.skip_qc & !params.skip_deseq2_qc) {
     //
     // MODULE: Pipeline reporting
     //
-params.outdir_custom = "${params.outdir}/dumpsoftwareversions/custom"
-params.outdir_custom = "${params.outdir}/dumpsoftwareversions/custom"
-publishDir =  path: { "${params.outdir}/pipeline_info" }, mode: params.publish_dir_mode, pattern: '*_versions.yml'
-params.outdir_custom = "${params.outdir}/dumpsoftwareversions/custom"
-publishDir =  path: { "${params.outdir}/pipeline_info" }, mode: params.publish_dir_mode, pattern: '*_versions.yml'
-params.outdir_custom = "${params.outdir}/dumpsoftwareversions/custom"
-publishDir =  path: { "${params.outdir}/pipeline_info" }, mode: params.publish_dir_mode, pattern: '*_versions.yml'
-params.outdir_custom = "${params.outdir}/dumpsoftwareversions/custom"
-publishDir =  path: { "${params.outdir}/pipeline_info" }, mode: params.publish_dir_mode, pattern: '*_versions.yml'
     CUSTOM_DUMPSOFTWAREVERSIONS (
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
     )
@@ -1034,30 +662,9 @@ publishDir =  path: { "${params.outdir}/pipeline_info" }, mode: params.publish_d
     if (!params.skip_multiqc) {
         workflow_summary    = WorkflowRnaseq.paramsSummaryMultiqc(workflow, summary_params)
         ch_workflow_summary = Channel.value(workflow_summary)
-params.outdir_custom = "${params.outdir}/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-}
-params.outdir_custom = "${params.outdir}/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
-params.outdir_custom = "${params.outdir}/multiqc"
-if (!params.skip_multiqc) {
-    process.ext.args = params.multiqc_title?"--title\"$params.multiqc_title\"":''
-    publishDir =  path: {  params.skip_alignment? '' : "/${params.aligner}" ].join('') }, mode: params.publish_dir_mode, saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-}
+            if (!params.skip_multiqc) {
+                process.ext.args = params.multiqc_title? "--title \"$params.multiqc_title\"" : ''
+            }
         MULTIQC (
             ch_multiqc_config,
             ch_multiqc_custom_config.collect().ifEmpty([]),
@@ -1103,11 +710,22 @@ if (!params.skip_multiqc) {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 workflow.onComplete {
-    if (params.email || params.email_on_fail) {
-        NfcoreTemplate.email(workflow, params, summary_params, projectDir, log, multiqc_report, fail_percent_mapped)
-    }
-    NfcoreTemplate.summary(workflow, params, log, fail_percent_mapped, pass_percent_mapped)
+// copy intermediate files + directories
+println("Getting intermediate files from ICA")
+['cp','-r',"${workflow.workDir}","${workflow.launchDir}/out"].execute()
+// return trace files
+println("Returning workflow run-metric reports from ICA")
+['find','/ces','-type','f','-name','\"*.ica\"','2>','/dev/null', '|', 'grep','"report"' ,'|','xargs','-i','cp','-r','{}',"${workflow.launchDir}/out"].execute()
 }
+workflow.onError {
+// copy intermediate files + directories
+println("Getting intermediate files from ICA")
+['cp','-r',"${workflow.workDir}","${workflow.launchDir}/out"].execute()
+// return trace files
+println("Returning workflow run-metric reports from ICA")
+['find','/ces','-type','f','-name','\"*.ica\"','2>','/dev/null', '|', 'grep','"report"' ,'|','xargs','-i','cp','-r','{}',"${workflow.launchDir}/out"].execute()
+}
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     THE END

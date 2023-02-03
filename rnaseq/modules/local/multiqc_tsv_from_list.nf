@@ -1,6 +1,6 @@
 process MULTIQC_TSV_FROM_LIST {
     publishDir path: { "${params.outdir_custom}" },mode: "${params.publish_dir_mode}",saveAs: { filename -> filename.equals('versions.yml') ? null : filename }
-    exectutor 'local'
+    executor 'local'
     pod annotation: 'scheduler.illumina.com/presetSize' , value: 'himem-small'
     errorStrategy 'ignore'
     cpus 16
