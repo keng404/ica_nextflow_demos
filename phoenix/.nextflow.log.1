@@ -1,0 +1,146 @@
+Mar-13 19:05:54.733 [main] DEBUG nextflow.cli.Launcher - $> nextflow run main.nf -c nextflow.ica.config --input my_input.csv
+Mar-13 19:05:54.871 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 22.04.3
+Mar-13 19:05:54.896 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /Users/keng/cdc_phoenix/phoenix/nextflow.config
+Mar-13 19:05:54.902 [main] DEBUG nextflow.config.ConfigBuilder - User config file: /Users/keng/cdc_phoenix/phoenix/nextflow.ica.config
+Mar-13 19:05:54.903 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Users/keng/cdc_phoenix/phoenix/nextflow.config
+Mar-13 19:05:54.905 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Users/keng/cdc_phoenix/phoenix/nextflow.ica.config
+Mar-13 19:05:54.937 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Mar-13 19:05:56.375 [main] DEBUG nextflow.plugin.PluginsFacade - Using Default plugins manager
+Mar-13 19:05:56.390 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Mar-13 19:05:56.393 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Mar-13 19:05:56.397 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Mar-13 19:05:56.404 [main] DEBUG nextflow.plugin.PluginsFacade - Using Default plugins manager
+Mar-13 19:05:56.813 [main] DEBUG nextflow.plugin.PluginsFacade - Using Default plugins manager
+Mar-13 19:05:57.080 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Mar-13 19:05:57.282 [main] DEBUG nextflow.plugin.PluginsFacade - Using Default plugins manager
+Mar-13 19:05:57.284 [main] DEBUG nextflow.plugin.PluginsFacade - Using Default plugins manager
+Mar-13 19:05:57.374 [main] DEBUG nextflow.plugin.PluginsFacade - Using Default plugins manager
+Mar-13 19:05:57.554 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declararion
+Mar-13 19:05:57.574 [main] INFO  nextflow.cli.CmdRun - Launching `main.nf` [nauseous_wiles] DSL2 - revision: 3082d95010
+Mar-13 19:05:57.576 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; plugins-dir=/.nextflow/plugins; core-plugins: nf-amazon@1.7.2,nf-azure@0.13.2,nf-console@1.0.3,nf-ga4gh@1.0.3,nf-google@1.1.4,nf-sqldb@0.4.0,nf-tower@1.4.0
+Mar-13 19:05:57.578 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Mar-13 19:05:57.586 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Mar-13 19:05:57.587 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Mar-13 19:05:57.589 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Mar-13 19:05:57.600 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Mar-13 19:05:57.653 [main] DEBUG nextflow.Session - Session uuid: 32e7b6be-1f28-4da0-8496-c17df01329ed
+Mar-13 19:05:57.656 [main] DEBUG nextflow.Session - Run name: nauseous_wiles
+Mar-13 19:05:57.661 [main] DEBUG nextflow.Session - Executor pool size: 8
+Mar-13 19:05:57.698 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 22.04.3 build 5703
+  Created: 18-05-2022 19:22 UTC 
+  System: Linux 5.15.49-linuxkit
+  Runtime: Groovy 3.0.10 on OpenJDK 64-Bit Server VM 17.0.3+6-LTS
+  Encoding: UTF-8 (UTF-8)
+  Process: 1@09aad7691e7a [172.17.0.2]
+  CPUs: 8 - Mem: 13.2 GB (1.9 GB) - Swap: 2 GB (2 GB)
+Mar-13 19:05:57.731 [main] DEBUG nextflow.Session - Work-dir: /Users/keng/cdc_phoenix/phoenix/work [fuseblk]
+Mar-13 19:05:57.795 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Mar-13 19:05:57.826 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Mar-13 19:05:57.871 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Mar-13 19:05:57.880 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
+Mar-13 19:05:58.020 [main] DEBUG nextflow.Session - Session start invoked
+Mar-13 19:05:58.025 [main] DEBUG nextflow.trace.TraceFileObserver - Flow starting -- trace file: /Users/keng/cdc_phoenix/phoenix/results/pipeline_info/execution_trace_2023-03-13_19-05-56.txt
+Mar-13 19:05:58.040 [main] DEBUG nextflow.Session - Using default localLib path: /Users/keng/cdc_phoenix/phoenix/lib
+Mar-13 19:05:58.052 [main] DEBUG nextflow.Session - Adding to the classpath library: /Users/keng/cdc_phoenix/phoenix/lib
+Mar-13 19:05:58.054 [main] DEBUG nextflow.Session - Adding to the classpath library: /Users/keng/cdc_phoenix/phoenix/lib/nfcore_external_java_deps.jar
+Mar-13 19:05:59.625 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Mar-13 19:06:00.738 [main] WARN  nextflow.Nextflow - Found unexpected parameters:
+* --igenomes_ignore: false
+* --conda_enabled: false
+* --scaffolds_samplesheet: /Users/keng/cdc_phoenix/phoenix/assets/scaffolds_list.csv
+Mar-13 19:06:00.740 [main] INFO  nextflow.Nextflow - - [2mIgnore this warning: params.schema_ignore_params = "igenomes_ignore,conda_enabled,scaffolds_samplesheet" [0m
+Mar-13 19:06:00.757 [main] INFO  nextflow.Nextflow - 
+
+-[2m----------------------------------------------------[0m-
+[1;91m  ___                           _____       [0m
+[1;91m |   \  |   |   __   ___  |\  |   |    \  / [0m
+[1;91m |___/  |___|  /  \ |___  | \ |   |     \/  [0m
+[1;91m |      |   |  \__/ |___  |  \| __|__  /  \ [0m
+[1;91m                                                        [0m
+[1;96m  cdcgov/phoenix v1.1.0[0m
+-[2m----------------------------------------------------[0m-
+[1mCore Nextflow options[0m
+  [0;34mrunName              : [0;32mnauseous_wiles[0m
+  [0;34mcontainerEngine      : [0;32mdocker[0m
+  [0;34mlaunchDir            : [0;32m/Users/keng/cdc_phoenix/phoenix[0m
+  [0;34mworkDir              : [0;32m/Users/keng/cdc_phoenix/phoenix/work[0m
+  [0;34mprojectDir           : [0;32m/Users/keng/cdc_phoenix/phoenix[0m
+  [0;34muserName             : [0;32mroot[0m
+  [0;34mprofile              : [0;32mstandard[0m
+  [0;34mconfigFiles          : [0;32m/Users/keng/cdc_phoenix/phoenix/nextflow.config, /Users/keng/cdc_phoenix/phoenix/nextflow.ica.config[0m
+
+[1mRequired Options[0m
+  [0;34minput                : [0;32mmy_input.csv[0m
+  [0;34mkraken2db            : [0;32mnull[0m
+
+[1mOptional options[0m
+  [0;34moutdir               : [0;32mout[0m
+  [0;34mbusco_db_path        : [0;32mnull[0m
+
+[1mInstitutional config options[0m
+  [0;34mcustom_config_version: [0;32mmaster[0m
+
+[1mGeneric options[0m
+  [0;34mtracedir             : [0;32m/Users/keng/cdc_phoenix/phoenix/results/pipeline_info[0m
+
+!! Only displaying parameters that differ from the pipeline defaults !!
+-[2m----------------------------------------------------[0m-
+If you use cdcgov/phoenix for your analysis please cite:
+
+* The nf-core framework
+  https://doi.org/10.1038/s41587-020-0439-x
+
+* Software dependencies
+  https://github.com/cdcgov/phoenix/blob/main/CITATIONS.md
+-[2m----------------------------------------------------[0m-
+Mar-13 19:06:03.956 [main] DEBUG nextflow.Session - Session aborted -- Cause: /Users/keng/cdc_phoenix/phoenix/my_input.csv
+Mar-13 19:06:03.967 [main] ERROR nextflow.cli.Launcher - /Users/keng/cdc_phoenix/phoenix/my_input.csv
+java.nio.file.NoSuchFileException: /Users/keng/cdc_phoenix/phoenix/my_input.csv
+	at nextflow.file.FileHelper.checkIfExists(FileHelper.groovy:1036)
+	at nextflow.file.FileHelper$checkIfExists$2.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:148)
+	at nextflow.Nextflow.file(Nextflow.groovy:159)
+	at nextflow.Nextflow$file.callStatic(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:55)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:217)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:240)
+	at Script_1222333e.runScript(Script_1222333e:10)
+	at nextflow.script.BaseScript.runDsl2(BaseScript.groovy:170)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:217)
+	at nextflow.script.ScriptParser.runScript(ScriptParser.groovy:220)
+	at nextflow.script.ScriptParser.runScript(ScriptParser.groovy:206)
+	at nextflow.script.ScriptParser.runScript(ScriptParser.groovy:200)
+	at nextflow.script.IncludeDef.memoizedMethodPriv$loadModule0PathMapSession(IncludeDef.groovy:142)
+	at nextflow.script.IncludeDef.access$0(IncludeDef.groovy)
+	at nextflow.script.IncludeDef$__clinit__closure1.doCall(IncludeDef.groovy)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:323)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:274)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1035)
+	at groovy.lang.Closure.call(Closure.java:412)
+	at org.codehaus.groovy.runtime.memoize.Memoize$MemoizeFunction.lambda$call$0(Memoize.java:137)
+	at org.codehaus.groovy.runtime.memoize.ConcurrentCommonCache.getAndPut(ConcurrentCommonCache.java:137)
+	at org.codehaus.groovy.runtime.memoize.ConcurrentCommonCache.getAndPut(ConcurrentCommonCache.java:113)
+	at org.codehaus.groovy.runtime.memoize.Memoize$MemoizeFunction.call(Memoize.java:136)
+	at nextflow.script.IncludeDef.loadModule0(IncludeDef.groovy)
+	at nextflow.script.IncludeDef.load0(IncludeDef.groovy:114)
+	at nextflow.script.IncludeDef$load0$1.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:139)
+	at Script_9cfa9993.runScript(Script_9cfa9993:22)
+	at nextflow.script.BaseScript.runDsl2(BaseScript.groovy:170)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:217)
+	at nextflow.script.ScriptParser.runScript(ScriptParser.groovy:220)
+	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:212)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:120)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:337)
+	at nextflow.cli.Launcher.run(Launcher.groovy:480)
+	at nextflow.cli.Launcher.main(Launcher.groovy:639)

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pipeline xmlns="xsd://www.illumina.com/ica/cp/pipelinedefinition" code="phoenix pipeline" version="1.0">
+  <dataInputs>
+    <dataInput code="input" format="UNKNOWN" type="FILE" required="true" multiValue="true">
+      <label>input</label>
+      <description>Path to comma-separated file containing information about the samples in the experiment.
+You will need to create a design file with information about the samples in your experiment before running the pipeline. Use this parameter to specify its location. It has to be a comma-separated file with 3 columns, and a header row. See [usage docs](https://nf-co.re/quaisar/usage#samplesheet-input).</description>
+    </dataInput>
+    <dataInput code="kraken2db" format="UNKNOWN" type="FILE" required="true" multiValue="true">
+      <label>kraken2db</label>
+      <description>Path (full or relative) for where kraken2 database files are, which includes hash.k2d, taxo.k2d, opts.k2d and ktax_map.k2 files.</description>
+    </dataInput>
+    <dataInput code="project_dir" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="true">
+      <label>project_dir</label>
+      <description>directory with additional files/input to run pipeline --- other files in your github project</description>
+    </dataInput>
+    <dataInput code="input_files" format="UNKNOWN" type="FILE" required="true" multiValue="true">
+      <label>input_files</label>
+      <description>additional files/input to run pipeline --- other files in your github project</description>
+    </dataInput>
+  </dataInputs>
+  <steps/>
+</pipeline>

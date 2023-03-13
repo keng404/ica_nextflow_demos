@@ -1,0 +1,46 @@
+Mar-13 18:56:40.093 [main] DEBUG nextflow.cli.Launcher - $> nextflow run main.nf
+Mar-13 18:56:40.199 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 22.04.3
+Mar-13 18:56:40.223 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /Users/keng/cdc_phoenix/phoenix/nextflow.config
+Mar-13 18:56:40.224 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /Users/keng/cdc_phoenix/phoenix/nextflow.config
+Mar-13 18:56:40.251 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Mar-13 18:56:41.565 [main] DEBUG nextflow.plugin.PluginsFacade - Using Default plugins manager
+Mar-13 18:56:41.577 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Mar-13 18:56:41.580 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Mar-13 18:56:41.584 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Mar-13 18:56:41.590 [main] DEBUG nextflow.plugin.PluginsFacade - Using Default plugins manager
+Mar-13 18:56:51.932 [main] DEBUG nextflow.plugin.PluginsFacade - Using Default plugins manager
+Mar-13 18:56:52.297 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 from script declararion
+Mar-13 18:56:52.318 [main] INFO  nextflow.cli.CmdRun - Launching `main.nf` [pensive_leavitt] DSL2 - revision: 3082d95010
+Mar-13 18:56:52.321 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; plugins-dir=/.nextflow/plugins; core-plugins: nf-amazon@1.7.2,nf-azure@0.13.2,nf-console@1.0.3,nf-ga4gh@1.0.3,nf-google@1.1.4,nf-sqldb@0.4.0,nf-tower@1.4.0
+Mar-13 18:56:52.323 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Mar-13 18:56:52.332 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Mar-13 18:56:52.334 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Mar-13 18:56:52.337 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Mar-13 18:56:52.349 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Mar-13 18:56:52.399 [main] DEBUG nextflow.Session - Session uuid: 94cf6998-8e3e-4805-a876-1be9f51bf73b
+Mar-13 18:56:52.400 [main] DEBUG nextflow.Session - Run name: pensive_leavitt
+Mar-13 18:56:52.403 [main] DEBUG nextflow.Session - Executor pool size: 8
+Mar-13 18:56:52.432 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 22.04.3 build 5703
+  Created: 18-05-2022 19:22 UTC 
+  System: Linux 5.15.49-linuxkit
+  Runtime: Groovy 3.0.10 on OpenJDK 64-Bit Server VM 17.0.3+6-LTS
+  Encoding: UTF-8 (UTF-8)
+  Process: 1@1d7bd1bb8261 [172.17.0.2]
+  CPUs: 8 - Mem: 13.2 GB (11.9 GB) - Swap: 2 GB (2 GB)
+Mar-13 18:56:52.469 [main] DEBUG nextflow.Session - Work-dir: /Users/keng/cdc_phoenix/phoenix/work [fuseblk]
+Mar-13 18:56:52.535 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Mar-13 18:56:52.546 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Mar-13 18:56:52.616 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Mar-13 18:56:52.627 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
+Mar-13 18:56:52.757 [main] DEBUG nextflow.Session - Session start invoked
+Mar-13 18:56:52.763 [main] DEBUG nextflow.trace.TraceFileObserver - Flow starting -- trace file: /Users/keng/cdc_phoenix/phoenix/results/pipeline_info/execution_trace_2023-03-13_18-56-51.txt
+Mar-13 18:56:52.781 [main] DEBUG nextflow.Session - Using default localLib path: /Users/keng/cdc_phoenix/phoenix/lib
+Mar-13 18:56:52.797 [main] DEBUG nextflow.Session - Adding to the classpath library: /Users/keng/cdc_phoenix/phoenix/lib
+Mar-13 18:56:52.800 [main] DEBUG nextflow.Session - Adding to the classpath library: /Users/keng/cdc_phoenix/phoenix/lib/nfcore_external_java_deps.jar
+Mar-13 18:56:54.660 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Mar-13 18:56:55.051 [main] ERROR nextflow.Nextflow - ERROR: Validation of pipeline parameters failed!
+Mar-13 18:56:55.074 [main] ERROR nextflow.Nextflow - * Missing required parameter: --input
+Mar-13 18:56:55.092 [main] WARN  nextflow.Nextflow - Found unexpected parameters:
+* --scaffolds_samplesheet: /Users/keng/cdc_phoenix/phoenix/assets/scaffolds_list.csv
+Mar-13 18:56:55.094 [main] INFO  nextflow.Nextflow - - [2mIgnore this warning: params.schema_ignore_params = "scaffolds_samplesheet" [0m

@@ -1,0 +1,6 @@
+2023-03-13 18:55:41	-	nasty_solvay	-	3082d950108e46084f0ba465c8fae197	afb1770e-147f-4287-baa4-b6adeac3184a	nextflow run main.nf
+2023-03-13 18:56:52	-	pensive_leavitt	-	3082d950108e46084f0ba465c8fae197	94cf6998-8e3e-4805-a876-1be9f51bf73b	nextflow run main.nf
+2023-03-13 18:57:41	-	amazing_mcclintock	-	3082d950108e46084f0ba465c8fae197	d289352d-e0ce-4c77-9e99-f79d394faa3f	nextflow run main.nf --input my_input.csv
+2023-03-13 19:01:02	-	evil_leavitt	-	3082d950108e46084f0ba465c8fae197	6d9a9886-225b-476f-8a95-3e9766ce1c83	nextflow run main.nf -c nextflow.ica.config --input my_input.csv
+2023-03-13 19:05:57	-	nauseous_wiles	-	3082d950108e46084f0ba465c8fae197	32e7b6be-1f28-4da0-8496-c17df01329ed	nextflow run main.nf -c nextflow.ica.config --input my_input.csv
+2023-03-13 19:07:18	-	lonely_hypatia	-	3082d950108e46084f0ba465c8fae197	ed75aba2-d0b9-406c-8231-b2796071ce4d	nextflow run main.nf -c nextflow.ica.config --input my_input.csv
