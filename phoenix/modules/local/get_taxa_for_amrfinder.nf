@@ -9,7 +9,7 @@ process GET_TAXA_FOR_AMRFINDER {
     script: // This script is bundled with the pipeline, in cdcgov/phoenix/bin/
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-python ${workflow.launchDir}/get_taxa_for_amrfinder.py -t $taxa_file -o ${prefix}_AMRFinder_Organism.csv
+python ${workflow.launchDir}/bin/get_taxa_for_amrfinder.py -t $taxa_file -o ${prefix}_AMRFinder_Organism.csv
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
        python: \$(python --version | sed 's/Python //g')

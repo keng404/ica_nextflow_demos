@@ -18,7 +18,7 @@ process KRAKEN_BEST_HIT {
         error "Please set params.terra to either \"true\" or \"false\""
     }
     """
-source ${workflow.launchDir}/kraken2_best_hit.sh -i $kraken_report -q $count_file -n ${prefix} $terra
+source ${workflow.launchDir}/bin/kraken2_best_hit.sh -i $kraken_report -q $count_file -n ${prefix} $terra
     mv ${prefix}.summary.txt ${prefix}.${kraken_type}_summary.txt
     """
 }

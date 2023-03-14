@@ -12,7 +12,7 @@ process JSON_CREATOR {
     path "versions.yml", emit: versions
     script: 
     """
-python ${workflow.launchDir}/to_json.py \\
+python ${workflow.launchDir}/bin/to_json.py \\
     $file
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -34,7 +34,7 @@ process GENERATE_PIPELINE_STATS_EXQC {
     script: // This script is bundled with the pipeline, in cdcgov/phoenix/bin/
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-source ${workflow.launchDir}/pipeline_stats_writer.sh \\
+source ${workflow.launchDir}/bin/pipeline_stats_writer.sh \\
         -a $fastp_raw_qc \\
         -b $fastp_total_qc \\
         -c ${trimmed_reads[0]} \\

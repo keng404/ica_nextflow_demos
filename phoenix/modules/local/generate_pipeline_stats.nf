@@ -37,7 +37,7 @@ process GENERATE_PIPELINE_STATS {
         error "Please set params.terra to either \"true\" or \"false\""
     }
     """
-source ${workflow.launchDir}/pipeline_stats_writer.sh \\
+source ${workflow.launchDir}/bin/pipeline_stats_writer.sh \\
         -a $fastp_raw_qc \\
         -b $fastp_total_qc \\
         -c ${trimmed_reads[0]} \\

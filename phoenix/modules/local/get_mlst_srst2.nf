@@ -35,7 +35,7 @@ process GET_MLST_SRST2 {
         echo "-\$test_title-"
       fi
       echo "\${genus}___\${species}"
-python ${workflow.launchDir}/convert_taxonomy_with_complexes_to_pubMLST.py --genus "\${genus}" --species "\${species}" > DB_defs.txt
+python ${workflow.launchDir}/bin/convert_taxonomy_with_complexes_to_pubMLST.py --genus "\${genus}" --species "\${species}" > DB_defs.txt
       dbline=\$(tail -n1 DB_defs.txt)
       echo "\$dbline"
       IFS=',' read -r -a db_array <<< "\$dbline"
@@ -56,9 +56,9 @@ python ${workflow.launchDir}/convert_taxonomy_with_complexes_to_pubMLST.py --gen
           cp "\${entry_no_spaces}_getMLST_out.txt" "\${entry_no_spaces}_getMLST_out_temp.txt"
         else
           if [[ "\${entry}" = "Streptococcus thermophilus" ]]; then
-python ${workflow.launchDir}/getMLST2_phoenix.py --species "\$entry" --force_scheme_name
+python ${workflow.launchDir}/bin/getMLST2_phoenix.py --species "\$entry" --force_scheme_name
           else
-python ${workflow.launchDir}/getMLST2_phoenix.py --species "\$entry"
+python ${workflow.launchDir}/bin/getMLST2_phoenix.py --species "\$entry"
           fi
           if [[ ! -f dbases.xml ]]; then
             touch "\${entry_no_spaces}.fasta"

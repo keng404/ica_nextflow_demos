@@ -20,7 +20,7 @@ process CALCULATE_ASSEMBLY_RATIO {
         error "Please set params.terra to either \"true\" or \"false\""
     }
     """
-source ${workflow.launchDir}/calculate_assembly_ratio.sh -d $ncbi_database -q $quast_report -x $taxa_file -s ${prefix} $terra
+source ${workflow.launchDir}/bin/calculate_assembly_ratio.sh -d $ncbi_database -q $quast_report -x $taxa_file -s ${prefix} $terra
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         NCBI Assembly Stats DB: $ncbi_database

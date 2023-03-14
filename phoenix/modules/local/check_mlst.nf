@@ -22,7 +22,7 @@ process CHECK_MLST {
     }
     """
     wget $terra --secure-protocol=TLSv1_3 "https://pubmlst.org/data/dbases.xml"
-python ${workflow.launchDir}/check_and_fix_MLST2_new2.py --input $mlst_file --taxonomy $taxonomy_file --docfile dbases.xml
+python ${workflow.launchDir}/bin/check_and_fix_MLST2_new2.py --input $mlst_file --taxonomy $taxonomy_file --docfile dbases.xml
     
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

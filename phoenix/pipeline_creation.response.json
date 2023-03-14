@@ -1,13 +1,13 @@
 {
   "pipeline": {
-    "id": ["1d375ace-8d7b-483d-93bd-67657cb4ec2c"],
-    "timeCreated": ["2023-03-11T02:32:37Z"],
-    "timeModified": ["2023-03-11T02:32:37Z"],
+    "id": ["1b9a3651-6031-43a6-aae2-d1ad8f5a2986"],
+    "timeCreated": ["2023-03-14T16:06:51Z"],
+    "timeModified": ["2023-03-14T16:06:51Z"],
     "ownerId": ["3a9b68e7-e34e-3231-83ab-35ac98d52d33"],
     "tenantId": ["5ea1c931-26b0-4b64-a3b6-773516464893"],
     "tenantName": ["ilmn"],
-    "code": ["test_phoenix"],
-    "urn": ["urn:ilmn:ica:pipeline:1d375ace-8d7b-483d-93bd-67657cb4ec2c#test_phoenix"],
+    "code": ["test_phoenix_v2"],
+    "urn": ["urn:ilmn:ica:pipeline:1b9a3651-6031-43a6-aae2-d1ad8f5a2986#test_phoenix_v2"],
     "description": [" For full documentation on the pipeline see the  Wiki  https://github.com/cdcent/phoenix/wiki , but quick start instructions are provided below if you are feeling brave. \\n1. Install  Nextflow  https://www.nextflow.io/docs/latest/getstarted.htmlinstallation   >=21.10.3 . \\n    If you prefer a to use curl or wget for install see the  Nextflow Documentaiton  https://www.nextflow.io/docs/latest/getstarted.html  \\n Related documents "],
     "language": ["NEXTFLOW"],
     "languageVersion": {
