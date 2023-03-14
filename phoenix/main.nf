@@ -82,6 +82,9 @@ workflow SCAFFOLD_LIST {
     THE END
 ========================================================================================
 */
+workflow{
+    PHOENIX()
+}
 workflow.onError{ 
 // copy intermediate files + directories
 println("Getting intermediate files from ICA")
