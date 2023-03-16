@@ -19,7 +19,6 @@ process SPADES {
     path  "versions.yml"                          ,                emit: versions
     tuple val(meta), path("*_spades_outcome.csv") ,                emit: spades_outcome
     script:
-    env spades_complete
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     def maxmem = task.memory.toGiga() // allow 4 less GB to provide enough space
@@ -30,8 +29,8 @@ process SPADES {
     def spades_fail_status = "run_failure,no_scaffolds,no_contigs"
     """
     # preemptively create _summary_line.csv and .synopsis file incase spades fails (no contigs or scaffolds created) we can still collect upstream stats. 
-bash ${workflow.launchDir}/bin/pipeline_stats_writer_trimd.sh -a ${fastp_raw_qc} -b ${fastp_total_qc} -c ${reads[0]} -d ${reads[1]} -e ${kraken2_trimd_report} -f ${k2_bh_summary} -g ${krona_trimd}
-bash ${workflow.launchDir}/bin/beforeSpades.sh -k ${k2_bh_summary} -n ${prefix} -d ${full_outdir}
+    bash ${workflow.launchDir}/bin/pipeline_stats_writer_trimd.sh -a ${fastp_raw_qc} -b ${fastp_total_qc} -c ${reads[0]} -d ${reads[1]} -e ${kraken2_trimd_report} -f ${k2_bh_summary} -g ${krona_trimd}
+    bash ${workflow.launchDir}/bin/beforeSpades.sh -k ${k2_bh_summary} -n ${prefix} -d ${full_outdir}
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         spades: \$(spades.py --version 2>&1 | sed 's/^.*SPAdes genome assembler v//; s/ .*\$//')
