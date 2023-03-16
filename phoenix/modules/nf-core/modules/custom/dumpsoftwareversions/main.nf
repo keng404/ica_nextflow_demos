@@ -13,5 +13,5 @@ process CUSTOM_DUMPSOFTWAREVERSIONS {
     path "versions.yml"             , emit: versions
     script:
     def args = task.ext.args ?: ''
-template '$workflow.launchDir/modules/nf-core/modules/custom/dumpsoftwareversions/templates/dumpsoftwareversions.py'
+    template 'dumpsoftwareversions.py'
 }
