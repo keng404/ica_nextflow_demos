@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<pipeline xmlns="xsd://www.illumina.com/ica/cp/pipelinedefinition" code="phoenix pipeline" version="1.0">
+<pipeline code="phoenix pipeline" version="1.0" xmlns="xsd://www.illumina.com/ica/cp/pipelinedefinition">
   <dataInputs>
     <dataInput code="input_files" format="UNKNOWN" type="FILE" required="false" multiValue="true">
       <label>input_files</label>
       <description>input files for pipeline.
 All files will be staged in workflow.launchDir</description>
-    </dataInput>
-    <dataInput code="project_dir" format="UNKNOWN" type="DIRECTORY" required="true" multiValue="true">
-      <label>project_dir</label>
-      <description>directory with additional files/input to run pipeline --- other files in your github project</description>
     </dataInput>
   </dataInputs>
   <steps>

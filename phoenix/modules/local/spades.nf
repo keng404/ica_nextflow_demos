@@ -27,8 +27,8 @@ process SPADES {
     def phred_offset = params.phred
     """
     # preemptively create _summary_line.csv and .synopsis file incase spades fails (no contigs or scaffolds created) we can still collect upstream stats. 
-source ${workflow.launchDir}/bin/pipeline_stats_writer_trimd.sh -a ${fastp_raw_qc} -b ${fastp_total_qc} -c ${reads[0]} -d ${reads[1]} -e ${kraken2_trimd_report} -f ${k2_bh_summary} -g ${krona_trimd}
-source ${workflow.launchDir}/bin/beforeSpades.sh -k ${k2_bh_summary} -n ${prefix} -d ${full_outdir}
+bash ${workflow.launchDir}/bin/pipeline_stats_writer_trimd.sh -a ${fastp_raw_qc} -b ${fastp_total_qc} -c ${reads[0]} -d ${reads[1]} -e ${kraken2_trimd_report} -f ${k2_bh_summary} -g ${krona_trimd}
+bash ${workflow.launchDir}/bin/beforeSpades.sh -k ${k2_bh_summary} -n ${prefix} -d ${full_outdir}
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         spades: \$(spades.py --version 2>&1 | sed 's/^.*SPAdes genome assembler v//; s/ .*\$//')
@@ -55,6 +55,6 @@ source ${workflow.launchDir}/bin/beforeSpades.sh -k ${k2_bh_summary} -n ${prefix
     #Create a summaryline file that will be deleted later if spades is successful if not this line shows up in the final Phoenix_output_summary file
     #create file '*_spades_outcome.csv' to state if spades fails, if contigs or scaffolds are created. See spades_failure.nf subworkflow
     #This file will determine if downstream process GENERATE_PIPELINE_STATS_FAILURE and CREATE_SUMMARY_LINE_FAILURE will run (if spades creates contigs, but not scaffolds).
-source ${workflow.launchDir}/bin/afterSpades.sh
+    source ${workflow.launchDir}/bin/afterSpades.sh
     """
 }

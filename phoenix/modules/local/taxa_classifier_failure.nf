@@ -12,6 +12,6 @@ process DETERMINE_TAXA_ID_FAILURE {
     script: // This script is bundled with the pipeline, in cdcgov/phoenix/bin/
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-source ${workflow.launchDir}/bin/determine_taxID.sh -r $k2_bh_summary -s $meta.id -d $taxa_file
+bash ${workflow.launchDir}/bin/determine_taxID.sh -r $k2_bh_summary -s $meta.id -d $taxa_file
     """
 }

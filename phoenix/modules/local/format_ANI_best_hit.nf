@@ -17,6 +17,6 @@ process FORMAT_ANI {
         error "Please set params.terra to either \"true\" or \"false\""
     }
     """
-source ${workflow.launchDir}/bin/ANI_best_hit_formatter.sh -a $ani_file -n ${prefix} $terra
+bash ${workflow.launchDir}/bin/ANI_best_hit_formatter.sh -a $ani_file -n ${prefix} $terra
     """
 }

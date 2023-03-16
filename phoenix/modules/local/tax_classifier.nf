@@ -11,7 +11,7 @@ process DETERMINE_TAXA_ID {
     script: // This script is bundled with the pipeline, in cdcgov/phoenix/bin/
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-source ${workflow.launchDir}/bin/determine_taxID.sh -k $kraken_weighted -r $k2_bh_summary -s $meta.id -f $formatted_ani_file -d $taxa_file
+bash ${workflow.launchDir}/bin/determine_taxID.sh -k $kraken_weighted -r $k2_bh_summary -s $meta.id -f $formatted_ani_file -d $taxa_file
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         NCBI Taxonomy Reference File: $taxa_file
