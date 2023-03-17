@@ -10,7 +10,7 @@ process GATHERING_READ_QC_STATS {
     script: // This script is bundled with the pipeline, in cdcgov/phoenix/bin/
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-python ${workflow.launchDir}/bin/FastP_QC.py \\
+    python ${workflow.launchDir}/bin/FastP_QC.py \\
       --trimmed_json ${fastp_trimd_json} \\
       --single_json ${fastp_singles_json} \\
       --name ${prefix}
