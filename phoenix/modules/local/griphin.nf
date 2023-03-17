@@ -26,7 +26,7 @@ process GRIPHIN {
             echo \$sample_name,\$full_dir/\$sample_name >> GRiPHin_samplesheet.csv
         fi
     done < ${original_samplesheet}
-python ${workflow.launchDir}/bin/GRiPHin.py -s GRiPHin_samplesheet.csv -a $db
+    python ${workflow.launchDir}/bin/GRiPHin.py -s GRiPHin_samplesheet.csv -a $db
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
        python: \$(python --version | sed 's/Python //g')
