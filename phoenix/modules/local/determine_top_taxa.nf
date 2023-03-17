@@ -19,7 +19,7 @@ process DETERMINE_TOP_TAXA {
         error "Please set params.terra to either \"true\" or \"false\""
     }
     """
-bash ${workflow.launchDir}/bin/sort_and_prep_dist.sh -a $assembly_scaffolds -x $mash_dists $terra
+    bash ${workflow.launchDir}/bin/sort_and_prep_dist.sh -a $assembly_scaffolds -x $mash_dists $terra
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         Date of RefSeq Pull: \$(date +"%d-%m-%y")
