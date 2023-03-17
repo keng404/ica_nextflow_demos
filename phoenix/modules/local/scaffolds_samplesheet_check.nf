@@ -14,7 +14,7 @@ process SCAFFOLDS_SAMPLESHEET_CHECK {
     path "versions.yml", emit: versions
     script: // This script is bundled with the pipeline, in cdcgov/phoenix/bin/
     """
-python ${workflow.launchDir}/bin/scaffolds_samplesheet.py \\
+    python ${workflow.launchDir}/bin/scaffolds_samplesheet.py \\
     $samplesheet
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
