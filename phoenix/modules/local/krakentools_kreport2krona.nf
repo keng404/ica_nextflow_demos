@@ -12,7 +12,7 @@ process KRAKEN2_KRONA {
     script: // This script is bundled with the pipeline, in phoenix/bin/ orginally from https://github.com/jenniferlu717/KrakenTools on 6/15/2022
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-python ${workflow.launchDir}/bin/kreport2krona.py \\
+    python ${workflow.launchDir}/bin/kreport2krona.py \\
         --report ${kraken_report} \\
         --output ${prefix}_${type}.krona
     cat <<-END_VERSIONS > versions.yml
