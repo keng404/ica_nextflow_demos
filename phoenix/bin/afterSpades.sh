@@ -13,6 +13,7 @@
 #
 # Created by Jill Hagey (qpk9@cdc.gov)
 #
+spades_complete=$1
 log=$(find *.spades.log)
 prefix=$(basename $log .spades.log)
 if [ -f scaffolds.fasta ]; then
