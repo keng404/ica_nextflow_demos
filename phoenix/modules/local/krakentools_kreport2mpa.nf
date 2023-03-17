@@ -11,7 +11,7 @@ process KRAKENTOOLS_KREPORT2MPA {
     script: // This script is bundled with the pipeline, in phoenix/bin/
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-python ${workflow.launchDir}/bin/kreport2mpa.py \\
+    python ${workflow.launchDir}/bin/kreport2mpa.py \\
         --report-file ${kraken_report} \\
         --output ${prefix}.mpa
     cat <<-END_VERSIONS > versions.yml
