@@ -1,0 +1,422 @@
+{
+	"items": [
+		{
+			"active": true,
+			"billingMode": "PROJECT",
+			"dataSharingEnabled": false,
+			"id": "6ba2592b-d389-4383-8854-d7107ab304d5",
+			"name": "PipSeeker",
+			"ownerId": "4ab8dca4-6a5c-3f53-87d9-bc515b3cdd16",
+			"region": {
+				"cityName": "North Virginia",
+				"code": "US",
+				"country": {
+					"code": "US",
+					"id": "99f932f8-bc5b-419c-854c-872a5a00cbae",
+					"name": "United States",
+					"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+					"region": "earth",
+					"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+					"tenantName": "Illumina",
+					"timeCreated": "2021-10-29T09:44:26Z",
+					"timeModified": "2021-10-29T09:44:26Z"
+				},
+				"id": "c39b1feb-3e94-4440-805e-45e0c76462bf",
+				"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+				"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+				"tenantName": "ica-cp-admin",
+				"timeCreated": "2021-11-05T09:57:38Z",
+				"timeModified": "2023-01-31T17:52:58Z"
+			},
+			"storageBundle": {
+				"bundleName": "ICA_FT_US_Storage_Entitlement",
+				"entitlementName": "ICA_iap-use1_ICA30-dayFreeTrial",
+				"id": "f34a3451-d594-4de1-9a09-959d7c207d1c",
+				"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+				"region": {
+					"cityName": "North Virginia",
+					"code": "US",
+					"country": {
+						"code": "US",
+						"id": "99f932f8-bc5b-419c-854c-872a5a00cbae",
+						"name": "United States",
+						"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+						"region": "earth",
+						"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+						"tenantName": "Illumina",
+						"timeCreated": "2021-10-29T09:44:26Z",
+						"timeModified": "2021-10-29T09:44:26Z"
+					},
+					"id": "c39b1feb-3e94-4440-805e-45e0c76462bf",
+					"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+					"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+					"tenantName": "ica-cp-admin",
+					"timeCreated": "2021-11-05T09:57:38Z",
+					"timeModified": "2023-01-31T17:52:58Z"
+				},
+				"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+				"tenantName": "Illumina",
+				"timeCreated": "2021-11-08T14:44:40Z",
+				"timeModified": "2021-11-08T14:44:40Z"
+			},
+			"tags": {
+				"technicalTags": [],
+				"userTags": []
+			},
+			"tenantId": "1b0f8913-d652-454f-9414-c6810f4d28b7",
+			"tenantName": "fluentbio",
+			"timeCreated": "2022-07-19T17:53:05Z",
+			"timeModified": "2022-07-19T17:53:10Z"
+		},
+		{
+			"active": true,
+			"billingMode": "PROJECT",
+			"dataSharingEnabled": true,
+			"id": "2b76c0fe-8e37-4e42-a17d-75914017ad75",
+			"name": "Rhapsody2",
+			"ownerId": "8be3c468-bc9d-3dd1-809c-293e1e8c7f82",
+			"region": {
+				"cityName": "North Virginia",
+				"code": "US",
+				"country": {
+					"code": "US",
+					"id": "99f932f8-bc5b-419c-854c-872a5a00cbae",
+					"name": "United States",
+					"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+					"region": "earth",
+					"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+					"tenantName": "Illumina",
+					"timeCreated": "2021-10-29T09:44:26Z",
+					"timeModified": "2021-10-29T09:44:26Z"
+				},
+				"id": "c39b1feb-3e94-4440-805e-45e0c76462bf",
+				"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+				"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+				"tenantName": "ica-cp-admin",
+				"timeCreated": "2021-11-05T09:57:38Z",
+				"timeModified": "2023-01-31T17:52:58Z"
+			},
+			"storageBundle": {
+				"bundleName": "ICA_Ent-US_Storage_Entitlement",
+				"entitlementName": "ICA_iap-use1_IAPEntSubscription",
+				"id": "f4ede967-72a7-41f9-b1c5-d52564b5d746",
+				"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+				"region": {
+					"cityName": "North Virginia",
+					"code": "US",
+					"country": {
+						"code": "US",
+						"id": "99f932f8-bc5b-419c-854c-872a5a00cbae",
+						"name": "United States",
+						"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+						"region": "earth",
+						"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+						"tenantName": "Illumina",
+						"timeCreated": "2021-10-29T09:44:26Z",
+						"timeModified": "2021-10-29T09:44:26Z"
+					},
+					"id": "c39b1feb-3e94-4440-805e-45e0c76462bf",
+					"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+					"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+					"tenantName": "ica-cp-admin",
+					"timeCreated": "2021-11-05T09:57:38Z",
+					"timeModified": "2023-01-31T17:52:58Z"
+				},
+				"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+				"tenantName": "Illumina",
+				"timeCreated": "2021-11-10T22:23:38Z",
+				"timeModified": "2021-11-10T22:23:38Z"
+			},
+			"tags": {
+				"technicalTags": [],
+				"userTags": []
+			},
+			"tenantId": "5ea1c931-26b0-4b64-a3b6-773516464893",
+			"tenantName": "ilmn",
+			"timeCreated": "2022-11-03T16:50:34Z",
+			"timeModified": "2022-11-21T18:37:00Z"
+		},
+		{
+			"active": true,
+			"billingMode": "PROJECT",
+			"dataSharingEnabled": true,
+			"id": "5017c98e-4440-4896-b6e7-f82e344485cf",
+			"name": "ken_test",
+			"ownerId": "3a9b68e7-e34e-3231-83ab-35ac98d52d33",
+			"region": {
+				"cityName": "North Virginia",
+				"code": "US",
+				"country": {
+					"code": "US",
+					"id": "99f932f8-bc5b-419c-854c-872a5a00cbae",
+					"name": "United States",
+					"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+					"region": "earth",
+					"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+					"tenantName": "Illumina",
+					"timeCreated": "2021-10-29T09:44:26Z",
+					"timeModified": "2021-10-29T09:44:26Z"
+				},
+				"id": "c39b1feb-3e94-4440-805e-45e0c76462bf",
+				"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+				"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+				"tenantName": "ica-cp-admin",
+				"timeCreated": "2021-11-05T09:57:38Z",
+				"timeModified": "2023-01-31T17:52:58Z"
+			},
+			"storageBundle": {
+				"bundleName": "ICA_Ent-US_Storage_Entitlement",
+				"entitlementName": "ICA_iap-use1_IAPEntSubscription",
+				"id": "f4ede967-72a7-41f9-b1c5-d52564b5d746",
+				"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+				"region": {
+					"cityName": "North Virginia",
+					"code": "US",
+					"country": {
+						"code": "US",
+						"id": "99f932f8-bc5b-419c-854c-872a5a00cbae",
+						"name": "United States",
+						"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+						"region": "earth",
+						"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+						"tenantName": "Illumina",
+						"timeCreated": "2021-10-29T09:44:26Z",
+						"timeModified": "2021-10-29T09:44:26Z"
+					},
+					"id": "c39b1feb-3e94-4440-805e-45e0c76462bf",
+					"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+					"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+					"tenantName": "ica-cp-admin",
+					"timeCreated": "2021-11-05T09:57:38Z",
+					"timeModified": "2023-01-31T17:52:58Z"
+				},
+				"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+				"tenantName": "Illumina",
+				"timeCreated": "2021-11-10T22:23:38Z",
+				"timeModified": "2021-11-10T22:23:38Z"
+			},
+			"tags": {
+				"technicalTags": [],
+				"userTags": []
+			},
+			"tenantId": "5ea1c931-26b0-4b64-a3b6-773516464893",
+			"tenantName": "ilmn",
+			"timeCreated": "2022-11-17T21:48:32Z",
+			"timeModified": "2022-11-17T22:06:18Z"
+		},
+		{
+			"active": true,
+			"billingMode": "PROJECT",
+			"dataSharingEnabled": true,
+			"id": "2ccfa1d2-3fbd-4d29-978a-54df53b4daea",
+			"name": "BSSH Ken Eng",
+			"ownerId": "3a9b68e7-e34e-3231-83ab-35ac98d52d33",
+			"region": {
+				"cityName": "North Virginia",
+				"code": "US",
+				"country": {
+					"code": "US",
+					"id": "99f932f8-bc5b-419c-854c-872a5a00cbae",
+					"name": "United States",
+					"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+					"region": "earth",
+					"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+					"tenantName": "Illumina",
+					"timeCreated": "2021-10-29T09:44:26Z",
+					"timeModified": "2021-10-29T09:44:26Z"
+				},
+				"id": "c39b1feb-3e94-4440-805e-45e0c76462bf",
+				"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+				"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+				"tenantName": "ica-cp-admin",
+				"timeCreated": "2021-11-05T09:57:38Z",
+				"timeModified": "2023-01-31T17:52:58Z"
+			},
+			"shortDescription": "For keng@illumina.com",
+			"storageBundle": {
+				"bundleName": "ICA_Ent-US_Storage_Entitlement",
+				"entitlementName": "ICA_iap-use1_IAPEntSubscription",
+				"id": "f4ede967-72a7-41f9-b1c5-d52564b5d746",
+				"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+				"region": {
+					"cityName": "North Virginia",
+					"code": "US",
+					"country": {
+						"code": "US",
+						"id": "99f932f8-bc5b-419c-854c-872a5a00cbae",
+						"name": "United States",
+						"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+						"region": "earth",
+						"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+						"tenantName": "Illumina",
+						"timeCreated": "2021-10-29T09:44:26Z",
+						"timeModified": "2021-10-29T09:44:26Z"
+					},
+					"id": "c39b1feb-3e94-4440-805e-45e0c76462bf",
+					"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+					"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+					"tenantName": "ica-cp-admin",
+					"timeCreated": "2021-11-05T09:57:38Z",
+					"timeModified": "2023-01-31T17:52:58Z"
+				},
+				"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+				"tenantName": "Illumina",
+				"timeCreated": "2021-11-10T22:23:38Z",
+				"timeModified": "2021-11-10T22:23:38Z"
+			},
+			"tags": {
+				"technicalTags": [
+					"bssh.project.user:3a9b68e7-e34e-3231-83ab-35ac98d52d33"
+				],
+				"userTags": []
+			},
+			"tenantId": "5ea1c931-26b0-4b64-a3b6-773516464893",
+			"tenantName": "ilmn",
+			"timeCreated": "2022-12-02T15:37:43Z",
+			"timeModified": "2022-12-02T15:37:51Z"
+		},
+		{
+			"active": true,
+			"billingMode": "PROJECT",
+			"dataSharingEnabled": true,
+			"id": "1ba18b13-45a8-4084-9ffe-cd30f516ca2f",
+			"name": "BSSH Ken Eng",
+			"ownerId": "3a9b68e7-e34e-3231-83ab-35ac98d52d33",
+			"region": {
+				"cityName": "Frankfurt",
+				"code": "EU",
+				"country": {
+					"code": "DE",
+					"id": "ef290f3b-4985-4345-a4ce-835059c782e4",
+					"name": "Germany",
+					"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+					"region": "earth",
+					"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+					"tenantName": "Illumina",
+					"timeCreated": "2021-10-29T09:44:26Z",
+					"timeModified": "2021-10-29T09:44:26Z"
+				},
+				"id": "148c90bd-f918-4ba6-971a-835b9e0e8d8c",
+				"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+				"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+				"tenantName": "ica-cp-admin",
+				"timeCreated": "2021-11-05T10:08:42Z",
+				"timeModified": "2023-01-31T17:54:01Z"
+			},
+			"shortDescription": "For keng@illumina.com",
+			"storageBundle": {
+				"bundleName": "ICA_Ent-DE_Storage_Entitlement",
+				"entitlementName": "ICA_iap-euc1_IAPEntSubscription",
+				"id": "f1b96ea0-bf0d-4420-b4f4-e058df2a87ab",
+				"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+				"region": {
+					"cityName": "Frankfurt",
+					"code": "EU",
+					"country": {
+						"code": "DE",
+						"id": "ef290f3b-4985-4345-a4ce-835059c782e4",
+						"name": "Germany",
+						"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+						"region": "earth",
+						"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+						"tenantName": "Illumina",
+						"timeCreated": "2021-10-29T09:44:26Z",
+						"timeModified": "2021-10-29T09:44:26Z"
+					},
+					"id": "148c90bd-f918-4ba6-971a-835b9e0e8d8c",
+					"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+					"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+					"tenantName": "ica-cp-admin",
+					"timeCreated": "2021-11-05T10:08:42Z",
+					"timeModified": "2023-01-31T17:54:01Z"
+				},
+				"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+				"tenantName": "Illumina",
+				"timeCreated": "2021-11-18T20:04:01Z",
+				"timeModified": "2021-11-18T20:04:01Z"
+			},
+			"tags": {
+				"technicalTags": [
+					"bssh.project.user:3a9b68e7-e34e-3231-83ab-35ac98d52d33"
+				],
+				"userTags": []
+			},
+			"tenantId": "5ea1c931-26b0-4b64-a3b6-773516464893",
+			"tenantName": "ilmn",
+			"timeCreated": "2023-03-03T15:37:37Z",
+			"timeModified": "2023-03-03T15:37:38Z"
+		},
+		{
+			"active": true,
+			"billingMode": "PROJECT",
+			"dataSharingEnabled": true,
+			"id": "4db9384d-bea0-4b9b-8991-26280cb0f4b5",
+			"name": "BSSH Ken Eng",
+			"ownerId": "3a9b68e7-e34e-3231-83ab-35ac98d52d33",
+			"region": {
+				"cityName": "Central",
+				"code": "CA",
+				"country": {
+					"code": "CA",
+					"id": "d11baf98-ce8f-4783-ac51-48939a05a785",
+					"name": "Canada",
+					"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+					"region": "earth",
+					"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+					"tenantName": "Illumina",
+					"timeCreated": "2021-10-29T09:44:25Z",
+					"timeModified": "2021-10-29T09:44:25Z"
+				},
+				"id": "23b1f038-bd04-4de2-91fc-60f351770b2c",
+				"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+				"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+				"tenantName": "ica-cp-admin",
+				"timeCreated": "2021-11-05T10:07:27Z",
+				"timeModified": "2023-01-31T17:52:49Z"
+			},
+			"shortDescription": "For keng@illumina.com",
+			"storageBundle": {
+				"bundleName": "ICA_Ent-CA_Storage_Entitlement",
+				"entitlementName": "ICA_iap-cac1_IAPEntSubscription",
+				"id": "9b2fff95-759e-45bc-90fa-787a16c9ba1f",
+				"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+				"region": {
+					"cityName": "Central",
+					"code": "CA",
+					"country": {
+						"code": "CA",
+						"id": "d11baf98-ce8f-4783-ac51-48939a05a785",
+						"name": "Canada",
+						"ownerId": "499bfe9d-85bd-4588-ba70-fbc2f664bb9e",
+						"region": "earth",
+						"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+						"tenantName": "Illumina",
+						"timeCreated": "2021-10-29T09:44:25Z",
+						"timeModified": "2021-10-29T09:44:25Z"
+					},
+					"id": "23b1f038-bd04-4de2-91fc-60f351770b2c",
+					"ownerId": "8ec463f6-1acb-341b-b321-043c39d8716a",
+					"tenantId": "f91bb1a0-c55f-4bce-8014-b2e60c0ec7d3",
+					"tenantName": "ica-cp-admin",
+					"timeCreated": "2021-11-05T10:07:27Z",
+					"timeModified": "2023-01-31T17:52:49Z"
+				},
+				"tenantId": "9fec8354-853b-4ee5-b211-eb03e484d876",
+				"tenantName": "Illumina",
+				"timeCreated": "2021-11-18T20:16:43Z",
+				"timeModified": "2021-11-18T20:16:43Z"
+			},
+			"tags": {
+				"technicalTags": [
+					"bssh.project.user:3a9b68e7-e34e-3231-83ab-35ac98d52d33"
+				],
+				"userTags": []
+			},
+			"tenantId": "5ea1c931-26b0-4b64-a3b6-773516464893",
+			"tenantName": "ilmn",
+			"timeCreated": "2023-03-08T20:42:23Z",
+			"timeModified": "2023-03-08T20:42:24Z"
+		}
+	],
+	"nextPageToken": null
+}
