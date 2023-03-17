@@ -19,7 +19,7 @@ process GATHER_SUMMARY_LINES {
             rm placeholder.txt
             new_summary_line_files=\$(echo \$new_summary_line_files | sed 's/placeholder.txt //')
         fi
-python ${workflow.launchDir}/bin/Create_phoenix_summary_tsv.py --out Phoenix_Output_Report.tsv $busco_parameter \$new_summary_line_files
+        python ${workflow.launchDir}/bin/Create_phoenix_summary_tsv.py --out Phoenix_Output_Report.tsv $busco_parameter \$new_summary_line_files
     elif [ -f "placeholder.txt" ]; then
         rm placeholder.txt
         new_summary_line_files=\$(echo $summary_line_files | sed 's/placeholder.txt //')
@@ -27,9 +27,9 @@ python ${workflow.launchDir}/bin/Create_phoenix_summary_tsv.py --out Phoenix_Out
             rm empty_summaryline.tsv
             new_summary_line_files=\$(echo \$new_summary_line_files | sed 's/empty_summaryline.tsv //')
         fi
-python ${workflow.launchDir}/bin/Create_phoenix_summary_tsv.py --out Phoenix_Output_Report.tsv $busco_parameter \$new_summary_line_files
+        python ${workflow.launchDir}/bin/Create_phoenix_summary_tsv.py --out Phoenix_Output_Report.tsv $busco_parameter \$new_summary_line_files
     else
-python ${workflow.launchDir}/bin/Create_phoenix_summary_tsv.py \\
+        python ${workflow.launchDir}/bin/Create_phoenix_summary_tsv.py \\
             --out Phoenix_Output_Report.tsv \\
             $busco_parameter \\
             $summary_line_files
