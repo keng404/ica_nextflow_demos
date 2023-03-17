@@ -9,7 +9,7 @@ process SAMPLESHEET_CHECK {
     path "versions.yml", emit: versions
     script: // This script is bundled with the pipeline, in cdcgov/phoenix/bin/
     """
-python ${workflow.launchDir}/bin/check_samplesheet.py \\
+    python ${workflow.launchDir}/bin/check_samplesheet.py \\
     $samplesheet \\
     samplesheet.valid.csv
     cat <<-END_VERSIONS > versions.yml
