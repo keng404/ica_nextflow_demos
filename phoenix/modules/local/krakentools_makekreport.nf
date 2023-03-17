@@ -13,7 +13,7 @@ process KRAKENTOOLS_MAKEKREPORT {
     // taxonomy file comes from ./bin/make_ktaxonomy.py --nodes ./taxonomy/nodes.dmp --names ./taxonomy/names.dmp --seqid2taxid seqid2taxid.map --output ktax_map.k2
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-python ${workflow.launchDir}/bin/make_kreport.py \\
+    python ${workflow.launchDir}/bin/make_kreport.py \\
         --input ${kraken_output} \\
         --output ${prefix}.kraken2_wtasmbld.report.txt \\
         --taxonomy ${kraken2db_path}/ktax_map.k2 \\
