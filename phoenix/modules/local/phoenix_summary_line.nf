@@ -20,7 +20,7 @@ process CREATE_SUMMARY_LINE {
     script: // This script is bundled with the pipeline, in cdcgov/phoenix/bin/
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-python ${workflow.launchDir}/bin/Phoenix_summary_line.py \\
+    python ${workflow.launchDir}/bin/Phoenix_summary_line.py \\
         -q $quast_report \\
         -t $trimmed_qc_data_file \\
         -a $ar_gamma_file \\
