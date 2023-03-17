@@ -24,9 +24,9 @@ process CHECK_MLST_WITH_SRST2 {
     """
     wget $terra --secure-protocol=TLSv1_3 "https://pubmlst.org/data/dbases.xml"
     if [[ "${status[0]}" == "True" ]]; then
-python ${workflow.launchDir}/bin/check_and_fix_MLST2_new2.py --input $mlst_file --srst2 $srst2_file --taxonomy $taxonomy_file --docfile dbases.xml
+    python ${workflow.launchDir}/bin/check_and_fix_MLST2_new2.py --input $mlst_file --srst2 $srst2_file --taxonomy $taxonomy_file --docfile dbases.xml
     elif [[ "${status[0]}" == "False" ]]; then
-python ${workflow.launchDir}/bin/check_and_fix_MLST2_new2.py --input $mlst_file --taxonomy $taxonomy_file --docfile dbases.xml
+    python ${workflow.launchDir}/bin/check_and_fix_MLST2_new2.py --input $mlst_file --taxonomy $taxonomy_file --docfile dbases.xml
     else 
         echo "Shouldnt be able to get here, but checking just in case"
     fi
