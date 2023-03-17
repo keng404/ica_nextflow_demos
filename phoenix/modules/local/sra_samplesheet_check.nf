@@ -13,7 +13,7 @@ process SRA_SAMPLESHEET_CHECK {
     path "versions.yml", emit: versions
     script: // This script is bundled with the pipeline, in cdcgov/phoenix/bin/
     """
-python ${workflow.launchDir}/bin/sra_samplesheet.py \\
+    python ${workflow.launchDir}/bin/sra_samplesheet.py \\
     $samplesheet
     echo $fasterq_versions
     cat <<-END_VERSIONS > versions.yml
