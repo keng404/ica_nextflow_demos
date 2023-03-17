@@ -16,7 +16,7 @@ process CREATE_SUMMARY_LINE_FAILURE {
     script: // This script is bundled with the pipeline, in cdcgov/phoenix/bin/
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-python ${workflow.launchDir}/bin/Phoenix_summary_line.py \\
+    python ${workflow.launchDir}/bin/Phoenix_summary_line.py \\
         -n ${prefix} \\
         -k $trimd_ksummary \\
         -t $fastp_total_qc \\
