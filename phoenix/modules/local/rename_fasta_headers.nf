@@ -11,7 +11,7 @@ process RENAME_FASTA_HEADERS {
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
     gunzip --force $assembled_scaffolds
-python ${workflow.launchDir}/bin/rename_fasta_headers.py --input ${prefix}.scaffolds.fa --output ${prefix}.renamed.scaffolds.fa --name ${prefix}
+    python ${workflow.launchDir}/bin/rename_fasta_headers.py --input ${prefix}.scaffolds.fa --output ${prefix}.renamed.scaffolds.fa --name ${prefix}
     gzip --force ${prefix}.renamed.scaffolds.fa
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
