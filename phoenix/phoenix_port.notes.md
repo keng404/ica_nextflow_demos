@@ -41,7 +41,7 @@ Your nextflow pipeline code may evolve and the current ICA experience only allow
 # Concept 3: minor updates to pipeline code so that it works for ICA
 
 - Finding executable scripts bundled with your nextflow pipeline and ensuring that the path to these files is accurate so that your pipeline can find them
-- Convert any underlying process in your pipeline from local executor to docker mode. This is because at run time, your pipeline scripts are run with a minimal ubuntu docker image. You are also non-root. So any underlying assumptions of what binaries/libraries are on your current compute server might not be present in this ubuntu image. So another docker image will be specified and any reference to local executor will be removed for the ICA-confvured version.
+- Convert any underlying process in your pipeline from local executor to docker mode. This is because at run time, your pipeline scripts are run with a minimal ubuntu docker image. You are also non-root. So any underlying assumptions of what binaries/libraries are on your current compute server might not be present in this ubuntu image. So another docker image will be specified and any reference to local executor will be removed for the ICA-configured version.
 
 # Concept 4: cdc-gov/phoenix pipeline-specific modification(s)
 
