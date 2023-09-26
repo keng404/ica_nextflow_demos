@@ -9,7 +9,7 @@ For an updated method for lifting over existing Nextflow pipelines to ICA, take 
   1) consider adding cpu and memory declarations to your nextflow process/module or in your configuration file. Because ICA  monitors your nextflow containers, allowing for 1 CPU and 2 Gb of memory to not be used by your process may help ICA monitor your pipeline. You may have to decrease CPU and memory in increments of 1 CPU and 2 Gb of memory if you find that ICA times out (i.e. kubernetes timeout errors or timeout error given by ICA).
   2) If your process/module has input channels that can contain several items, consider using the ```maxForks``` declaration to limit the number of concurrent tasks that get run. As with the point above, you may tune this to allow for ICA to better monitor a pipeline run.
 
-### notes
+### Notes
 One additional recommendation is to ensure whereever possible to have any process/module in your pipeline to have a docker container reference. As of now, ICA can only run nf processes that are docker-enabled/ can run inside of a container
 
 This repo contains example nextflow scripts and XML files that can be used to create nextflow pipelines in ICAv2.
